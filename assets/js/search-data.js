@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-boj-1210-마피아-python",
+        },{id: "post-뤼카의-정리",
+      
+        title: "뤼카의 정리",
+      
+      description: "뤼카의 정리",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/Lucas_theorem/";
+        
+      },
+    },{id: "post-boj-1210-마피아-python",
       
         title: "BOJ 1210 마피아 (Python)",
       
