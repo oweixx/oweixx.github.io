@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-뤼카의-정리",
+        },{id: "post-랜덤-마라톤-코스-43",
+      
+        title: "랜덤 마라톤 코스 43",
+      
+      description: "랜덤 마라톤 코스 43",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/marathon_43/";
+        
+      },
+    },{id: "post-뤼카의-정리",
       
         title: "뤼카의 정리",
       
