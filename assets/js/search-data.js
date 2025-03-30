@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-랜덤-마라톤-코스-41-42",
+        },{id: "post-3월-월간-회고",
+      
+        title: "3월 월간 회고",
+      
+      description: "월간 회고",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/monthly_review_2503/";
+        
+      },
+    },{id: "post-랜덤-마라톤-코스-41-42",
       
         title: "랜덤 마라톤 코스(41,42)",
       
