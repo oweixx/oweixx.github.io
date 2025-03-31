@@ -12,10 +12,11 @@ profile:
 
 
 latest_posts:
-  enabled: false
+  enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
+<br/>
 E-mail: lowzxx@naver.com
 
 Hi there! I am a student majoring in Computer Vision at the Department of Computer Science at Jeonbuk National University. I have a strong passion and deep interest in research, particularly in the areas of 3D Gaussian Splatting, Human-Computer Interaction, and Digital Human. More detailed CV, check out my [Notion !](https://www.notion.so/19900d6290fe802fb0c1d4f63e0ad9da)
@@ -58,5 +59,6 @@ I aspire to be someone who contributes to the world and brings about change. Thi
   Feb. 2023   
   Maeil Business Newspaper
 
-
-
+<br/>
+<br/>
+<br/>
