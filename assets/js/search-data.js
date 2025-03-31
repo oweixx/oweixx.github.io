@@ -16,7 +16,51 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-3월-월간-회고",
+        },{id: "post-amp-91-papers-amp-93-viton-an-image-based-virtual-try-on-network-amp-40-ieee-2018-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; VITON: An Image-based Virtual Try-on Network &amp;#40;IEEE 2018&amp;#41;",
+      
+      description: "Paper Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_viton/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-nerf-representing-scenes-as-neural-radiance-fields-for-view-synthesis-amp-40-eccv-2020-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis &amp;#40;ECCV 2020&amp;#41;...",
+      
+      description: "Paper Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_nerf/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-multiply-reconstruction-of-multiple-people-from-monocular-video-in-the-wild-amp-40-cvpr-2024-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; Multiply: Reconstruction of Multiple People from Monocular Video in the Wild &amp;#40;CVPR...",
+      
+      description: "Paper Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_multiply/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-detr-end-to-end-object-detection-with-transformers-amp-40-cvpr-2020-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; DETR: End-to-End Object Detection with Transformers &amp;#40;CVPR 2020&amp;#41;",
+      
+      description: "Paper Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_detr/";
+        
+      },
+    },{id: "post-3월-월간-회고",
       
         title: "3월 월간 회고",
       
