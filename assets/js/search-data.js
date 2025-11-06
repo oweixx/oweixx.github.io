@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-viton-an-image-based-virtual-try-on-network-amp-40-ieee-2018-amp-41",
+        },{id: "post-amp-91-papers-amp-93-3d-gaussian-splatting-for-real-time-radiance-field-rendering-amp-40-siggraph-2023-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; 3D Gaussian Splatting for Real-Time Radiance Field Rendering &amp;#40;SIGGRAPH 2023&amp;#41;",
+      
+      description: "Paper Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_3dgaussian/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-viton-an-image-based-virtual-try-on-network-amp-40-ieee-2018-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; VITON: An Image-based Virtual Try-on Network &amp;#40;IEEE 2018&amp;#41;",
       
