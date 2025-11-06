@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-3d-gaussian-splatting-for-real-time-radiance-field-rendering-amp-40-siggraph-2023-amp-41",
+        },{id: "post-quaternion",
+      
+        title: "Quaternion",
+      
+      description: "Aboujt Quaternion",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/Quaternion/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-3d-gaussian-splatting-for-real-time-radiance-field-rendering-amp-40-siggraph-2023-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; 3D Gaussian Splatting for Real-Time Radiance Field Rendering &amp;#40;SIGGRAPH 2023&amp;#41;",
       
