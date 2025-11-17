@@ -17,86 +17,6 @@ featured: true
 **Authors:** Tianye Li, Timo Bolkart, Michael J. Black
 
 ---
->## About 3D Gaussian
-논문을 들어가기전 Gaussian 및 3D Gaussian에 대한 기본적인 개념들을 복기하고 정리하는 부분.
-
-**Gaussian**  
-가우시안은 확률에서 정규분포의 확률 밀도 함수(PDF)를 나타낼 때 주로 사용되는 함수이다. **평균, 분산, 표준편차만으로 정의될 수 있다는 것이 특징**이다.
-
-$$
-f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
-$$
-
-- $\mu$: 평균
-- $\sigma^2$: 분산 (표준편차 $\sigma$의 제곱)
-- $x$: 확률 변수
-
-**특징:** 평균을 중심으로 대칭적으로 분포하며, 분산이 클수록 데이터가 더 넓게 퍼지며 분포의 첨도(kurtosis)가 낮아진다.
-
-![](https://velog.velcdn.com/images/lowzxx/post/11b063d4-5180-4522-8e49-bd65f11b97f8/image.png)
-
-**공분산(Covariance)**  
-공분산이란 두 개 이상의 변수 간의 상관 관계를 수량화하는 척도이다. 데이터의 분산이 한 변수에서 다른 변수로 어떻게 함께 변화하는지, 어떤 관계를 갖고 있는지를 나타낸다.
-
-**공분산 행렬$\sum$(Covariance Matrix) **  
-공분산 행렬은 다변량 데이터(여러 변수)에서 각 변수 간 공분산을 행렬 형태로 나타낸 행렬이다.
-
-$$
-\Sigma =
-\begin{bmatrix}
-\text{Var}(X_1) & \text{Cov}(X_1, X_2) & \cdots & \text{Cov}(X_1, X_n) \\
-\text{Cov}(X_2, X_1) & \text{Var}(X_2) & \cdots & \text{Cov}(X_2, X_n) \\
-\vdots & \vdots & \ddots & \vdots \\
-\text{Cov}(X_n, X_1) & \text{Cov}(X_n, X_2) & \cdots & \text{Var}(X_n)
-\end{bmatrix}
-$$
-
-- $\text{Var}(X_i)$: 변수 $X_i$의 분산$(\sigma_i^2)$
-- $\text{Cov}(X_i,X_j)$: $X_i$와$X_j$ 간의 공분산
-
-**특징**
-- 대칭 행렬: $\text{Cov}(X_i,X_j) = \text{Cov}(X_j,X_i)$
-- 대각 성분: 대각선 요소는 각 변수의 분산.
-
-**3D Gaussian**
-
-$$
-f(x,y,z)=\frac{1}{(2\pi)^{3/2}\left|\sum\right|^{1/2}}e^{-\frac{1}{2}r^\top\sum^{-1}r}
-$$
-
-- $r$ = $\left[x-\mu_x,y-\mu_y,z-\mu_z\right]^T$: 평균($\mu$)에서의 거리 벡터
-- $\sum$: 3x3 공분산 행렬 (크기와 방향성을 조정)
-
-**특징**  
-- **공간적 분포(위치):** 3D 공간의 특정 지점(평균)을 중심으로 데이터가 퍼진다.
-- **공분산 행렬(모양, 방향):** 3D Gaussian의 분포 모양은 공분산 행렬 $\sum$에 의해 결정된다.
-  - 대각 성분(분산): 각 축의 분산을 통해 Gaussian의 장축, 단축 크기를 결정한다.
-  - 비대각 성분(공분산): 비대각의 공분산 값을 통해 축 사이의 회전을 나타낸다. 즉, 타원의 방향을 결정한다.
-  
-$$
-\Sigma =
-\begin{bmatrix}
-\sigma_x^2 & \sigma_{xy} & \sigma_{xz} \\
-\sigma_{xy} & \sigma_y^2 & \sigma_{yz} \\
-\sigma_{xz} & \sigma_{yz} & \sigma_z^2
-\end{bmatrix}
-$$
-
-![](https://velog.velcdn.com/images/lowzxx/post/d554ccf8-2c6c-41b9-932c-a94f5cb849be/image.png)
-
-**질문**  
-- 3D Gaussian은 함수형태로 point cloud를 표현하므로 **implicit(암시)하게 정의**되는것이 아닌가?
-  - 함수 형태로 표현되기 때문에 implicit한 것은 맞다. 하지만 Gaussian이라는 것도 결국 $\mu$와 $\sum$로 표현이 되기 때문에 굳이 말하자면 명시적으로 나열될 수 있는 표현이다.
-  - 결론적으로 implicit한 표현으로 보았을 때 Gaussian함수는 연속적인 표현이 가능하며 메모리 효율성을 챙기고 부드러운 분포를 보일 수 있다는 장점을 가지게 된다.
-- 왜 공분산 행렬을 RSS^TR^T와 같이 정의하는것일까 ?
-  - Symmetric한 성질을 만들기 위하여.
-  - $(AA^\top)^\top = A^\top A$
-
-**radiance field**  
-- 3D 공간에서 빛과 색상 분포를 의미하는 함수, 개념.
-
-
----
 >## 1. Abstract & Introduction
 
 3D 장면 표현 방식에서는 그동안 많은 발전이 이루어져 왔다. 대표적으로 NeRF는 MLP를 사용하여 암묵적인 특징을 최적화(implicit optimization)하며, 높은 성능을 보여주고 관련 논문들이 지속적으로 등장하고 있는 중이다.
@@ -120,11 +40,7 @@ $$
   - fast backpropagaton: 효율적인 학습과 novel view synthesis 지원
 
 ---
->## 2. Related Work
-
-
----
->## 3. Overview
+>## 3. Model Formulation
 
 1. **Input** 
 - 입력 데이터는 정적인 장면의 이미지 세트와 **SfM(Structure-from-Motion)**을 통해 보정된 카메라 정보가 들어온다.
@@ -150,10 +66,8 @@ $$
 
 <img src="https://velog.velcdn.com/images/lowzxx/post/a1cc2eda-44a0-4449-a46a-e3df572235ad/image.png" width="900"/>
 
-**추가적으로 알아볼 것(SfM, spherical harmonic)**
-
 ---
->## 4. Differentiable 3D Gaussian Splatting
+>## 4. Temporal Registration
 
 먼저 위에서의 한계점들을 극복하기 위해서는 미분가능한 volumetric 표현을 가지며 explicit한 특징으로 빠르게 렌더링이 가능한 표현법이 필요하다고 한다.  
 3D Gaussian은 미분가능한 표현법이며 2d splats로의 projection과 $\alpha$-blending을 통해 빠른 렌더링이 가능하기 때문에 선택했다고 한다.
@@ -189,7 +103,7 @@ $$
 $$
 
 ---
->## 5. Optimization with Adaptive Density Control of 3D Gaussians
+>## 5. Data
 
 ### Optimization
 3D Gaussian Splatting의 최적화는 렌더링 결과와 훈련 데이터셋 이미지를 비교하며 반복적으로 수행한다. 이 과정에서 발생하는 3D-2D 투영의 모호성을 해결하고 효율적인 장면 표현을 만들어내기 위한 다양한 기법이 사용된다.  
@@ -241,7 +155,7 @@ Adpative Control에서 필요한 것은 **빈 공간에 Gaussian을 통해 채�
 ![](https://velog.velcdn.com/images/lowzxx/post/c673342b-2e6e-4095-9d5d-006d216ce418/image.png)
 
 ---
->## 6. Fast Differentiable Rasterizer for Gaussians
+>## + Supplementary
 
 **Goal**  
 결론적으로 목표는 빠른 rendering과 빠른 $\alpha$-blending,최적화 구조를 개선하는 것으로 볼 수 있다.
@@ -263,20 +177,3 @@ Backward Pass 과정에서 Foward Pass의 Blending 정보를 활용하고 계산
 - **근사 $\alpha$-blending:** 성능을 극대화하면서도 시각적으로 자연스러운 결과를 유지.
 
 ![](https://velog.velcdn.com/images/lowzxx/post/3b0b8245-0a91-4f90-b9bc-b477068dd821/image.png)
-
----
->## 7. Implementation, Results and Evaluation
-
-![](https://velog.velcdn.com/images/lowzxx/post/688b6437-2783-4059-bdeb-06d94a41e1e6/image.png)
-
-<img src="https://velog.velcdn.com/images/lowzxx/post/3fa22134-2b86-400a-b6f9-a9d7b9199d82/image.png" width="900"/>
-
----
->## 8. Discussion and Conclusions
-
----
-### Reference.
-[https://arxiv.org/abs/2308.04079](https://arxiv.org/abs/2308.04079)  
-[https://github.com/graphdeco-inria/gaussian-splatting](https://github.com/graphdeco-inria/gaussian-splatting)   
-[https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)   
-[https://www.researchgate.net/figure/sualization-of-a-3D-Gaussian-model-a-Uncertainty-ellipsoid-for_fig5_231212225](https://www.researchgate.net/figure/sualization-of-a-3D-Gaussian-model-a-Uncertainty-ellipsoid-for_fig5_231212225)  
