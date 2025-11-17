@@ -16,15 +16,15 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-quaternion",
+        },{id: "post-amp-91-papers-amp-93-learning-a-model-of-facial-shape-and-expression-from-4d-scans-amp-40-siggraph-2017-amp-41",
       
-        title: "Quaternion",
+        title: "&amp;#91;Papers&amp;#93; Learning a model of facial shape and expression from 4D scans &amp;#40;SIGGRAPH...",
       
-      description: "Aboujt Quaternion",
+      description: "Paper Review",
       section: "Posts",
       handler: () => {
         
-          window.location.href = "/blog/2025/Quaternion/";
+          window.location.href = "/blog/2025/papers_FLAME/";
         
       },
     },{id: "post-amp-91-papers-amp-93-3d-gaussian-splatting-for-real-time-radiance-field-rendering-amp-40-siggraph-2023-amp-41",
