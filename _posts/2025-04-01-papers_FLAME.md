@@ -38,11 +38,11 @@ Flame mesh model은 기본적으로 SMPL model formulation을 따른다. SMPL이
 
 Flame은 정확한 blendshapes을 위해 linear blend skinning(LBS)를 사용하고 $N = 5023$ 개의 vertices(정점), $K = 4$ 개의 joints(neck, jaw and eyeballs)을 사용한다고 한다.
 
-![](https://velog.velcdn.com/images/lowzxx/post/7041c752-51ac-4538-9ee9-e9a101bcd712/image.png)
+<img src="https://velog.velcdn.com/images/lowzxx/post/7041c752-51ac-4538-9ee9-e9a101bcd712/image.png" width="900"/>
 >### Parameter descrition
-- **shape coefficients: ** $\vec\beta \in \R^{\left\vert \vec\beta \right\vert}$
-- **pose coefficients: ** $\vec\theta \in \R^{\left\vert \vec\theta \right\vert}$
-- **expression coefficients: ** $\psi \in \R^{\left\vert \vec\psi \right\vert}$
+- **shape coefficients:** $\vec\beta \in \R^{\left\vert \vec\beta \right\vert}$
+- **pose coefficients:** $\vec\theta \in \R^{\left\vert \vec\theta \right\vert}$
+- **expression coefficients:** $\psi \in \R^{\left\vert \vec\psi \right\vert}$
 - $J(\vec{\beta})$: shape에 따라 달라지는 joint 위치
 - $\mathcal{W}$: 각 vertex에 대한 skinning weight 행렬
 
@@ -85,6 +85,7 @@ $$
 $\vec{\beta}$는 사람의 얼굴형을 결정하는 shape coefficient이고 $\mathbf{S}$는 n번째 vertices의 basis로 각 basis 방향으로 $\beta_n$만큼의 이동하는 형태를 의미한다.
 
 **Pose blendshapes**
+
 $$
 R(\vec{\theta}) : \mathbb{R}^{|\theta|} \to \mathbb{R}^{9K},
 $$
@@ -97,21 +98,26 @@ B_P(\vec{\theta}; \mathcal{P})
         R_n(\vec{\theta}) - R_n(\vec{\theta}^\ast)
       \big)\, \mathbf{P}_n,
 $$
+
 $$
 \mathcal{P}
   = [\mathbf{P}_1, \dots, \mathbf{P}_{9K}]
     \in \mathbb{R}^{3N \times 9K}.
 $$
+
 zero pose를 의미하는 $R_n(\vec{\theta}^\ast)$와 현재포즈 사이에서의 차이를 통해 얼마나 회전 행렬이 바뀌었는지를 계산하고, 회전 요소가 변할 때 생기는 vertex 보정 $\mathbf{P}_n$을 선형조합해 Pose를 표현하게 된다. 
 
 **Expression blendshapes**
 Expression blendshape은 "웃음, 찡그림, 놀람"과 같은 표정의 표현에 대한 부분이고 **non-rigid facial deformation**을 설명하는 pose와 독립적인 공간이다.
+
 $$
 B_E(\vec{\psi}; \mathcal{E})
   = \sum_{n=1}^{|\psi|}
       \psi_n \, \mathbf{E}_n,
 $$
+
 $\mathbf{E}_n$은 특정 표정 방향에 해당하는 expression basis에 해당하여 여러 표정 basis들을 가중치로 섞어서 만든 expression deformation을 의미하는 blendshape이다.
+
 $$
 \vec{\psi}
   = [\psi_1, \dots, \psi_{|\psi|}]^\mathsf{T},
@@ -120,6 +126,7 @@ $$
   = [\mathbf{E}_1, \dots, \mathbf{E}_{|\psi|}]
     \in \mathbb{R}^{3N \times |\psi|}.
 $$
+
 $\mathcal{E}$는 orthonormal expression basis를 의미한다고 한다.
 
 ---
