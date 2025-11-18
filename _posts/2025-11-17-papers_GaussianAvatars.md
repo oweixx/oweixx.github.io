@@ -202,5 +202,3 @@ $$
 \mathcal{L}_{\text{scaling}} = \lvert\lvert \text{max}(\mu, \epsilon_{\text{scaling}}) \rvert\rvert_2 \\
 \mathcal{L} = \mathcal{L}_{\text{rgb}} + \lambda_{\text{position}}\mathcal{L}_{\text{position}} + \lambda_{\text{scaling}}\mathcal{L}_{\text{scaling}}
 $$
-
----
