@@ -70,7 +70,6 @@ def get_scaling(self):
     if self.binding is None:
         return self.scaling_activation(self._scaling)
     else:
-        # Toyota Motor Europe NV/SA and its affiliated companies retain all intellectual property and proprietary rights in and to the following code lines and related documentation. Any commercial use, reproduction, disclosure or distribution of these code lines and related documentation without an express license agreement from Toyota Motor Europe NV/SA is strictly prohibited.
         if self.face_scaling is None:
             self.select_mesh_by_timestep(0)
 
@@ -90,7 +89,6 @@ def get_xyz(self):
     if self.binding is None:
         return self._xyz
     else:
-        # Toyota Motor Europe NV/SA and its affiliated companies retain all intellectual property and proprietary rights in and to the following code lines and related documentation. Any commercial use, reproduction, disclosure or distribution of these code lines and related documentation without an express license agreement from Toyota Motor Europe NV/SA is strictly prohibited.
         if self.face_center is None:
             self.select_mesh_by_timestep(0)
         
@@ -110,7 +108,6 @@ def get_rotation(self):
     if self.binding is None:
         return self.rotation_activation(self._rotation)
     else:
-        # Toyota Motor Europe NV/SA and its affiliated companies retain all intellectual property and proprietary rights in and to the following code lines and related documentation. Any commercial use, reproduction, disclosure or distribution of these code lines and related documentation without an express license agreement from Toyota Motor Europe NV/SA is strictly prohibited.
         if self.face_orien_quat is None:
             self.select_mesh_by_timestep(0)
 
@@ -189,8 +186,17 @@ select_mesh_by_timestep은 4D 특성상 timestep이 변할 때 마다 flame_mode
 
 {% highlight python linenos %}
 losses['l1'] = l1_loss(image, gt_image) * (1.0 - opt.lambda_dssim)
+{% endhighlight %}
+
+{% highlight python linenos %}
 losses['ssim'] = (1.0 - ssim(image, gt_image)) * opt.lambda_dssim
+{% endhighlight %}
+
+{% highlight python linenos %}
 losses['xyz'] = F.relu((gaussians._xyz*gaussians.face_scaling[gaussians.binding])[visibility_filter] - opt.threshold_xyz).norm(dim=1).mean() * opt.lambda_xyz
+{% endhighlight %}
+
+{% highlight python linenos %}
 losses['scale'] = F.relu(gaussians.get_scaling[visibility_filter] - opt.threshold_scale).norm(dim=1).mean() * opt.lambda_scale
 {% endhighlight %}
 
