@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-learning-a-model-of-facial-shape-and-expression-from-4d-scans-amp-40-siggraph-2017-amp-41",
+        },{id: "post-amp-91-papers-amp-93-gaussianavatars-photorealistic-head-avatars-with-rigged-3d-gaussians-amp-40-cvpr-2024-highlight-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians &amp;#40;CVPR 2024 Highlight&amp;#41;",
+      
+      description: "Code Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_GaussianAvatars/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-learning-a-model-of-facial-shape-and-expression-from-4d-scans-amp-40-siggraph-2017-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; Learning a model of facial shape and expression from 4D scans &amp;#40;SIGGRAPH...",
       
