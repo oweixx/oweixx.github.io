@@ -1,5 +1,286 @@
 <!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> [Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral) | owei </title> <meta name="author" content="owei "> <meta name="description" content="Code Review"> <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%96%A4&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://oweixx.github.io/blog/2025/papers_CAP4D/"> <script src="/assets/js/theme.js?9a0c749ec5240d9cda97bc72359a72c0"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
     initTheme();
-  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">owei</span> </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</h1> <p class="post-meta"> Created on November 18, 2025 </p> <p class="post-tags"> <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>   ·   <a href="/blog/tag/paper"> <i class="fa-solid fa-hashtag fa-sm"></i> Paper</a>   ·   <a href="/blog/category/paper"> <i class="fa-solid fa-tag fa-sm"></i> Paper</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"> <a href="https://arxiv.org/abs/2412.12093" rel="external nofollow noopener" target="_blank">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/" rel="external nofollow noopener" target="_blank">[Github]</a><a href="https://felixtaubner.github.io/cap4d/" rel="external nofollow noopener" target="_blank">[Project]</a> </h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr> <blockquote> <h2 id="0-parameters--functions">0. Parameters &amp; Functions</h2> </blockquote> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_GaussianAvatars/">[Papers] GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians (CVPR 2024 Highlight)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_FLAME/">[Papers] Learning a model of facial shape and expression from 4D scans (SIGGRAPH 2017)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_3dgaussian/">[Papers] 3D Gaussian Splatting for Real-Time Radiance Field Rendering (SIGGRAPH 2023)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_viton/">[Papers] VITON: An Image-based Virtual Try-on Network (IEEE 2018)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_nerf/">[Papers] NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis (ECCV 2020)</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 owei . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">owei</span> </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</h1> <p class="post-meta"> Created on November 18, 2025 </p> <p class="post-tags"> <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>   ·   <a href="/blog/tag/paper"> <i class="fa-solid fa-hashtag fa-sm"></i> Paper</a>   ·   <a href="/blog/category/paper"> <i class="fa-solid fa-tag fa-sm"></i> Paper</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"> <a href="https://arxiv.org/abs/2412.12093" rel="external nofollow noopener" target="_blank">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/" rel="external nofollow noopener" target="_blank">[Github]</a><a href="https://felixtaubner.github.io/cap4d/" rel="external nofollow noopener" target="_blank">[Project]</a> </h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr> <blockquote> <h2 id="0-download-flame-and-mdmm-weights">0. Download FLAME and MDMM weights</h2> </blockquote> <p>먼저 FLAME model과 pretrained된 mmdm weights를 다운 받을 수 있는 shell script를 실행해준다. 이때 flame model은 <code class="language-plaintext highlighter-rouge">flame2023_no_jaw.pkl</code>을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td> <td class="code"><pre><span class="c1"># 1. Download FLAME blendshapes
+# set your flame username and password
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">download_flame</span><span class="p">.</span><span class="n">sh</span> 
+
+<span class="c1"># 2. Download CAP4D MMDM weights
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">download_mmdm_weights</span><span class="p">.</span><span class="n">sh</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>이후 해당 pkl file을 해당 환경 설정 version과 같은 numpy version으로 수행하기 위해 아래 code를 실행해준다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+</pre></td> <td class="code"><pre><span class="n">python</span> <span class="n">scripts</span><span class="o">/</span><span class="n">fixes</span><span class="o">/</span><span class="n">fix_flame_pickle</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">pickle_path</span> <span class="n">data</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">flame</span><span class="o">/</span><span class="n">flame2023_no_jaw</span><span class="p">.</span><span class="n">pkl</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>이후 test와 inference는 아래와 같은 scripts로 수행하면 된다고 한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td> <td class="code"><pre><span class="c1"># for check installation with a test run
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">test_pipeline</span><span class="p">.</span><span class="n">sh</span>
+
+<span class="c1"># for inference
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">generate_felix</span><span class="p">.</span><span class="n">sh</span>
+<span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">generate_lincoln</span><span class="p">.</span><span class="n">sh</span>
+<span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">generate_tesla</span><span class="p">.</span><span class="n">sh</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <hr> <blockquote> <h2 id="1-custom-inference">1. Custom inference</h2> </blockquote> <p>논문의 저자가 작년 CVPR 2024에 냈었던 FlowFace 방법론을 여기서 Flame Tracking이자 MMDM Estimator로 사용했었는데, 아직 해당 FlowFace Model의 코드 공개가 되어있지 않아 있는 상태라 Pixel3DMM tracking의 코드를 이용한다.</p> <p><img src="https://velog.velcdn.com/images/lowzxx/post/c503d688-c5ea-4b86-a0a0-c309a9b3661a/image.png" alt=""></p> <p>해당 논문도 FLAME tracking을 지원하고 있다. 신기하게도 1저자 이신분이 GaussianAvatar와 Nersemble을 작성하셨던 분이었다.</p> <p>아래가 example로 제공된 felix 선생님으로 tracking을 돌려볼 수 있는 부분이다. 아마 돌리면 위와 같이 FLAME mesh를 추출할 수 있는 것 같다. (나중에 시간이 나면 해봐야겠다…)</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td> <td class="code"><pre><span class="n">export</span> <span class="n">PIXEL3DMM_PATH</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">realpath</span> <span class="sh">"</span><span class="s">../PATH/TO/pixel3dmm</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">export</span> <span class="n">CAP4D_PATH</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">realpath</span> <span class="sh">"</span><span class="s">./</span><span class="sh">"</span><span class="p">)</span> 
+
+<span class="n">mkdir</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span>
+
+<span class="c1"># For more information on arguments
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">track_video_pixel3dmm</span><span class="p">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">help</span>
+
+<span class="c1"># Process a directory of (reference) images
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">track_video_pixel3dmm</span><span class="p">.</span><span class="n">sh</span> <span class="n">examples</span><span class="o">/</span><span class="nb">input</span><span class="o">/</span><span class="n">felix</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">cam0</span><span class="o">/</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">reference_tracking</span><span class="o">/</span>
+
+<span class="c1"># Optional: process a driving (or reference) video
+</span><span class="n">bash</span> <span class="n">scripts</span><span class="o">/</span><span class="n">track_video_pixel3dmm</span><span class="p">.</span><span class="n">sh</span> <span class="n">examples</span><span class="o">/</span><span class="nb">input</span><span class="o">/</span><span class="n">animation</span><span class="o">/</span><span class="n">example_video</span><span class="p">.</span><span class="n">mp4</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">driving_video_tracking</span><span class="o">/</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>아래와 같은 cli로 MMDM을 통한 generated image를 할 수 있는 부분이다. <code class="language-plaintext highlighter-rouge">cap4d/inference/generate_images.py</code> 부분은 뒤에서 한 번 더 살펴봐야겠다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+</pre></td> <td class="code"><pre><span class="c1"># Generate images with single reference image
+</span><span class="n">python</span> <span class="n">cap4d</span><span class="o">/</span><span class="n">inference</span><span class="o">/</span><span class="n">generate_images</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">config_path</span> <span class="n">configs</span><span class="o">/</span><span class="n">generation</span><span class="o">/</span><span class="n">default</span><span class="p">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">reference_data_path</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">reference_tracking</span><span class="o">/</span> <span class="o">--</span><span class="n">output_path</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">mmdm</span><span class="o">/</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>이후에 GaussianAvatars를 base로 하는 code를 기반으로 Fit Gaussian avatar를 진행한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+</pre></td> <td class="code"><pre><span class="n">python</span> <span class="n">gaussianavatars</span><span class="o">/</span><span class="n">train</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">config_path</span> <span class="n">configs</span><span class="o">/</span><span class="n">avatar</span><span class="o">/</span><span class="n">default</span><span class="p">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">source_paths</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">mmdm</span><span class="o">/</span><span class="n">reference_images</span><span class="o">/</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">mmdm</span><span class="o">/</span><span class="n">generated_images</span><span class="o">/</span> <span class="o">--</span><span class="n">model_path</span> <span class="n">examples</span><span class="o">/</span><span class="n">output</span><span class="o">/</span><span class="n">custom</span><span class="o">/</span><span class="n">avatar</span><span class="o">/</span> <span class="o">--</span><span class="n">interval</span> <span class="mi">5000</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <hr> <blockquote> <h2 id="2-generate-images-with-mmdm">2. Generate Images (with MMDM)</h2> </blockquote> <p>해당 Section에서는 <code class="language-plaintext highlighter-rouge">cap4d/inference/generate_images.py</code> 부분에 대해 알아볼 예정이다. Diffusion 분야에 대해서는 Code딴으로 다뤄본적이 많지 않아서 자세하게는 못 볼 수 있지만 논문 본문과 비교하여 예상이 가는 곳과 특징적인 곳들을 살펴볼 예정이다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+</pre></td> <td class="code"><pre><span class="kn">from</span> <span class="n">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="n">gen_config</span> <span class="o">=</span> <span class="n">OmegaConf</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">gen_config_path</span><span class="p">)</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>omegaconf라는 라이브러리 모듈을 사용하면 config를 <code class="language-plaintext highlighter-rouge">.</code> 속성이 아닌 dictionary 스타일로 접근할 수도 있다고 한다.</p> <p>먼저 56번째 줄에서 본격적으로 이미지 생성을 위한 Dataset을 만들기 시작한다. 먼저 <code class="language-plaintext highlighter-rouge">GenerationDataset</code>에서는 생성할 이미지 sample수와 flame dict등에 대한 정보를 담고 있다</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+</pre></td> <td class="code"><pre><span class="c1"># line 56
+# ./generate_images.py
+</span><span class="n">genset</span> <span class="o">=</span> <span class="nc">GenerationDataset</span><span class="p">(...)</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+</pre></td> <td class="code"><pre><span class="c1">#./data/generation_data.py
+</span><span class="k">class</span> <span class="nc">GenerationDataset</span><span class="p">(</span><span class="n">CAP4DInferenceDataset</span><span class="p">):</span>
+	<span class="bp">...</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+</pre></td> <td class="code"><pre><span class="c1">#./data/inference_data.py
+</span><span class="k">class</span> <span class="nc">CAP4DInferenceDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+	<span class="bp">...</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>상속받고 있는 <code class="language-plaintext highlighter-rouge">CAP4DInferenceDataset</code>에서 이제 기본적인 전체적인 baseline형태의 dataset class를 제공한다. 여기서는 <code class="language-plaintext highlighter-rouge">__getitem__</code>에서 idx를 받으면 condition 정보들과 reference 정보를 dict형태로 반환해준다. 자세하게는 아래와 같은 형태로 반환해준다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td> <td class="code"><pre><span class="n">cond_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">out_crop_mask</span><span class="sh">"</span><span class="p">:</span> <span class="n">out_crop_mask</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">reference_mask</span><span class="sh">"</span><span class="p">:</span> <span class="n">reference_mask</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">ray_map</span><span class="sh">"</span><span class="p">:</span> <span class="n">ray_map</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">verts_2d</span><span class="sh">"</span><span class="p">:</span> <span class="n">verts_2d</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">offsets_3d</span><span class="sh">"</span><span class="p">:</span> <span class="n">offsets_3d</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>
+<span class="p">}</span>  <span class="c1"># [None] is for fake time dimension
+</span>
+<span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">"</span><span class="s">jpg</span><span class="sh">"</span><span class="p">:</span> <span class="n">img</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span>  <span class="c1"># jpg names comes from controlnet implementation
+</span>    <span class="sh">"</span><span class="s">hint</span><span class="sh">"</span><span class="p">:</span> <span class="n">cond_dict</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">flame_params</span><span class="sh">"</span><span class="p">:</span> <span class="n">flame_item</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="n">out_dict</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>윗 부분은 reference의 dataloader가 아닌 generation에 대한 data이다. 그렇다 보니 일종의 계산된 dataset을 사용해서 840개의 condition을 이용하는 느낌인 것 같다.</p> <p>이제 여기서부터 본격적으로 논문에 수도코드 형태로 제공된 것과 같이 StochasticIOSampler를 돌리는 것 같다. sample의 형태는 reference와 gen에 대한 condition과 여러 parameter들이 들어간다.</p> <p>해당 부분의 main generate 마지막 부분이다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td> <td class="code"><pre><span class="n">stochastic_io_sampler</span> <span class="o">=</span> <span class="nc">StochasticIOSampler</span><span class="p">(</span><span class="n">device_model_map</span><span class="p">)</span>
+
+<span class="n">z_gen</span> <span class="o">=</span> <span class="n">stochastic_io_sampler</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span>
+    <span class="n">S</span><span class="o">=</span><span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">n_ddim_steps</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">ref_cond</span><span class="o">=</span><span class="n">ref_data</span><span class="p">[</span><span class="sh">"</span><span class="s">cond_frames</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">ref_uncond</span><span class="o">=</span><span class="n">ref_data</span><span class="p">[</span><span class="sh">"</span><span class="s">uncond_frames</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">gen_cond</span><span class="o">=</span><span class="n">gen_data</span><span class="p">[</span><span class="sh">"</span><span class="s">cond_frames</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">gen_uncond</span><span class="o">=</span><span class="n">gen_data</span><span class="p">[</span><span class="sh">"</span><span class="s">uncond_frames</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">latent_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">resolution</span><span class="sh">"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">resolution</span><span class="sh">"</span><span class="p">]</span> <span class="o">//</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">V</span><span class="o">=</span><span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">V</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">R_max</span><span class="o">=</span><span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">R_max</span><span class="sh">"</span><span class="p">],</span>
+    <span class="n">cfg_scale</span><span class="o">=</span><span class="n">gen_config</span><span class="p">[</span><span class="sh">"</span><span class="s">cfg_scale</span><span class="sh">"</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <hr> <blockquote> <h2 id="3-stochasticiosampler">3. StochasticIOSampler</h2> </blockquote> <p>해당 논문에서 어느 부분이 가장 중요하냐고 하면 나는 당연하게도.. MMDM을 학습할 때 특정 domaion의 detail을 위한 condition들이 라고 생각한다. 결국 MMDM이 완벽하게 잘 학습되었고 좋은 성능을 보여주기 때문에, 뒤에 부분들과 같이 4D Avatar로 만들어질 수 있는 것이라고 생각하기 때문이다.</p> <p>해당 논문에서도 MMDM의 중요성을 중심으로 설명해주고 있긴 하지만, 동시에 Stochastic부분도 그 다음으로 중요한 부분으로 설명하고 있다.</p> <p>해당 부분은 논문에서 의도한 바로는, 결국 <strong>reference images를 4장 밖에 사용하지 못하니 이를 diffusion의 각 timestep에 reference images를 4장씩 random으로 sampling하여 diffusion에 적용하여 더 general한 image들을 생성</strong>하자라는 목적이다.</p> <p>해당 Section에서는 기본적으로 DDIM을 기반으로 하는 Stochastic I/O conditioning에 대한 설명을 간략하게 해본다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td> <td class="code"><pre><span class="c1"># cap4d/mmdm/sampler.py
+</span><span class="k">class</span> <span class="nc">StochasticIOSampler</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">sample</span><span class="p">(...)</span>
+    <span class="n">Parameters</span><span class="p">:</span>
+        <span class="nc">S </span><span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">diffusion</span> <span class="n">steps</span><span class="p">.</span>
+        <span class="nf">ref_cond </span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]):</span> <span class="n">Conditioning</span> <span class="n">images</span> <span class="n">used</span> <span class="k">for</span> <span class="nf">reference </span><span class="p">(</span><span class="n">ref</span> <span class="n">latents</span><span class="p">,</span> <span class="n">pose</span> <span class="n">maps</span><span class="p">,</span> <span class="n">reference</span> <span class="n">masks</span> <span class="n">etc</span><span class="p">.).</span>
+        <span class="nf">ref_uncond </span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]):</span> <span class="n">Unconditional</span> <span class="n">conditioning</span> <span class="n">images</span> <span class="n">used</span> <span class="k">for</span> <span class="nf">reference </span><span class="p">(</span><span class="n">zeroed</span> <span class="n">conditioning</span><span class="p">).</span>
+        <span class="nf">gen_cond </span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]):</span> <span class="n">Conditioning</span> <span class="n">images</span> <span class="n">used</span> <span class="k">for</span> <span class="nf">reference </span><span class="p">(</span><span class="n">pose</span> <span class="n">maps</span><span class="p">,</span> <span class="n">reference</span> <span class="n">masks</span> <span class="n">etc</span><span class="p">.).</span>
+        <span class="nf">gen_uncond </span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">]):</span> <span class="n">Unconditional</span> <span class="n">conditioning</span> <span class="n">images</span> <span class="n">used</span> <span class="k">for</span> <span class="nf">reference </span><span class="p">(</span><span class="n">pose</span> <span class="n">maps</span><span class="p">,</span> <span class="n">reference</span> <span class="n">masks</span> <span class="n">etc</span><span class="p">.).</span>
+        <span class="nf">latent_shape </span><span class="p">(</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span> <span class="n">Shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latent</span> <span class="n">to</span> <span class="n">be</span> <span class="nf">generated </span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">).</span>
+        <span class="nc">V </span><span class="p">(</span><span class="nb">int</span><span class="p">):</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">views</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">the</span> <span class="n">MMDM</span><span class="p">.</span>
+        <span class="nc">R_max </span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">Maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">reference</span> <span class="n">images</span> <span class="n">to</span> <span class="n">use</span><span class="p">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">4.</span>
+        <span class="nf">cfg_scale </span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">Classifier</span><span class="o">-</span><span class="n">free</span> <span class="n">guidance</span> <span class="n">scale</span><span class="p">.</span> <span class="n">Higher</span> <span class="n">values</span> <span class="n">increase</span> <span class="n">conditioning</span> <span class="n">strength</span><span class="p">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">1.0</span><span class="p">.</span>
+        <span class="nf">eta </span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">Noise</span> <span class="n">scaling</span> <span class="n">factor</span> <span class="k">for</span> <span class="n">DDIM</span> <span class="n">sampling</span><span class="p">.</span> <span class="mi">0</span> <span class="n">means</span> <span class="n">deterministic</span> <span class="n">sampling</span><span class="p">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">0.</span>
+        <span class="nf">verbose </span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">Whether</span> <span class="n">to</span> <span class="k">print</span> <span class="n">detailed</span> <span class="n">logs</span> <span class="n">during</span> <span class="n">sampling</span><span class="p">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="bp">False</span><span class="p">.</span>    
+    <span class="n">Returns</span><span class="p">:</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span> <span class="n">A</span> <span class="n">tensor</span> <span class="n">representing</span> <span class="n">the</span> <span class="n">generated</span> <span class="nf">sample</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="n">latent</span> <span class="n">space</span><span class="p">.</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>timestep은 기본적으로 250에서 1까지 reverse로 돌아가게 되고, <code class="language-plaintext highlighter-rouge">shuffle generated latents</code>를 수행하는 부분으로 np.random.permuation을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td> <td class="code"><pre>	<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+		<span class="n">index</span> <span class="o">=</span> <span class="n">total_steps</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+		<span class="n">ref_batches</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">stack</span><span class="p">([</span>
+        	<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">permutation</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="n">n_all_ref</span><span class="p">))[:</span><span class="n">R</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n_its</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>아래와 같이 batch 단위로 돌면서 위에서 자연스럽게 shuffle된 sampliing을 이용하여 ref와 gen의 condition들의 sample을 뽑아서 사용한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td> <td class="code"><pre><span class="k">for</span> <span class="n">dev_batches</span> <span class="ow">in</span> <span class="n">batch_indices</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">dev_id</span><span class="p">,</span> <span class="n">dev_batch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dev_batches</span><span class="p">):</span>
+        <span class="n">dev_key</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">device_model_map</span><span class="p">)[</span><span class="n">dev_id</span><span class="p">]</span>
+        <span class="n">dev_device</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">device_model_map</span><span class="p">[</span><span class="n">dev_key</span><span class="p">].</span><span class="n">device</span>
+
+        <span class="n">curr_ref_cond</span> <span class="o">=</span> <span class="nf">dict_sample</span><span class="p">(</span><span class="n">ref_cond</span><span class="p">,</span> <span class="n">ref_batches</span><span class="p">[</span><span class="n">dev_batch</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">dev_device</span><span class="p">)</span>
+        <span class="n">curr_ref_uncond</span> <span class="o">=</span> <span class="nf">dict_sample</span><span class="p">(</span><span class="n">ref_uncond</span><span class="p">,</span> <span class="n">ref_batches</span><span class="p">[</span><span class="n">dev_batch</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">dev_device</span><span class="p">)</span>
+
+        <span class="n">curr_gen_cond</span> <span class="o">=</span> <span class="nf">dict_sample</span><span class="p">(</span><span class="n">gen_cond</span><span class="p">,</span> <span class="n">gen_batches</span><span class="p">[</span><span class="n">dev_batch</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">dev_device</span><span class="p">)</span>
+        <span class="n">curr_gen_uncond</span> <span class="o">=</span> <span class="nf">dict_sample</span><span class="p">(</span><span class="n">gen_uncond</span><span class="p">,</span> <span class="n">gen_batches</span><span class="p">[</span><span class="n">dev_batch</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">dev_device</span><span class="p">)</span>	
+</pre></td> </tr></tbody></table></code></pre></figure> <p>이제 위에서 sampling된 batch들을 이용하여 $\mathbf{Z}<em>{\text{ref}}^{\prime},\mathbf{C}</em>{\text{ref}}^{\prime},\mathbf{C}_{\text{gen}}^\prime$ 값들을 뽑아서 MMDM Model에 적용시켜 e_t를 얻어 latent를 이후에 한꺼번에 업데이트 하는 로직으로 동작하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td> <td class="code"><pre>  <span class="k">for</span> <span class="n">dev_id</span><span class="p">,</span> <span class="n">dev_batch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dev_batches</span><span class="p">):</span>
+      <span class="n">dev_key</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">device_model_map</span><span class="p">)[</span><span class="n">dev_id</span><span class="p">]</span>
+      <span class="n">dev_device</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">device_model_map</span><span class="p">[</span><span class="n">dev_key</span><span class="p">].</span><span class="n">device</span>
+      <span class="n">model_uncond</span><span class="p">,</span> <span class="n">model_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">device_model_map</span><span class="p">[</span><span class="n">dev_key</span><span class="p">].</span><span class="nf">apply_model</span><span class="p">(</span>
+                              <span class="n">x_in_list</span><span class="p">[</span><span class="n">dev_id</span><span class="p">],</span> 
+                              <span class="n">t_in_list</span><span class="p">[</span><span class="n">dev_id</span><span class="p">],</span> 
+                              <span class="n">c_in_list</span><span class="p">[</span><span class="n">dev_id</span><span class="p">],</span>
+                              <span class="p">).</span><span class="nf">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">model_output</span> <span class="o">=</span> <span class="n">model_uncond</span> <span class="o">+</span> <span class="n">cfg_scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">model_t</span> <span class="o">-</span> <span class="n">model_uncond</span><span class="p">)</span>
+      <span class="n">e_t</span> <span class="o">=</span> <span class="n">model_output</span><span class="p">[:,</span> <span class="n">R</span><span class="p">:]</span>  <span class="c1"># eps prediction mode, extract the generation samples starting at n_ref
+</span>      <span class="n">e_t_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">e_t</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">dev_id</span><span class="p">,</span> <span class="n">dev_batch</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">dev_batches</span><span class="p">):</span>
+      <span class="n">all_e_t</span><span class="p">[</span><span class="n">gen_batches</span><span class="p">[</span><span class="n">dev_batch</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">e_t_list</span><span class="p">[</span><span class="n">dev_id</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">mem_device</span><span class="p">)</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>이제 해당 부분이 한꺼번에 update하고 latent를 return하는 부분인 것 같은데 정확한 의미를 알지 못해서 일단 코드 첨부만 한다….</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td> <td class="code"><pre><span class="n">alpha_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">ddim_alphas</span><span class="p">.</span><span class="nf">float</span><span class="p">()[</span><span class="n">index</span><span class="p">]</span>
+<span class="n">sqrt_one_minus_alpha_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">ddim_sqrt_one_minus_alphas</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+<span class="n">sigma_t</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">ddim_sigmas</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+<span class="n">alpha_prev_t</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">ddim_alphas_prev</span><span class="p">).</span><span class="nf">float</span><span class="p">()[</span><span class="n">index</span><span class="p">]</span>
+
+<span class="n">alpha_prev_t</span> <span class="o">=</span> <span class="n">alpha_prev_t</span><span class="p">.</span><span class="nf">double</span><span class="p">()</span>
+<span class="n">sqrt_one_minus_alpha_t</span> <span class="o">=</span> <span class="n">sqrt_one_minus_alpha_t</span><span class="p">.</span><span class="nf">double</span><span class="p">()</span>
+<span class="n">alpha_t</span> <span class="o">=</span> <span class="n">alpha_t</span><span class="p">.</span><span class="nf">double</span><span class="p">()</span>
+<span class="n">alpha_prev_t</span> <span class="o">=</span> <span class="n">alpha_prev_t</span><span class="p">.</span><span class="nf">double</span><span class="p">()</span>
+
+<span class="n">e_t_factor</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha_prev_t</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">()</span> <span class="o">*</span> <span class="n">sqrt_one_minus_alpha_t</span> <span class="o">/</span> <span class="n">alpha_t</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">alpha_prev_t</span> <span class="o">-</span> <span class="n">sigma_t</span><span class="o">**</span><span class="mi">2</span><span class="p">).</span><span class="nf">sqrt</span><span class="p">()</span>
+<span class="n">x_t_factor</span> <span class="o">=</span> <span class="n">alpha_prev_t</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">()</span> <span class="o">/</span> <span class="n">alpha_t</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">()</span> 
+
+<span class="n">e_t_factor</span> <span class="o">=</span> <span class="n">e_t_factor</span><span class="p">.</span><span class="nf">float</span><span class="p">()</span>
+<span class="n">x_t_factor</span> <span class="o">=</span> <span class="n">x_t_factor</span><span class="p">.</span><span class="nf">float</span><span class="p">()</span>
+
+<span class="n">all_x_T</span> <span class="o">=</span> <span class="n">all_x_T</span> <span class="o">*</span> <span class="n">x_t_factor</span> <span class="o">+</span> <span class="n">all_e_t</span> <span class="o">*</span> <span class="n">e_t_factor</span>
+<span class="k">return</span> <span class="n">all_x_T</span>
+</pre></td> </tr></tbody></table></code></pre></figure> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_GaussianAvatars/">[Papers] GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians (CVPR 2024 Highlight)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_FLAME/">[Papers] Learning a model of facial shape and expression from 4D scans (SIGGRAPH 2017)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_3dgaussian/">[Papers] 3D Gaussian Splatting for Real-Time Radiance Field Rendering (SIGGRAPH 2023)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_viton/">[Papers] VITON: An Image-based Virtual Try-on Network (IEEE 2018)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_nerf/">[Papers] NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis (ECCV 2020)</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 owei . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
     addBackToTop();
   </script> </body> </html>
