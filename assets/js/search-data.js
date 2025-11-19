@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-gaussianavatars-photorealistic-head-avatars-with-rigged-3d-gaussians-amp-40-cvpr-2024-highlight-amp-41",
+        },{id: "post-amp-91-papers-amp-93-cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models-amp-40-cvpr-2025-oral-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models &amp;#40;CVPR...",
+      
+      description: "Code Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_CAP4D/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-gaussianavatars-photorealistic-head-avatars-with-rigged-3d-gaussians-amp-40-cvpr-2024-highlight-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians &amp;#40;CVPR 2024 Highlight&amp;#41;",
       
