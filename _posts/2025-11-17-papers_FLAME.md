@@ -69,12 +69,13 @@ $$
 여기까지는 매우 간단한 설명이었고, 이후 부터는 해당 model을 직접적으로 변형하는 blendshape에 대한 설명이다. 해당 부분에 대해서는 직접적으로 이해가 되는 부분들이 많지 않아서 gpt와 함께 확인하였다.
 ### blendshapes
 **Shape blendshapes**
+
 $$
 B_S(\vec{\beta}; \mathcal{S})
   = \sum_{n=1}^{|\beta|}
       \beta_n \, \mathbf{S}_n,
-
 $$
+
 $$
 \vec{\beta}
   = [\beta_1, \dots, \beta_{|\beta|}]^\mathsf{T},
@@ -83,6 +84,7 @@ $$
   = [\mathbf{S}_1, \dots, \mathbf{S}_{|\beta|}]
     \in \mathbb{R}^{3N \times |\beta|}.
 $$
+
 $\vec{\beta}$는 사람의 얼굴형을 결정하는 shape coefficient이고 $\mathbf{S}$는 n번째 vertices의 basis로 각 basis 방향으로 $\beta_n$만큼의 이동하는 형태를 의미한다.
 
 **Pose blendshapes**
@@ -90,6 +92,7 @@ $\vec{\beta}$는 사람의 얼굴형을 결정하는 shape coefficient이고 $\m
 $$
 R(\vec{\theta}) : \mathbb{R}^{|\theta|} \to \mathbb{R}^{9K},
 $$
+
 회전 함수 $R(\vec\theta)$ joint의 회전 행렬 요소들을 한 벡터로 정의한다.
 
 $$

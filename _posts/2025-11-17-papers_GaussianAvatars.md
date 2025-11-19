@@ -12,9 +12,9 @@ featured: true
 ## GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians
 ### [[Paper]](https://arxiv.org/abs/2312.02069)[[Github]](https://github.com/ShenhanQian/GaussianAvatars)[[Project]](https://shenhanqian.github.io/gaussian-avatars)
 
->**Title:** GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians 
-**Journal name & Publication Date:** CVPR 2023-12-04  
-**Authors:** Shenhan Qian, Tobias Kirschstein, Liam Schoneveld
+>**Title:** GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians  
+**Journal name & Publication Date:** CVPR 2023-12-04   
+**Authors:** Shenhan Qian, Tobias Kirschstein, Liam Schoneveld 
 
 ---
 >## 0. Parameters & Functions
