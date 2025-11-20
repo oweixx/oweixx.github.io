@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-facelift-learning-generalizable-single-image-3d-face-reconstruction-from-synthetic-heads-amp-40-iccv-2025-amp-41",
+        },{id: "post-amp-91-papers-amp-93-generalizable-and-animatable-gaussian-head-avatar-amp-40-neurips-2024-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; Generalizable and Animatable Gaussian Head Avatar &amp;#40;NeurIPS 2024&amp;#41;",
+      
+      description: "Code Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_GAGAvatars/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-facelift-learning-generalizable-single-image-3d-face-reconstruction-from-synthetic-heads-amp-40-iccv-2025-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads &amp;#40;ICCV...",
       
@@ -168,17 +179,6 @@ ninja.data = [{
       handler: () => {
         
           window.location.href = "/blog/2025/BOJ1210/";
-        
-      },
-    },{id: "post-amp-91-papers-amp-93-generalizable-and-animatable-gaussian-head-avatar-amp-40-neurips-2024-amp-41",
-      
-        title: "&amp;#91;Papers&amp;#93; Generalizable and Animatable Gaussian Head Avatar &amp;#40;NeurIPS 2024&amp;#41;",
-      
-      description: "Code Review",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2024/papers_GAGAvatars/";
         
       },
     },{id: "news-a-simple-inline-announcement",
