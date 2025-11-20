@@ -1,4 +1,282 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://oweixx.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://oweixx.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-11-19T11:50:50+00:00</updated><id>https://oweixx.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle><entry><title type="html">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</title><link href="https://oweixx.github.io/blog/2025/papers_CAP4D/" rel="alternate" type="text/html" title="[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)"/><published>2025-11-18T00:00:00+00:00</published><updated>2025-11-18T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_CAP4D</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_CAP4D/"><![CDATA[<h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2412.12093">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/">[Github]</a><a href="https://felixtaubner.github.io/cap4d/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br/> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br/> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr/> <blockquote> <h2 id="0-download-flame-and-mdmm-weights">0. Download FLAME and MDMM weights</h2> </blockquote> <p>먼저 FLAME model과 pretrained된 mmdm weights를 다운 받을 수 있는 shell script를 실행해준다. 이때 flame model은 <code class="language-plaintext highlighter-rouge">flame2023_no_jaw.pkl</code>을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://oweixx.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://oweixx.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-11-20T06:01:49+00:00</updated><id>https://oweixx.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle><entry><title type="html">[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)</title><link href="https://oweixx.github.io/blog/2025/papers_FaceLift/" rel="alternate" type="text/html" title="[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)"/><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_FaceLift</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_FaceLift/"><![CDATA[<h2 id="facelift-learning-generalizable-single-image-3d-face-reconstruction-from-synthetic-heads">FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/pdf/2412.17812">[Paper]</a><a href="https://github.com/weijielyu/FaceLift">[Github]</a><a href="https://www.wlyu.me/FaceLift/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads <br/> <strong>Journal name &amp; Publication Date:</strong> ICCV 2023-12-23<br/> <strong>Affiliation:</strong> University of California, Merced, Adobe Research</p> </blockquote> <hr/> <blockquote> <h2 id="0-multi-view-diffusion-based-generated-images">0. Multi-View Diffusion based Generated images</h2> </blockquote> <p>논문에서 제시된 <code class="language-plaintext highlighter-rouge">View Geneartion</code> 부분에 대한 코드 부분으로, Training된 Multi-view Diffusion을 이용하여 Single Image로 부터 각기 다른 Viewing image를 생성하는 부분이다.</p> <p><code class="language-plaintext highlighter-rouge">inference.py</code>에서 main함수에서 model들을 모두 init한 이후에 <code class="language-plaintext highlighter-rouge">process_single_image</code>로 넘어가면 본격적으로 진행이 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="n">mv_imgs</span> <span class="o">=</span> <span class="nf">unclip_pipeline</span><span class="p">(</span>
+    <span class="n">input_image</span><span class="p">,</span> 
+    <span class="bp">None</span><span class="p">,</span>
+    <span class="n">prompt_embeds</span><span class="o">=</span><span class="n">color_prompt_embedding</span><span class="p">,</span>
+    <span class="n">guidance_scale</span><span class="o">=</span><span class="n">guidance_scale_2D</span><span class="p">,</span>
+    <span class="n">num_images_per_prompt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+    <span class="n">num_inference_steps</span><span class="o">=</span><span class="n">step_2D</span><span class="p">,</span>
+    <span class="n">generator</span><span class="o">=</span><span class="n">generator</span><span class="p">,</span>
+    <span class="n">eta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">).</span><span class="n">images</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>타고타고 들어가다 보면 <code class="language-plaintext highlighter-rouge">mvdiffusion/pipelines/pipeline_mvdiffusion_unclip.py</code>에 DiffusionPipeline을 상속받는 <code class="language-plaintext highlighter-rouge">StableUnCLIPImg2ImgPipeline</code>이 있다. 해당 부분은 “pipeline for text-guided image to image generation using stable uinCLIP”이라고 설명이 적혀 있다.</p> <p>해당 부분은 논문에서와 같이 text embedding으로 view generation을 하기 때문에 해당 pipeline을 사용하는 것 같다.</p> <p>결국 pipeline을 다시 재수정한 부분이니 실제로 실행되는 <code class="language-plaintext highlighter-rouge">__call__</code>에서의 동작과정에 집중해서 확인해보자.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">StableUnCLIPImg2ImgPipeline</span><span class="p">(</span><span class="n">DiffusionPipeline</span><span class="p">):</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>input으로 들어오는 prompt에 대하여 embedding시키고 <code class="language-plaintext highlighter-rouge">prompte_embeds</code>형태의 출력으로 받는다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="n">prompt_embeds</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">_encode_prompt</span><span class="p">(</span>
+    <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+    <span class="n">num_images_per_prompt</span><span class="o">=</span><span class="n">num_images_per_prompt</span><span class="p">,</span>
+    <span class="n">do_classifier_free_guidance</span><span class="o">=</span><span class="n">do_classifier_free_guidance</span><span class="p">,</span>
+    <span class="n">negative_prompt</span><span class="o">=</span><span class="n">negative_prompt</span><span class="p">,</span>
+    <span class="n">prompt_embeds</span><span class="o">=</span><span class="n">prompt_embeds</span><span class="p">,</span>
+    <span class="n">negative_prompt_embeds</span><span class="o">=</span><span class="n">negative_prompt_embeds</span><span class="p">,</span>
+    <span class="n">lora_scale</span><span class="o">=</span><span class="n">text_encoder_lora_scale</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>input image를 encoder에 넣고 embedding하고 latent형태로 변환시킨다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="n">image_embeds</span><span class="p">,</span> <span class="n">image_latents</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">_encode_image</span><span class="p">(</span>
+    <span class="n">image_pil</span><span class="o">=</span><span class="n">image_pil</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+    <span class="n">num_images_per_prompt</span><span class="o">=</span><span class="n">num_images_per_prompt</span><span class="p">,</span>
+    <span class="n">do_classifier_free_guidance</span><span class="o">=</span><span class="n">do_classifier_free_guidance</span><span class="p">,</span>
+    <span class="n">noise_level</span><span class="o">=</span><span class="n">noise_level</span><span class="p">,</span>
+    <span class="n">generator</span><span class="o">=</span><span class="n">generator</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>위에서 처리된 prompt와 image ebedding 변수들과 latent를 이용하여 Denosing Loop에서 처리한다. diffusion에 대한 지식이 아직은 많이 부족해서 어림짐작해서 일단은 해석해보겠다….</p> <p>먼저 <code class="language-plaintext highlighter-rouge">torch.cat([latent_model_input, image_latents], dim=1)</code> 부분에서 생성해야 하는 latent와 conditioning으로 들어가는 image latents가 concat되어 input으로 들어간다.</p> <p>이후에 unet에 직접적으로 들어갈 때는 encoder_hidden_states의 input으로 prompt_embeds가 들어가게 되어 <code class="language-plaintext highlighter-rouge">predict the noise residual</code>을 수행하게 된다.</p> <p>이후에 noisy sample을 step해주어 x_t -&gt; x_t-1 latent를 계산해준다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="code"><pre><span class="c1"># 8. Denoising loop
+</span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">progress_bar</span><span class="p">(</span><span class="n">timesteps</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">do_classifier_free_guidance</span><span class="p">:</span>
+        <span class="n">latent_model_input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">latents</span><span class="p">,</span> <span class="n">latents</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">latent_model_input</span> <span class="o">=</span> <span class="n">latents</span>
+    <span class="n">latent_model_input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span>
+            <span class="n">latent_model_input</span><span class="p">,</span> <span class="n">image_latents</span>
+        <span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">latent_model_input</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">scheduler</span><span class="p">.</span><span class="nf">scale_model_input</span><span class="p">(</span><span class="n">latent_model_input</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="c1"># predict the noise residual
+</span>    <span class="n">unet_out</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">unet</span><span class="p">(</span>
+        <span class="n">latent_model_input</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">,</span>
+        <span class="n">encoder_hidden_states</span><span class="o">=</span><span class="n">prompt_embeds</span><span class="p">,</span>
+        <span class="n">class_labels</span><span class="o">=</span><span class="n">image_embeds</span><span class="p">,</span>
+        <span class="n">cross_attention_kwargs</span><span class="o">=</span><span class="n">cross_attention_kwargs</span><span class="p">,</span>
+        <span class="n">return_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+    <span class="n">noise_pred</span> <span class="o">=</span> <span class="n">unet_out</span>
+        
+    <span class="c1"># perform guidance
+</span>    <span class="k">if</span> <span class="n">do_classifier_free_guidance</span><span class="p">:</span>
+        <span class="n">noise_pred_uncond</span><span class="p">,</span> <span class="n">noise_pred_text</span> <span class="o">=</span> <span class="n">noise_pred</span><span class="p">.</span><span class="nf">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">noise_pred</span> <span class="o">=</span> <span class="n">noise_pred_uncond</span> <span class="o">+</span> <span class="n">guidance_scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">noise_pred_text</span> <span class="o">-</span> <span class="n">noise_pred_uncond</span><span class="p">)</span>
+
+    <span class="c1"># compute the previous noisy sample x_t -&gt; x_t-1
+</span>    <span class="n">latents</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">scheduler</span><span class="p">.</span><span class="nf">step</span><span class="p">(</span><span class="n">noise_pred</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">latents</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_step_kwargs</span><span class="p">,</span> <span class="n">return_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="n">callback_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">callback</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">latents</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <hr/> <blockquote> <h2 id="1-gs-lrm">1. GS-LRM</h2> </blockquote> <p>GSLRM Class는 <code class="language-plaintext highlighter-rouge">gslrm/model/gslrm.py</code>에 숨어 있다. 해당 부분도 방대한 코드 양으로 모두 이해하기는 힘들 것 같다. 많은 부분을 생략하고 forward 부분의 코드 구성을 한 번 확인해보자. 사실 forward 부분도 150줄이 넘는다.</p> <p>args부터 간단하게 살펴보면 batch형태로 들어오는 data는 논문에서와 같이 생성된 Multi-view images와 Camera intrinsics 정보 등이 있고, 출력값으로는 Dictionary형태의 model output이고 여기서 Gaussian정보들을 반환해주고 있으니 해당 정보들로 바로 GS Reconstruction이 가능하다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+    <span class="n">self</span><span class="p">,</span> 
+    <span class="n">batch_data</span><span class="p">:</span> <span class="n">edict</span><span class="p">,</span> 
+    <span class="n">create_visual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> 
+    <span class="n">split_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">edict</span><span class="p">:</span>
+    <span class="sh">"""</span><span class="s">
+    Forward pass of the GSLRM model.
+    
+    Args:
+        batch_data: Input batch containing:
+            - image: Multi-view images [batch, views, channels, height, width]
+            - fxfycxcy: Camera intrinsics [batch, views, 4]
+            - c2w: Camera-to-world matrices [batch, views, 4, 4]
+        create_visual: Whether to create visualization outputs
+        split_data: Whether to split input/target data
+        
+    Returns:
+        Dictionary containing model outputs including Gaussians, renders, and losses
+    </span><span class="sh">"""</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>눈에 확 띄는 주요한 부분만 모아서 한꺼번에 봐보자. 사실 이 밑의 process들이 다 논문에 나와있는 부분이긴한데 중요한 것 같다.</p> <p>대략적으로는 <code class="language-plaintext highlighter-rouge">Patchify &amp; Linear</code> 하는 부분이 있고 <code class="language-plaintext highlighter-rouge">transformer process</code>를 통과하고 Linear &amp; Unpatchify하여 gaussian_tokens과 image_patch_tokens으로 나뉘고 이를 통해 gaussian parameter를 생성하게 된다. 이후에 pixel-aligned를 하여 gaussian parameter를 예측(?) 하게 되는 일련의 과정인 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+</pre></td><td class="code"><pre><span class="c1"># Prepare posed images with Plucker coordinates [batch, views, channels, height, width]
+</span><span class="n">posed_images</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">_create_posed_images_with_plucker</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+
+<span class="c1"># Tokenize images into patches
+</span><span class="n">image_patch_tokens</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">patch_embedder</span><span class="p">(</span><span class="n">posed_images</span><span class="p">)</span>  <span class="c1"># [batch*views, num_patches, hidden_dim]
+</span><span class="n">_</span><span class="p">,</span> <span class="n">num_patches</span><span class="p">,</span> <span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">image_patch_tokens</span><span class="p">.</span><span class="nf">size</span><span class="p">()</span>
+<span class="n">image_patch_tokens</span> <span class="o">=</span> <span class="n">image_patch_tokens</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_views</span> <span class="o">*</span> <span class="n">num_patches</span><span class="p">,</span> <span class="n">hidden_dim</span>
+<span class="p">)</span>  <span class="c1"># [batch, views*patches, hidden_dim]
+</span>
+<span class="c1"># Prepare Gaussian tokens with positional embeddings
+</span><span class="n">gaussian_tokens</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">gaussian_position_embeddings</span><span class="p">.</span><span class="nf">expand</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Process through transformer with gradient checkpointing
+</span><span class="n">combined_tokens</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">_process_through_transformer</span><span class="p">(</span>
+    <span class="n">gaussian_tokens</span><span class="p">,</span> <span class="n">image_patch_tokens</span>
+<span class="p">)</span>
+
+<span class="c1"># Split back into Gaussian and image tokens
+</span><span class="n">num_gaussians</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">gaussians</span><span class="p">.</span><span class="n">n_gaussians</span>
+<span class="n">gaussian_tokens</span><span class="p">,</span> <span class="n">image_patch_tokens</span> <span class="o">=</span> <span class="n">combined_tokens</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">num_gaussians</span><span class="p">,</span> <span class="n">num_views</span> <span class="o">*</span> <span class="n">num_patches</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate Gaussian parameters from transformer outputs
+</span><span class="n">gaussian_params</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gaussian_upsampler</span><span class="p">(</span><span class="n">gaussian_tokens</span><span class="p">,</span> <span class="n">image_patch_tokens</span><span class="p">)</span>
+
+<span class="c1"># Generate pixel-aligned Gaussians from image tokens
+</span><span class="n">pixel_aligned_gaussian_params</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">pixel_gaussian_decoder</span><span class="p">(</span><span class="n">image_patch_tokens</span><span class="p">)</span>
+
+<span class="c1"># Calculate Gaussian parameter dimensions
+</span><span class="n">sh_degree</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">gaussians</span><span class="p">.</span><span class="n">sh_degree</span>
+<span class="n">gaussian_param_dim</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="n">sh_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">pixel_aligned_gaussian_params</span> <span class="o">=</span> <span class="n">pixel_aligned_gaussian_params</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">gaussian_param_dim</span>
+<span class="p">)</span>  <span class="c1"># [batch, views*pixels, gaussian_params]
+</span><span class="n">num_pixel_aligned_gaussians</span> <span class="o">=</span> <span class="n">pixel_aligned_gaussian_params</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Combine all Gaussian parameters
+</span><span class="n">all_gaussian_params</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">((</span><span class="n">gaussian_params</span><span class="p">,</span> <span class="n">pixel_aligned_gaussian_params</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Convert to final Gaussian format
+</span><span class="n">xyz</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">opacity</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">gaussian_upsampler</span><span class="p">.</span><span class="nf">to_gs</span><span class="p">(</span><span class="n">all_gaussian_params</span><span class="p">)</span>
+
+<span class="c1"># Extract pixel-aligned Gaussian positions for processing
+</span><span class="n">pixel_aligned_xyz</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="o">-</span><span class="n">num_pixel_aligned_gaussians</span><span class="p">:,</span> <span class="p">:]</span>
+<span class="n">patch_size</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">image_tokenizer</span><span class="p">.</span><span class="n">patch_size</span>
+
+<span class="n">pixel_aligned_xyz</span> <span class="o">=</span> <span class="nf">rearrange</span><span class="p">(</span>
+    <span class="n">pixel_aligned_xyz</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">batch (views height width patch_h patch_w) coords -&gt; batch views coords (height patch_h) (width patch_w)</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">views</span><span class="o">=</span><span class="n">num_views</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">height</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">width</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">,</span>
+    <span class="n">patch_h</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span>
+    <span class="n">patch_w</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure>]]></content><author><name></name></author><category term="Paper"/><category term="Paper"/><summary type="html"><![CDATA[Code Review]]></summary></entry><entry><title type="html">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</title><link href="https://oweixx.github.io/blog/2025/papers_CAP4D/" rel="alternate" type="text/html" title="[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)"/><published>2025-11-18T00:00:00+00:00</published><updated>2025-11-18T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_CAP4D</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_CAP4D/"><![CDATA[<h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2412.12093">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/">[Github]</a><a href="https://felixtaubner.github.io/cap4d/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br/> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br/> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr/> <blockquote> <h2 id="0-download-flame-and-mdmm-weights">0. Download FLAME and MDMM weights</h2> </blockquote> <p>먼저 FLAME model과 pretrained된 mmdm weights를 다운 받을 수 있는 shell script를 실행해준다. 이때 flame model은 <code class="language-plaintext highlighter-rouge">flame2023_no_jaw.pkl</code>을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -673,4 +951,4 @@
         <span class="k">if</span> <span class="n">maps</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="sh">'</span><span class="s">=</span><span class="sh">'</span> <span class="p">:</span>
             <span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
 <span class="nf">bfs</span><span class="p">(</span><span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></td></tr></tbody></table></code></pre></figure> <p><br/></p> <h4 id="29616-인기-투표"><a href="https://www.acmicpc.net/problem/29616">29616 인기 투표</a></h4> <p>잘 몰겠다.. 어렵다… 접근법이… 어렵다…</p> <p><br/></p>]]></content><author><name></name></author><category term="PS"/><category term="PS"/><summary type="html"><![CDATA[랜덤 마라톤 코스(41,42)]]></summary></entry><entry><title type="html">3월 월간 회고</title><link href="https://oweixx.github.io/blog/2025/monthly_review_2503/" rel="alternate" type="text/html" title="3월 월간 회고"/><published>2025-03-30T00:00:00+00:00</published><updated>2025-03-30T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/monthly_review_2503</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/monthly_review_2503/"><![CDATA[<p>이번 3월 달도 오늘 주말까지 해서 2일 남았다.</p> <p>생각보다 나는 이번 달이 꽤나 길었다고 느껴졌었는데 왜인지는 모르겠다.</p> <p>3월의 목표를 글로 정리한적이 없었기에 이번 달을 정리함과 동시에 다음달의 Self-Motivate를 다시 한 번 상기시키기위해 글로 정리해본다.</p> <hr/> <h3 id="monthly-review"><strong>Monthly Review</strong></h3> <p>먼저 이번달을 간단하게 글로 정리해보고자 한다.</p> <p>이번달의 가장 큰 이벤트라고 한다면 당연히 미루고 미루었던(?) 복학이다. 이번 25-1학기에 3학년에 복학하면서 보통에 비해 2년 늦은 학업을 다니고 있다.</p> <p>사실 2년이 늦건 몇년이 늦건 크게 개의치 않다. 그간 2년동안 경험하고 이루어냈던 것들이 지금의 나를 이루어내는데 지대한 영향을 주었기 때문이다. 어린시절의 영향 70, 이번 2년의 20, 특정하기 어려운 10…. 이렇게 합쳐져 100의 내가 되었다고 생각한다.</p> <p>하여간, 정리해서 이번달을 Keyword로 살펴보도록 하자.</p> <h4 id="학점gpa"><strong>학점(GPA)</strong></h4> <p>이번 복학을 하면서 가장 크게 신경쓰는 것 중 하나로 대학원을 들어가기 위한 좋은 학점 챙기기 였다. 나에게 학점이라하면…. 사실은 지금 하던대로 하면 충분히 잘 챙길 수 있지 않을까라는 안일한 생각으로 정의가 되어있다. 비교적 널널하기도 했었던 1,2 학년을 생각해보면 지금만큼 공부를 하지 않았음에도 ‘왜 이렇게 학점이 나오지?…‘라고 할 정도로 꽤나 순방했었기 때문이다.</p> <p>하지만 이번 학기 본전공 5개 타전공(수학과) 1개해서 전공수업 6개를 수업을 들어보니 ‘아 이거 안일한 정신상태로 공부하면 큰일나겠다.’라는 경각심이 순간 들었었다. 현재 위기감을 느끼고 있는 수업으로는 운영체제, AI 기초수학, 컴퓨터비전 이렇게 3개이다. 사실 어려워서 경각심이 들기보다는 흥미가 별로 없기 때문에 자연스럽게 소훌해지면서 나중에 경각심이 든 친구들이다.</p> <p>현재 학점이 막 나쁜편은 아니지만 사실 내 기준에서는 크게 만족스럽지 않은 학점과 석차이다. 이전과 다르게 목표의식이 있기 때문에 지금처럼 열심히 하면 좋은 학점을 받을 수 있지 않을까 싶다. 그냥 다시 한 번 스스로에게 말하고 싶은 말은 <code class="language-plaintext highlighter-rouge">안일하지 말자.</code> 이다.</p> <h4 id="algorithm"><strong>Algorithm</strong></h4> <p>학교 수업이 크게 재미있지 않아서 그런지 초반에 꽤나 빠르게 열심히 알고리즘을 달렸다.</p> <p>solved.ac 기준으로 3월 초 1843점으로 P3 중반이었지만 현재는 2112로 P1 하위 구간에 도달하였다. 사실 최대유량(Network Flow)유형 문제가 너무 재밌어서 관련 문제들을 너무 재밌게 풀다보니 여기에 도달한 것 같다.(Graph가 진짜 재밌다…..)</p> <p>현재로써 조금 느끼는 부분은 이전만큼 PS에 시간을 투자하기는 어렵지 않을까 라는 생각이다. 기존 목표였던 대학원을 목표로 두고있는 만큼 연구적인 부분에서의 활동을 더 해야하지 않을까 라는 생각이 최근에서 조금씩 들기 시작했다. 현실을 직시했달까?…</p> <p>그래서 현재는 방향성을 점수를 올리기보다는 골드 수준의 문제들을 꾸준히 풀면서 전체적인 알고리즘의 감을 높이려고 한다. 주 컨텐츠로는 solved.ac의 마라톤을 할 것 같고 추가적으로 수학적인 문제에 손을 대지 않을까 라는 생각이다. 더 자세한 계획으로는 이후에 작성해야겠다.</p> <h4 id="college-life"><strong>College Life</strong></h4> <p>종합적인 학교 생활이다. 사실 지금 매우 개인적인 학교 생활을 보내고 있기 때문에 너무나도 편하고 자유롭다고 총평 할 수 있다. 내가 이상적으로 생각했던 학교 생활이다.</p> <p>다만 아쉬운건, 비슷한 마인드를 가진 친구가 한명 있으면 좋지 않을까 라는 부분이었는데 아직 많은 사람들을 만나보지 않았기도 하고 이런 부분을 알기 위해서는 deep하게 들어가야 하기 때문에 아직 발견하지 못해서 아쉬운 것 같다.</p> <p>큰 이변이 없다면 현재와 같은 Routine으로 학교를 쭉 다닐 것 같다. 사실 Routine에 짜잘한 변수들에 큰 스트레스를 받는 나로써 지금 굉장히 만족스럽기 때문에 이상한 사건이나 사람이 안 꼬였으면 좋겠다는 바람 뿐이다. 물론 그게 나일수도 있긴하다….</p> <p><br/></p> <hr/> <h2 id="future"><strong>Future</strong></h2> <h3 id="goal"><strong>Goal</strong></h3> <ul> <li>4월은 중간고사가 있는 달이다. 0순위로 학점을 잘 받아야 한다.</li> <li>4월부터 시험체제 Routine을 꾸리고 행동하자.</li> <li>운영체제, 컴퓨터비전, AI 기초수학에 시간을 조금 할애해보자.</li> <li>학부연구생 참여를 해보자.</li> <li>주 1논문 읽고 Review하는 Routine을 추가하자.</li> </ul> <h3 id="try"><strong>Try</strong></h3> <ul> <li>학부연구생 contac 꾸준히 하기.</li> <li>틈틈이 좋은 인재(?)를 탐색해보자.</li> <li>담당 지도교수님께 연구 활동 의지에 대한 어필을 해보자.</li> <li>과제는 최대한 빠르게 쳐내고 해결하는 과정을 오래가져가기.</li> </ul> <h3 id="mindset"><strong>Mindset</strong></h3> <ul> <li>오늘 느꼈음. 잃을 것 없는 사람마냥 생각해야 그제서야 용감하게 행동한다.</li> <li>실패를 두려워하지말자.</li> <li>문제건 과제건 어떤 어려움이건 내 힘으로 온전히 해결하는 과정을 소중히 여겨보자.</li> <li>스스로에게 의지하는 습관을 들여보자(?)</li> <li>항상 안일하지말고, 어제보다 더 열심히 사는 것을 오늘 하루의 목표로 두자.</li> </ul> <h3 id="conclusion"><strong>Conclusion</strong></h3> <p>이번 달을 정리해보니 꽤나 열심히 살았던 것 같다.</p> <p>다음달도 늘 그렇듯이 잘해보자.</p>]]></content><author><name></name></author><category term="회고"/><category term="회고"/><summary type="html"><![CDATA[월간 회고]]></summary></entry></feed>
+</pre></td></tr></tbody></table></code></pre></figure> <p><br/></p> <h4 id="29616-인기-투표"><a href="https://www.acmicpc.net/problem/29616">29616 인기 투표</a></h4> <p>잘 몰겠다.. 어렵다… 접근법이… 어렵다…</p> <p><br/></p>]]></content><author><name></name></author><category term="PS"/><category term="PS"/><summary type="html"><![CDATA[랜덤 마라톤 코스(41,42)]]></summary></entry></feed>
