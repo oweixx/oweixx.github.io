@@ -23,7 +23,7 @@ inference는 아래와 같이 수행할 수 있다고 한다.
 
 ```inference.py``` 부분을 살펴보면, build_model함수로 GAGAvatars model을 만들어서 model을 불러오는데 해당 부분이 아마 중요한 의미들을 많이 담고 있을 것 같은데 해당 부분은 다음 section에서 따로 더 찾아보는 것으로 해야겠다. 일단은 GAGAvatars model을 불러왔다는 가정으로 시작한다.
 
-
+{% highlight python linenos %}
 # Driven by another image:
 # This will track the images online, which is slow.
 python inference.py -d ./demos/examples/2.jpg -i ./demos/examples/1.jpg
