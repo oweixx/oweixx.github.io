@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://oweixx.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://oweixx.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-11-20T10:45:45+00:00</updated><id>https://oweixx.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle><entry><title type="html">[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)</title><link href="https://oweixx.github.io/blog/2025/papers_FaceLift/" rel="alternate" type="text/html" title="[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)"/><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_FaceLift</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_FaceLift/"><![CDATA[<h2 id="facelift-learning-generalizable-single-image-3d-face-reconstruction-from-synthetic-heads">FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/pdf/2412.17812">[Paper]</a><a href="https://github.com/weijielyu/FaceLift">[Github]</a><a href="https://www.wlyu.me/FaceLift/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads <br/> <strong>Journal name &amp; Publication Date:</strong> ICCV 2023-12-23<br/> <strong>Affiliation:</strong> University of California, Merced, Adobe Research</p> </blockquote> <hr/> <blockquote> <h2 id="0-multi-view-diffusion-based-generated-images">0. Multi-View Diffusion based Generated images</h2> </blockquote> <p>논문에서 제시된 <code class="language-plaintext highlighter-rouge">View Geneartion</code> 부분에 대한 코드 부분으로, Training된 Multi-view Diffusion을 이용하여 Single Image로 부터 각기 다른 Viewing image를 생성하는 부분이다.</p> <p><code class="language-plaintext highlighter-rouge">inference.py</code>에서 main함수에서 model들을 모두 init한 이후에 <code class="language-plaintext highlighter-rouge">process_single_image</code>로 넘어가면 본격적으로 진행이 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://oweixx.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://oweixx.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-11-20T11:58:49+00:00</updated><id>https://oweixx.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle><entry><title type="html">[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)</title><link href="https://oweixx.github.io/blog/2025/papers_FaceLift/" rel="alternate" type="text/html" title="[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)"/><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_FaceLift</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_FaceLift/"><![CDATA[<h2 id="facelift-learning-generalizable-single-image-3d-face-reconstruction-from-synthetic-heads">FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/pdf/2412.17812">[Paper]</a><a href="https://github.com/weijielyu/FaceLift">[Github]</a><a href="https://www.wlyu.me/FaceLift/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads <br/> <strong>Journal name &amp; Publication Date:</strong> ICCV 2023-12-23<br/> <strong>Affiliation:</strong> University of California, Merced, Adobe Research</p> </blockquote> <hr/> <blockquote> <h2 id="0-multi-view-diffusion-based-generated-images">0. Multi-View Diffusion based Generated images</h2> </blockquote> <p>논문에서 제시된 <code class="language-plaintext highlighter-rouge">View Geneartion</code> 부분에 대한 코드 부분으로, Training된 Multi-view Diffusion을 이용하여 Single Image로 부터 각기 다른 Viewing image를 생성하는 부분이다.</p> <p><code class="language-plaintext highlighter-rouge">inference.py</code>에서 main함수에서 model들을 모두 init한 이후에 <code class="language-plaintext highlighter-rouge">process_single_image</code>로 넘어가면 본격적으로 진행이 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -276,7 +276,331 @@
     <span class="n">patch_h</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span>
     <span class="n">patch_w</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span>
 <span class="p">)</span>
-</pre></td></tr></tbody></table></code></pre></figure>]]></content><author><name></name></author><category term="Paper"/><category term="Paper"/><summary type="html"><![CDATA[Code Review]]></summary></entry><entry><title type="html">[Papers] Generalizable and Animatable Gaussian Head Avatar (NeurIPS 2024)</title><link href="https://oweixx.github.io/blog/2025/papers_GAGAvatars/" rel="alternate" type="text/html" title="[Papers] Generalizable and Animatable Gaussian Head Avatar (NeurIPS 2024)"/><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_GAGAvatars</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_GAGAvatars/"><![CDATA[<h2 id="generalizable-and-animatable-gaussian-head-avatar">Generalizable and Animatable Gaussian Head Avatar</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2410.07971">[Paper]</a><a href="https://github.com/xg-chu/GAGAvatar">[Github]</a><a href="https://xg-chu.site/project_gagavatar/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> Generalizable and Animatable Gaussian Head Avatar <br/> <strong>Journal name &amp; Publication Date:</strong> NeurIPS 2024-10-10<br/> <strong>Affiliation:</strong> The University of Tokyo, RIKEN AIP</p> </blockquote> <hr/>]]></content><author><name></name></author><category term="Paper"/><category term="Paper"/><summary type="html"><![CDATA[Code Review]]></summary></entry><entry><title type="html">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</title><link href="https://oweixx.github.io/blog/2025/papers_CAP4D/" rel="alternate" type="text/html" title="[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)"/><published>2025-11-18T00:00:00+00:00</published><updated>2025-11-18T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_CAP4D</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_CAP4D/"><![CDATA[<h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2412.12093">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/">[Github]</a><a href="https://felixtaubner.github.io/cap4d/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br/> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br/> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr/> <blockquote> <h2 id="0-download-flame-and-mdmm-weights">0. Download FLAME and MDMM weights</h2> </blockquote> <p>먼저 FLAME model과 pretrained된 mmdm weights를 다운 받을 수 있는 shell script를 실행해준다. 이때 flame model은 <code class="language-plaintext highlighter-rouge">flame2023_no_jaw.pkl</code>을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></pre></figure>]]></content><author><name></name></author><category term="Paper"/><category term="Paper"/><summary type="html"><![CDATA[Code Review]]></summary></entry><entry><title type="html">[Papers] Generalizable and Animatable Gaussian Head Avatar (NeurIPS 2024)</title><link href="https://oweixx.github.io/blog/2025/papers_GAGAvatars/" rel="alternate" type="text/html" title="[Papers] Generalizable and Animatable Gaussian Head Avatar (NeurIPS 2024)"/><published>2025-11-19T00:00:00+00:00</published><updated>2025-11-19T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_GAGAvatars</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_GAGAvatars/"><![CDATA[<h2 id="generalizable-and-animatable-gaussian-head-avatar">Generalizable and Animatable Gaussian Head Avatar</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2410.07971">[Paper]</a><a href="https://github.com/xg-chu/GAGAvatar">[Github]</a><a href="https://xg-chu.site/project_gagavatar/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> Generalizable and Animatable Gaussian Head Avatar <br/> <strong>Journal name &amp; Publication Date:</strong> NeurIPS 2024-10-10<br/> <strong>Affiliation:</strong> The University of Tokyo, RIKEN AIP</p> </blockquote> <hr/> <blockquote> <h2 id="0-inference">0. inference</h2> </blockquote> <p>inference는 아래와 같이 수행할 수 있다고 한다.</p> <p><code class="language-plaintext highlighter-rouge">inference.py</code> 부분을 살펴보면, build_model함수로 GAGAvatars model을 만들어서 model을 불러오는데 해당 부분이 아마 중요한 의미들을 많이 담고 있을 것 같은데 해당 부분은 다음 section에서 따로 더 찾아보는 것으로 해야겠다. 일단은 GAGAvatars model을 불러왔다는 가정으로 시작한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="c1"># Driven by another image:
+# This will track the images online, which is slow.
+</span><span class="n">python</span> <span class="n">inference</span><span class="p">.</span><span class="n">py</span> <span class="o">-</span><span class="n">d</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="mf">2.j</span><span class="n">pg</span> <span class="o">-</span><span class="n">i</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="mf">1.j</span><span class="n">pg</span>
+
+<span class="c1"># Driven by a tracked video:
+</span><span class="n">python</span> <span class="n">inference</span><span class="p">.</span><span class="n">py</span> <span class="o">-</span><span class="n">d</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">drivers</span><span class="o">/</span><span class="n">obama</span> <span class="o">-</span><span class="n">i</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="mf">1.j</span><span class="n">pg</span>
+
+<span class="c1"># Driven by a tracked image_lmdb
+</span><span class="n">python</span> <span class="n">inference</span><span class="p">.</span><span class="n">py</span> <span class="o">-</span><span class="n">d</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">drivers</span><span class="o">/</span><span class="n">vfhq_demo</span> <span class="o">-</span><span class="n">i</span> <span class="p">.</span><span class="o">/</span><span class="n">demos</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="mf">1.j</span><span class="n">pg</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>아래와 같이 GAGAvatars model과 monocular face trucker인 GAGAvatar_Track model을 초기화 해준다.</p> <p>결국 face trucker model은 단일 이미지, 카메라에 대해 FLAME parameters와 camera parameters를 예측하여 반환하는 모델이다.</p> <p>그렇게 reference image와 track_engine을 이용하여 <code class="language-plaintext highlighter-rouge">feature_data</code>를 반환 받게 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="n">model</span> <span class="o">=</span> <span class="nf">build_model</span><span class="p">(</span><span class="n">model_cfg</span><span class="o">=</span><span class="n">meta_cfg</span><span class="p">.</span><span class="n">MODEL</span><span class="p">)</span>
+<span class="bp">...</span>
+<span class="n">track_engine</span> <span class="o">=</span> <span class="nc">TrackEngine</span><span class="p">(</span><span class="n">focal_length</span><span class="o">=</span><span class="mf">12.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">feature_name</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">image_path</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">.</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">feature_data</span> <span class="o">=</span> <span class="nf">get_tracked_results</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">track_engine</span><span class="p">,</span> <span class="n">force_retrack</span><span class="o">=</span><span class="n">force_retrack</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>driving image에 대해서도 위와 같은 일련의 과정으로 tacking을 하여 driver_data를 준비한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">isdir</span><span class="p">(</span><span class="n">driver_path</span><span class="p">):</span>
+    <span class="n">driver_name</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">driver_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">driver_path</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span> <span class="k">else</span> <span class="n">driver_path</span><span class="p">)</span>
+    <span class="n">driver_dataset</span> <span class="o">=</span> <span class="nc">DriverData</span><span class="p">(</span><span class="n">driver_path</span><span class="p">,</span> <span class="n">feature_data</span><span class="p">,</span> <span class="n">meta_cfg</span><span class="p">.</span><span class="n">DATASET</span><span class="p">.</span><span class="n">POINT_PLANE_SIZE</span><span class="p">)</span>
+    <span class="n">driver_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">driver_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">driver_name</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">driver_path</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">.</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">driver_data</span> <span class="o">=</span> <span class="nf">get_tracked_results</span><span class="p">(</span><span class="n">driver_path</span><span class="p">,</span> <span class="n">track_engine</span><span class="p">,</span> <span class="n">force_retrack</span><span class="o">=</span><span class="n">force_retrack</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">driver_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Finish inference, no face in driver: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s">.</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">driver_dataset</span> <span class="o">=</span> <span class="nc">DriverData</span><span class="p">({</span><span class="n">driver_name</span><span class="p">:</span> <span class="n">driver_data</span><span class="p">},</span> <span class="n">feature_data</span><span class="p">,</span> <span class="n">meta_cfg</span><span class="p">.</span><span class="n">DATASET</span><span class="p">.</span><span class="n">POINT_PLANE_SIZE</span><span class="p">)</span>
+    <span class="n">driver_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">driver_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <hr/> <blockquote> <h2 id="1-gagavatars-model">1. GAGAvatars Model</h2> </blockquote> <p>위에서 확인했던 inference.py에는 module화된 조각들을 잘 처리하는 pipeline자체를 보여주고 있기 때문에 사실상 어떠한 과정이 진행되고 있는지에 대한 부분을 확인하기는 어렵다.</p> <p>model config file을 보더라도 model을 불러올 때 <code class="language-plaintext highlighter-rouge">models/GAGAvatar/models.py</code>에서의 GAGAvatar class를 불러오고 있다. 해당 model의 init 속성을 보았을 때 논문의 Reconstruction Branch를 수행하는 것으로 예상이 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">GAGAvatar</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">model_cfg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">base_model</span> <span class="o">=</span> <span class="nc">DINOBase</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">base_model</span><span class="p">.</span><span class="n">dino_model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">():</span>
+            <span class="n">param</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="c1"># dir_encoder
+</span>        <span class="n">n_harmonic_dir</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">direnc_dim</span> <span class="o">=</span> <span class="n">n_harmonic_dir</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">harmo_encoder</span> <span class="o">=</span> <span class="nc">HarmonicEmbedding</span><span class="p">(</span><span class="n">n_harmonic_dir</span><span class="p">)</span>
+        <span class="c1"># pre_trained
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">head_base</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">5023</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">gs_generator_g</span> <span class="o">=</span> <span class="nc">LinearGSGenerator</span><span class="p">(</span><span class="n">in_dim</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">dir_dim</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">direnc_dim</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">gs_generator_l0</span> <span class="o">=</span> <span class="nc">ConvGSGenerator</span><span class="p">(</span><span class="n">in_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">dir_dim</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">direnc_dim</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">gs_generator_l1</span> <span class="o">=</span> <span class="nc">ConvGSGenerator</span><span class="p">(</span><span class="n">in_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">dir_dim</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">direnc_dim</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cam_params</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">focal_x</span><span class="sh">'</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span> <span class="sh">'</span><span class="s">focal_y</span><span class="sh">'</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span> <span class="sh">'</span><span class="s">size</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">]}</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">upsampler</span> <span class="o">=</span> <span class="nc">StyleUNet</span><span class="p">(</span><span class="n">in_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">out_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">out_size</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">percep_loss</span> <span class="o">=</span> <span class="nc">FacePerceptualLoss</span><span class="p">(</span><span class="n">loss_type</span><span class="o">=</span><span class="sh">'</span><span class="s">l1</span><span class="sh">'</span><span class="p">,</span> <span class="n">weighted</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>하나씩 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">self.gs_generator_g</code>는 <code class="language-plaintext highlighter-rouge">LinearGSGenerator</code> model을 사용한다. 해당 class model은 밑에 정의 되어 있다.</p> <p>보면 Lienar,ReLU의 조합으로 구성된 Sequential 형태이다. 입력으로 들어오는 input_features와 plane_direnc에 대하여 gaussian parameter를 추출 할 수 있는 형태로 설계 되어 있다. 아마 이 부분은 train에서 충분히 학습되어 weight가 담겨있을 것 같다.</p> <p>그리고 해당 부분은 위 Expression Branch에서 사용되는 global part형태에 사용되는 gs로 확인이 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="c1"># global part
+</span><span class="n">gs_params_g</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_g</span><span class="p">(</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">head_base</span><span class="p">[</span><span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">f_feature1</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5023</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> 
+        <span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="p">),</span> <span class="n">plane_direnc</span>
+<span class="p">)</span>
+<span class="n">gs_params_g</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_points</span>
+</pre></td></tr></tbody></table></code></pre></figure> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">LinearGSGenerator</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">dir_dim</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="c1"># params
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">feature_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_dim</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">layer_in_dim</span> <span class="o">=</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">4</span> <span class="o">+</span> <span class="n">dir_dim</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">color_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_in_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">opacity_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_in_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">scale_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_in_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">rotation_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_in_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">):</span>
+        <span class="n">input_features</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">feature_layers</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="n">plane_direnc</span> <span class="o">=</span> <span class="n">plane_direnc</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_features</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">input_features</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">input_features</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># color
+</span>        <span class="n">colors</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">color_layers</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="n">colors</span><span class="p">[...,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">colors</span><span class="p">[...,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="c1"># opacity
+</span>        <span class="n">opacities</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">opacity_layers</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="n">opacities</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">opacities</span><span class="p">)</span>
+        <span class="c1"># scale
+</span>        <span class="n">scales</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">scale_layers</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="c1"># scales = torch.exp(scales) * 0.01
+</span>        <span class="n">scales</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span>
+        <span class="c1"># rotation
+</span>        <span class="n">rotations</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">rotation_layers</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="n">rotations</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="nf">normalize</span><span class="p">(</span><span class="n">rotations</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="sh">'</span><span class="s">colors</span><span class="sh">'</span><span class="p">:</span><span class="n">colors</span><span class="p">,</span> <span class="sh">'</span><span class="s">opacities</span><span class="sh">'</span><span class="p">:</span><span class="n">opacities</span><span class="p">,</span> <span class="sh">'</span><span class="s">scales</span><span class="sh">'</span><span class="p">:</span><span class="n">scales</span><span class="p">,</span> <span class="sh">'</span><span class="s">rotations</span><span class="sh">'</span><span class="p">:</span><span class="n">rotations</span><span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>밑에 해당 <code class="language-plaintext highlighter-rouge">self.gs_generator_10</code> 과 <code class="language-plaintext highlighter-rouge">self.gs_generator_l1</code>은 local DINO에서 추출된 local feature에 대한 dual-lifting에 관한 코드 부분이다. feature와 plane_direnc에 대하여 양쪽으로 gaussian을 예측하여 Gaussian을 두 층으로 예측을 하게 된다. Gaussian의 parameter를 예측할 때는 Global과는 다르게 얇은 Conv층으로 <code class="language-plaintext highlighter-rouge">32+1+3+4+1</code>의 gaussian parameter들을 예측한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="code"><pre> <span class="c1"># local part
+</span><span class="n">gs_params_l0</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_l0</span><span class="p">(</span><span class="n">f_feature0</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">)</span>
+<span class="n">gs_params_l1</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_l1</span><span class="p">(</span><span class="n">f_feature0</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">)</span>
+<span class="n">gs_params_l0</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_points</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">gs_params_l0</span><span class="p">[</span><span class="sh">'</span><span class="s">positions</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_dirs</span><span class="sh">'</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span>
+<span class="n">gs_params_l1</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_points</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">gs_params_l1</span><span class="p">[</span><span class="sh">'</span><span class="s">positions</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_dirs</span><span class="sh">'</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>궁금한 부분은 해당 두께의 Conv층으로 충분히 해당 Gaussian Parameter들이 잘 예측이 될 수 있는건지이다.</p> <p>GPT에게 물어봤을 때는 이 부분은 당연히 가능하다는 의견이다. 애초에 DINO에서 추출한 feature형태가 저차원의 형태가 아닌 고차원의 형태이고 지금 현재 상황에서는 아예 다른 차원으로써의 이동이 아닌 mapping에 가까운 의도이기 때문에 이정도 깊이의 conv로 해당 역할을 수행하는 것은 일반적인 쪽에 가깝다고 한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre></td><td class="code"><pre><span class="k">class</span> <span class="nc">ConvGSGenerator</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">dir_dim</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">out_dim</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># color + opacity + scale + rotation + position
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">gaussian_conv</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_dim</span><span class="o">+</span><span class="n">dir_dim</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="n">in_dim</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">):</span>
+        <span class="n">plane_direnc</span> <span class="o">=</span> <span class="n">plane_direnc</span><span class="p">[:,</span> <span class="p">:,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_features</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">input_features</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">input_features</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">input_features</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">gaussian_params</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gaussian_conv</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+        <span class="c1"># color
+</span>        <span class="n">colors</span> <span class="o">=</span> <span class="n">gaussian_params</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">32</span><span class="p">]</span>
+        <span class="n">colors</span><span class="p">[...,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">colors</span><span class="p">[...,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="c1"># opacity
+</span>        <span class="n">opacities</span> <span class="o">=</span> <span class="n">gaussian_params</span><span class="p">[:,</span> <span class="mi">32</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span>
+        <span class="n">opacities</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">opacities</span><span class="p">)</span>
+        <span class="c1"># scale
+</span>        <span class="n">scales</span> <span class="o">=</span> <span class="n">gaussian_params</span><span class="p">[:,</span> <span class="mi">33</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span>
+        <span class="c1"># scales = torch.exp(scales) * 0.01
+</span>        <span class="n">scales</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span>
+        <span class="c1"># rotation
+</span>        <span class="n">rotations</span> <span class="o">=</span> <span class="n">gaussian_params</span><span class="p">[:,</span> <span class="mi">36</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span>
+        <span class="n">rotations</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="nf">normalize</span><span class="p">(</span><span class="n">rotations</span><span class="p">)</span>
+        <span class="c1"># position
+</span>        <span class="n">positions</span> <span class="o">=</span> <span class="n">gaussian_params</span><span class="p">[:,</span> <span class="mi">40</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">colors</span><span class="sh">'</span><span class="p">:</span><span class="n">colors</span><span class="p">,</span> <span class="sh">'</span><span class="s">opacities</span><span class="sh">'</span><span class="p">:</span><span class="n">opacities</span><span class="p">,</span> <span class="sh">'</span><span class="s">scales</span><span class="sh">'</span><span class="p">:</span><span class="n">scales</span><span class="p">,</span> <span class="sh">'</span><span class="s">rotations</span><span class="sh">'</span><span class="p">:</span><span class="n">rotations</span><span class="p">,</span> <span class="sh">'</span><span class="s">positions</span><span class="sh">'</span><span class="p">:</span><span class="n">positions</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">results</span><span class="p">.</span><span class="nf">keys</span><span class="p">():</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="nf">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="nf">reshape</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">results</span>
+</pre></td></tr></tbody></table></code></pre></figure> <p>그럼 그렇게 위에서 global하게 나온 head의 gaussian과 밑에서 dual-lifting으로 나온 두 개의 gaussian을 concat하여 하나의 gaussian scene으로 구성하게 된다. 그렇게 image를 생성해서 dict형태의 results로 반환이 되게 된다.</p> <p>이게 위에 dual-lifting으로 plane에 예측되는 gaussian points의 개수가 $(H,W) = 296 \times 296$ 형태로 나오고 2개의 층으로 나오기 때문에 175,232개의 point가 나온다고 한다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="n">gs_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">k</span><span class="p">:</span><span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">gs_params_g</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">gs_params_l0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">gs_params_l1</span><span class="p">[</span><span class="n">k</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gs_params_g</span><span class="p">.</span><span class="nf">keys</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">gen_images</span> <span class="o">=</span> <span class="nf">render_gaussian</span><span class="p">(</span>
+    <span class="n">gs_params</span><span class="o">=</span><span class="n">gs_params</span><span class="p">,</span> <span class="n">cam_matrix</span><span class="o">=</span><span class="n">t_transform</span><span class="p">,</span> <span class="n">cam_params</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">cam_params</span>
+<span class="p">)[</span><span class="sh">'</span><span class="s">images</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">sr_gen_images</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">upsampler</span><span class="p">(</span><span class="n">gen_images</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">t_image</span><span class="sh">'</span><span class="p">:</span><span class="n">t_image</span><span class="p">,</span> <span class="sh">'</span><span class="s">t_bbox</span><span class="sh">'</span><span class="p">:</span><span class="n">t_bbox</span><span class="p">,</span> <span class="sh">'</span><span class="s">t_points</span><span class="sh">'</span><span class="p">:</span> <span class="n">t_points</span><span class="p">,</span> 
+    <span class="sh">'</span><span class="s">p_points</span><span class="sh">'</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">gs_params_l0</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">],</span> <span class="n">gs_params_l1</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="sh">'</span><span class="s">gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">gen_images</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="sh">'</span><span class="s">sr_gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">sr_gen_images</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">results</span>
+</pre></td></tr></tbody></table></code></pre></figure>]]></content><author><name></name></author><category term="Paper"/><category term="Paper"/><summary type="html"><![CDATA[Code Review]]></summary></entry><entry><title type="html">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</title><link href="https://oweixx.github.io/blog/2025/papers_CAP4D/" rel="alternate" type="text/html" title="[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)"/><published>2025-11-18T00:00:00+00:00</published><updated>2025-11-18T00:00:00+00:00</updated><id>https://oweixx.github.io/blog/2025/papers_CAP4D</id><content type="html" xml:base="https://oweixx.github.io/blog/2025/papers_CAP4D/"><![CDATA[<h2 id="cap4d-creating-animatable-4d-portrait-avatars-with-morphable-multi-view-diffusion-models">CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models</h2> <h3 id="papergithubproject"><a href="https://arxiv.org/abs/2412.12093">[Paper]</a><a href="https://github.com/felixtaubner/cap4d/">[Github]</a><a href="https://felixtaubner.github.io/cap4d/">[Project]</a></h3> <blockquote> <p><strong>Title:</strong> CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models<br/> <strong>Journal name &amp; Publication Date:</strong> CVPR 2024-12-16<br/> <strong>Affiliation:</strong> University of Toronto, Vector Institute, LG Electronics</p> </blockquote> <hr/> <blockquote> <h2 id="0-download-flame-and-mdmm-weights">0. Download FLAME and MDMM weights</h2> </blockquote> <p>먼저 FLAME model과 pretrained된 mmdm weights를 다운 받을 수 있는 shell script를 실행해준다. 이때 flame model은 <code class="language-plaintext highlighter-rouge">flame2023_no_jaw.pkl</code>을 사용하는 것 같다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
