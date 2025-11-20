@@ -170,6 +170,17 @@ ninja.data = [{
           window.location.href = "/blog/2025/BOJ1210/";
         
       },
+    },{id: "post-amp-91-papers-amp-93-generalizable-and-animatable-gaussian-head-avatar-amp-40-neurips-2024-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; Generalizable and Animatable Gaussian Head Avatar &amp;#40;NeurIPS 2024&amp;#41;",
+      
+      description: "Code Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2024/papers_GAGAvatars/";
+        
+      },
     },{id: "news-a-simple-inline-announcement",
           title: 'A simple inline announcement.',
           description: "",
