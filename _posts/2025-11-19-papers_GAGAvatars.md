@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "&#91;Papers&#93; Generalizable and Animatable Gaussian Head Avatar &#40;NeurIPS 2024&#41;"
-date: 2024-10-10
+date: 2025-11-19
 description: Code Review
 tags: Paper
 categories: Paper
