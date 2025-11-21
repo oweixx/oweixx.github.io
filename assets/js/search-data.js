@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-generalizable-and-animatable-gaussian-head-avatar-amp-40-neurips-2024-amp-41",
+        },{id: "post-amp-91-papers-amp-93-one-step-image-translation-with-text-to-image-models-amp-40-preprint-amp-41",
+      
+        title: "&amp;#91;Papers&amp;#93; One-Step Image Translation with Text-to-Image Models &amp;#40;Preprint&amp;#41;",
+      
+      description: "Code Review",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/papers_img2img_turbo/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-generalizable-and-animatable-gaussian-head-avatar-amp-40-neurips-2024-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; Generalizable and Animatable Gaussian Head Avatar &amp;#40;NeurIPS 2024&amp;#41;",
       
