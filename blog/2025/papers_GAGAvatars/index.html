@@ -333,6 +333,151 @@
     <span class="sh">'</span><span class="s">gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">gen_images</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="sh">'</span><span class="s">sr_gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">sr_gen_images</span>
 <span class="p">}</span>
 <span class="k">return</span> <span class="n">results</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <hr> <h2 id="2-forward_expression">2. forward_expression</h2> <p>위에서 Reconstruction branch에서의 Dual-lifting gaussian과 expression branch에서의 gaussian을 concat하여 하나의 gaussian으로 표현하는 것 까지 보았다.</p> <p>이번 <code class="language-plaintext highlighter-rouge">forward_expression</code>에서는 expression 하는 것에 대해서는 어떻게 forward되는 것인지에 대한 부분이다. 위의 기존 <code class="language-plaintext highlighter-rouge">forward</code>를 진행했다는 가정하에 <code class="language-plaintext highlighter-rouge">_gs_params</code>에는 기존 Source image에 대한 reconstruction gaussian과 expression gaussian이 concat되어 있는 상황이다. 입력으로 들어오는 batch의 t_points를 이용하여 expression gaussian의 point 좌표를 해당 t_points로 갈아끼워 준다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td> <td class="code"><pre><span class="nd">@torch.no_grad</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">forward_expression</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nf">hasattr</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">'</span><span class="s">_gs_params</span><span class="sh">'</span><span class="p">):</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">f_image</span><span class="sh">'</span><span class="p">].</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">f_image</span><span class="p">,</span> <span class="n">f_planes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">f_image</span><span class="sh">'</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">f_planes</span><span class="sh">'</span><span class="p">]</span>
+        <span class="n">f_feature0</span><span class="p">,</span> <span class="n">f_feature1</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">base_model</span><span class="p">(</span><span class="n">f_image</span><span class="p">)</span>
+        <span class="c1"># dir encoding
+</span>        <span class="n">plane_direnc</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">harmo_encoder</span><span class="p">(</span><span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_dirs</span><span class="sh">'</span><span class="p">])</span>
+        <span class="c1"># global part
+</span>        <span class="n">gs_params_g</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_g</span><span class="p">(</span>
+            <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span>
+                    <span class="n">self</span><span class="p">.</span><span class="n">head_base</span><span class="p">[</span><span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">f_feature1</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">].</span><span class="nf">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5023</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> 
+                <span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span>
+            <span class="p">),</span> <span class="n">plane_direnc</span>
+        <span class="p">)</span>
+        <span class="n">gs_params_g</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">f_image</span><span class="sh">'</span><span class="p">].</span><span class="nf">new_zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">5023</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># local part
+</span>        <span class="n">gs_params_l0</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_l0</span><span class="p">(</span><span class="n">f_feature0</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">)</span>
+        <span class="n">gs_params_l1</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">gs_generator_l1</span><span class="p">(</span><span class="n">f_feature0</span><span class="p">,</span> <span class="n">plane_direnc</span><span class="p">)</span>
+        <span class="n">gs_params_l0</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_points</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">gs_params_l0</span><span class="p">[</span><span class="sh">'</span><span class="s">positions</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_dirs</span><span class="sh">'</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="n">gs_params_l1</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_points</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">gs_params_l1</span><span class="p">[</span><span class="sh">'</span><span class="s">positions</span><span class="sh">'</span><span class="p">]</span> <span class="o">*</span> <span class="n">f_planes</span><span class="p">[</span><span class="sh">'</span><span class="s">plane_dirs</span><span class="sh">'</span><span class="p">][:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="n">gs_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span><span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">gs_params_g</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">gs_params_l0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">gs_params_l1</span><span class="p">[</span><span class="n">k</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gs_params_g</span><span class="p">.</span><span class="nf">keys</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">_gs_params</span> <span class="o">=</span> <span class="n">gs_params</span>
+    <span class="n">gs_params</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">_gs_params</span>
+    <span class="n">t_image</span><span class="p">,</span> <span class="n">t_points</span><span class="p">,</span> <span class="n">t_transform</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">t_image</span><span class="sh">'</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">t_points</span><span class="sh">'</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="sh">'</span><span class="s">t_transform</span><span class="sh">'</span><span class="p">]</span>
+    <span class="n">gs_params</span><span class="p">[</span><span class="sh">'</span><span class="s">xyz</span><span class="sh">'</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">5023</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_points</span>
+    <span class="n">gen_images</span> <span class="o">=</span> <span class="nf">render_gaussian</span><span class="p">(</span>
+        <span class="n">gs_params</span><span class="o">=</span><span class="n">gs_params</span><span class="p">,</span> <span class="n">cam_matrix</span><span class="o">=</span><span class="n">t_transform</span><span class="p">,</span> <span class="n">cam_params</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">cam_params</span>
+    <span class="p">)[</span><span class="sh">'</span><span class="s">images</span><span class="sh">'</span><span class="p">]</span>
+    <span class="n">sr_gen_images</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">upsampler</span><span class="p">(</span><span class="n">gen_images</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">t_image</span><span class="sh">'</span><span class="p">:</span><span class="n">t_image</span><span class="p">,</span> <span class="sh">'</span><span class="s">gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">gen_images</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="sh">'</span><span class="s">sr_gen_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">sr_gen_images</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">results</span>
+</pre></td> </tr></tbody></table></code></pre></figure> <p>의식의 흐름대로.. 그럼 batch에는 어떤 data가 들어오는 것인지를 따라가보면… 입력으로 들어오는 driven의 frame을 입력으로 받아서 <code class="language-plaintext highlighter-rouge">self.flame_model</code>에서 해당 frame의 index를 이용하여 t_points를 예측하게된다. 그렇다면 또 궁금해지는 부분이… <code class="language-plaintext highlighter-rouge">self.flame_model</code>에서 어떻게 t_points를 예측할 수 있는 것인가? 그것은 또 앞을 보면 되는데….</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td> <td class="code"><pre><span class="c1"># core/data/loader_track.py
+</span><span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="n">frame_key</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">_frames</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nf">_load_one_record</span><span class="p">(</span><span class="n">frame_key</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_load_one_record</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">frame_key</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nf">hasattr</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="sh">'</span><span class="s">_lmdb_engine</span><span class="sh">'</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="nf">_init_lmdb_database</span><span class="p">()</span>
+    <span class="n">this_record</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">_data</span><span class="p">[</span><span class="n">frame_key</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">this_record</span><span class="p">.</span><span class="nf">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">this_record</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">this_record</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">(</span><span class="n">this_record</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="n">t_image</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">_lmdb_engine</span><span class="p">[</span><span class="n">frame_key</span><span class="p">].</span><span class="nf">float</span><span class="p">()</span> <span class="o">/</span> <span class="mf">255.0</span>
+    <span class="n">t_points</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">flame_model</span><span class="p">(</span>
+        <span class="n">shape_params</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">f_shape</span><span class="p">[</span><span class="bp">None</span><span class="p">],</span> <span class="n">pose_params</span><span class="o">=</span><span class="n">this_record</span><span class="p">[</span><span class="sh">'</span><span class="s">posecode</span><span class="sh">'</span><span class="p">][</span><span class="bp">None</span><span class="p">],</span>
+        <span class="n">expression_params</span><span class="o">=</span><span class="n">this_record</span><span class="p">[</span><span class="sh">'</span><span class="s">expcode</span><span class="sh">'</span><span class="p">][</span><span class="bp">None</span><span class="p">],</span> <span class="n">eye_pose_params</span><span class="o">=</span><span class="n">this_record</span><span class="p">[</span><span class="sh">'</span><span class="s">eyecode</span><span class="sh">'</span><span class="p">][</span><span class="bp">None</span><span class="p">],</span>
+    <span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nf">float</span><span class="p">()</span>
+    <span class="n">one_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">f_image</span><span class="sh">'</span><span class="p">:</span> <span class="nf">deepcopy</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">f_image</span><span class="p">),</span> <span class="sh">'</span><span class="s">f_planes</span><span class="sh">'</span><span class="p">:</span> <span class="nf">deepcopy</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">f_planes</span><span class="p">),</span> 
+        <span class="sh">'</span><span class="s">t_image</span><span class="sh">'</span><span class="p">:</span> <span class="n">t_image</span><span class="p">,</span> <span class="sh">'</span><span class="s">t_points</span><span class="sh">'</span><span class="p">:</span> <span class="n">t_points</span><span class="p">,</span> <span class="sh">'</span><span class="s">t_transform</span><span class="sh">'</span><span class="p">:</span> <span class="n">this_record</span><span class="p">[</span><span class="sh">'</span><span class="s">transform_matrix</span><span class="sh">'</span><span class="p">],</span> 
+        <span class="sh">'</span><span class="s">infos</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span><span class="sh">'</span><span class="s">t_key</span><span class="sh">'</span><span class="p">:</span><span class="n">frame_key</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">one_data</span>    
+</pre></td> </tr></tbody></table></code></pre></figure> <p><code class="language-plaintext highlighter-rouge">inference.py</code>를 살펴보면 애초에 <code class="language-plaintext highlighter-rouge">train.py</code>를 통해 driver_data가 있다고 가정을 한다. 만약 없을 경우 tracking을 하게 되는데, 결국엔 tracking을 함으로써 driver_data를 얻게 된다.</p> <figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr>
+<td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td> <td class="code"><pre><span class="c1"># inference.py
+</span><span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">isdir</span><span class="p">(</span><span class="n">driver_path</span><span class="p">):</span>
+    <span class="n">driver_name</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">driver_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">driver_path</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span> <span class="k">else</span> <span class="n">driver_path</span><span class="p">)</span>
+    <span class="n">driver_dataset</span> <span class="o">=</span> <span class="nc">DriverData</span><span class="p">(</span><span class="n">driver_path</span><span class="p">,</span> <span class="n">feature_data</span><span class="p">,</span> <span class="n">meta_cfg</span><span class="p">.</span><span class="n">DATASET</span><span class="p">.</span><span class="n">POINT_PLANE_SIZE</span><span class="p">)</span>
+    <span class="n">driver_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">driver_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">driver_name</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">driver_path</span><span class="p">).</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">.</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">driver_data</span> <span class="o">=</span> <span class="nf">get_tracked_results</span><span class="p">(</span><span class="n">driver_path</span><span class="p">,</span> <span class="n">track_engine</span><span class="p">,</span> <span class="n">force_retrack</span><span class="o">=</span><span class="n">force_retrack</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">driver_data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Finish inference, no face in driver: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s">.</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">driver_dataset</span> <span class="o">=</span> <span class="nc">DriverData</span><span class="p">({</span><span class="n">driver_name</span><span class="p">:</span> <span class="n">driver_data</span><span class="p">},</span> <span class="n">feature_data</span><span class="p">,</span> <span class="n">meta_cfg</span><span class="p">.</span><span class="n">DATASET</span><span class="p">.</span><span class="n">POINT_PLANE_SIZE</span><span class="p">)</span>
+    <span class="n">driver_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">driver_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></td> </tr></tbody></table></code></pre></figure> </div> </article> <br> <hr> <br> <ul class="list-disc pl-8"></ul> <h2 class="text-3xl font-semibold mb-4 mt-12">Enjoy Reading This Article?</h2> <p class="mb-2">Here are some more articles you might like to read next:</p> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_img2img_turbo/">[Papers] One-Step Image Translation with Text-to-Image Models (Preprint)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_FaceLift/">[Papers] FaceLift: Learning Generalizable Single Image 3D Face Reconstruction from Synthetic Heads (ICCV 2025)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_CAP4D/">[Papers] CAP4D: Creating Animatable 4D Portrait Avatars with Morphable Multi-View Diffusion Models (CVPR 2025 Oral)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_GaussianAvatars/">[Papers] GaussianAvatars: Photorealistic Head Avatars with Rigged 3D Gaussians (CVPR 2024 Highlight)</a> </li> <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/blog/2025/papers_FLAME/">[Papers] Learning a model of facial shape and expression from 4D scans (SIGGRAPH 2017)</a> </li> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 owei . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?12775fdf7f95e901d7119054556e495f" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
     addBackToTop();
   </script> </body> </html>
