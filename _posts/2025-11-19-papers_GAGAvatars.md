@@ -242,3 +242,95 @@ results = {
 }
 return results
 {% endhighlight %}
+
+---
+## 2. forward_expression
+
+위에서 Reconstruction branch에서의 Dual-lifting gaussian과 expression branch에서의 gaussian을 concat하여 하나의 gaussian으로 표현하는 것 까지 보았다.
+
+이번 ```forward_expression```에서는 expression 하는 것에 대해서는 어떻게 forward되는 것인지에 대한 부분이다. 
+위의 기존 ```forward```를 진행했다는 가정하에 ```_gs_params```에는 기존 Source image에 대한 reconstruction gaussian과 expression gaussian이 concat되어 있는 상황이다. 입력으로 들어오는 batch의 t_points를 이용하여 expression gaussian의 point 좌표를 해당 t_points로 갈아끼워 준다.
+
+{% highlight python linenos %}
+@torch.no_grad()
+def forward_expression(self, batch):
+    if not hasattr(self, '_gs_params'):
+        batch_size = batch['f_image'].shape[0]
+        f_image, f_planes = batch['f_image'], batch['f_planes']
+        f_feature0, f_feature1 = self.base_model(f_image)
+        # dir encoding
+        plane_direnc = self.harmo_encoder(f_planes['plane_dirs'])
+        # global part
+        gs_params_g = self.gs_generator_g(
+            torch.cat([
+                    self.head_base[None].expand(batch_size, -1, -1), f_feature1[:, None].expand(-1, 5023, -1), 
+                ], dim=-1
+            ), plane_direnc
+        )
+        gs_params_g['xyz'] = batch['f_image'].new_zeros((batch_size, 5023, 3))
+        # local part
+        gs_params_l0 = self.gs_generator_l0(f_feature0, plane_direnc)
+        gs_params_l1 = self.gs_generator_l1(f_feature0, plane_direnc)
+        gs_params_l0['xyz'] = f_planes['plane_points'] + gs_params_l0['positions'] * f_planes['plane_dirs'][:, None]
+        gs_params_l1['xyz'] = f_planes['plane_points'] + -1 * gs_params_l1['positions'] * f_planes['plane_dirs'][:, None]
+        gs_params = {
+            k:torch.cat([gs_params_g[k], gs_params_l0[k], gs_params_l1[k]], dim=1) for k in gs_params_g.keys()
+        }
+        self._gs_params = gs_params
+    gs_params = self._gs_params
+    t_image, t_points, t_transform = batch['t_image'], batch['t_points'], batch['t_transform']
+    gs_params['xyz'][:, :5023] = t_points
+    gen_images = render_gaussian(
+        gs_params=gs_params, cam_matrix=t_transform, cam_params=self.cam_params
+    )['images']
+    sr_gen_images = self.upsampler(gen_images)
+    results = {
+        't_image':t_image, 'gen_image': gen_images[:, :3], 'sr_gen_image': sr_gen_images,
+    }
+    return results
+{% endhighlight %}
+
+의식의 흐름대로.. 그럼 batch에는 어떤 data가 들어오는 것인지를 따라가보면... 입력으로 들어오는 driven의 frame을 입력으로 받아서 ```self.flame_model```에서 해당 frame의 index를 이용하여 t_points를 예측하게된다. 그렇다면 또 궁금해지는 부분이... ```self.flame_model```에서 어떻게 t_points를 예측할 수 있는 것인가? 그것은 또 앞을 보면 되는데....
+
+{% highlight python linenos %}
+# core/data/loader_track.py
+def __getitem__(self, index):
+    frame_key = self._frames[index]
+    return self._load_one_record(frame_key)
+def _load_one_record(self, frame_key):
+    if not hasattr(self, '_lmdb_engine'):
+        self._init_lmdb_database()
+    this_record = self._data[frame_key]
+    for key in this_record.keys():
+        if isinstance(this_record[key], np.ndarray):
+            this_record[key] = torch.tensor(this_record[key])
+    t_image = self._lmdb_engine[frame_key].float() / 255.0
+    t_points = self.flame_model(
+        shape_params=self.f_shape[None], pose_params=this_record['posecode'][None],
+        expression_params=this_record['expcode'][None], eye_pose_params=this_record['eyecode'][None],
+    )[0].float()
+    one_data = {
+        'f_image': deepcopy(self.f_image), 'f_planes': deepcopy(self.f_planes), 
+        't_image': t_image, 't_points': t_points, 't_transform': this_record['transform_matrix'], 
+        'infos': {'t_key':frame_key},
+    }
+    return one_data    
+{% endhighlight %}
+
+```inference.py```를 살펴보면 애초에 ```train.py```를 통해 driver_data가 있다고 가정을 한다. 만약 없을 경우 tracking을 하게 되는데, 결국엔 tracking을 함으로써 driver_data를 얻게 된다. 
+
+{% highlight python linenos %}
+# inference.py
+if os.path.isdir(driver_path):
+    driver_name = os.path.basename(driver_path[:-1] if driver_path.endswith('/') else driver_path)
+    driver_dataset = DriverData(driver_path, feature_data, meta_cfg.DATASET.POINT_PLANE_SIZE)
+    driver_dataloader = torch.utils.data.DataLoader(driver_dataset, batch_size=1, num_workers=2, shuffle=False)
+else:
+    driver_name = os.path.basename(driver_path).split('.')[0]
+    driver_data = get_tracked_results(driver_path, track_engine, force_retrack=force_retrack)
+    if driver_data is None:
+        print(f'Finish inference, no face in driver: {image_path}.')
+        return
+    driver_dataset = DriverData({driver_name: driver_data}, feature_data, meta_cfg.DATASET.POINT_PLANE_SIZE)
+    driver_dataloader = torch.utils.data.DataLoader(driver_dataset, batch_size=1, num_workers=2, shuffle=False)
+{% endhighlight %}
