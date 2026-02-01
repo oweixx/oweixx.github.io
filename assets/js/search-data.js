@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-papers-amp-93-one-step-image-translation-with-text-to-image-models-amp-40-preprint-amp-41",
+        },{id: "post-amp-91-research-amp-93-cvpr-2026-rebuttal",
+      
+        title: "&amp;#91;Research&amp;#93; CVPR 2026 Rebuttal",
+      
+      description: "CVPR 2026 Rebuttal 회고",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2026/Research_rebuttal/";
+        
+      },
+    },{id: "post-amp-91-papers-amp-93-one-step-image-translation-with-text-to-image-models-amp-40-preprint-amp-41",
       
         title: "&amp;#91;Papers&amp;#93; One-Step Image Translation with Text-to-Image Models &amp;#40;Preprint&amp;#41;",
       
