@@ -16,7 +16,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "post-amp-91-research-amp-93-cvpr-2026-rebuttal",
+        },{id: "post-amp-91-research-amp-93-cvpr-2026-final-decision",
+      
+        title: "&amp;#91;Research&amp;#93; CVPR 2026 Final Decision",
+      
+      description: "CVPR 2026 Final Decision",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2026/Research_decision/";
+        
+      },
+    },{id: "post-amp-91-research-amp-93-cvpr-2026-rebuttal",
       
         title: "&amp;#91;Research&amp;#93; CVPR 2026 Rebuttal",
       
