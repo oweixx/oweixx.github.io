@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Academic Portfolio Template — 3 Variants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #f0eee9; }
+    body { font-family: var(--font-sans); }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Sample data + variants -->
+  <script src="data/sample.js"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="variants/classic.jsx"></script>
+  <script type="text/babel" src="variants/editorial.jsx"></script>
+  <script type="text/babel" src="variants/lab.jsx"></script>
+
+  <script type="text/babel">
+    function App() {
+      return (
+        <DesignCanvas>
+          <DCSection
+            id="overview"
+            title="Academic Portfolio — Template"
+            subtitle="3 variants over the same data. Edit data/sample.js once; all three update.">
+            <DCArtboard id="classic" label="A · Classic — minimal, single column" width={760} height={2000}>
+              <ClassicCV />
+            </DCArtboard>
+            <DCArtboard id="editorial" label="B · Editorial — newspaper / journal" width={960} height={2200}>
+              <EditorialCV />
+            </DCArtboard>
+            <DCArtboard id="lab" label="C · Compact Grid — research lab" width={1220} height={2200}>
+              <LabCV />
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection
+            id="usage"
+            title="How to use"
+            subtitle="Pick a variant → copy the matching index.html bundle → edit data/sample.js → push to <username>.github.io">
+            <DCArtboard id="readme" label="README" width={760} height={680}>
+              <div style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: 14,
+                lineHeight: 1.6,
+                color: "var(--ink-2)",
+                background: "var(--paper)",
+                padding: "40px 56px",
+                height: "100%",
+              }}>
+                <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 30, fontWeight: 500, color: "var(--ink)", margin: 0, letterSpacing: "-0.01em" }}>
+                  Academic Portfolio Template
+                </h1>
+                <p style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: 8 }}>
+                  3 variants · github pages ready · placeholders only
+                </p>
+
+                <h2 style={{ fontFamily: "var(--font-serif)", fontSize: 18, fontWeight: 500, marginTop: 28, marginBottom: 8, color: "var(--ink)" }}>1. Choose a variant</h2>
+                <ul style={{ paddingLeft: 18, listStyle: "disc", color: "var(--ink-2)" }}>
+                  <li><b>Classic</b> — closest to a traditional academic homepage. Single column, restrained.</li>
+                  <li><b>Editorial</b> — large display serif, drop-cap intro, magazine-grid imagery.</li>
+                  <li><b>Compact Grid</b> — sticky side rail + dense two-column layout, monospaced metadata.</li>
+                </ul>
+
+                <h2 style={{ fontFamily: "var(--font-serif)", fontSize: 18, fontWeight: 500, marginTop: 24, marginBottom: 8, color: "var(--ink)" }}>2. Replace the placeholders</h2>
+                <p>All content lives in <code style={{ fontFamily: "var(--font-mono)", background: "var(--paper-2)", padding: "1px 6px", borderRadius: 3 }}>data/sample.js</code>. Search for <code style={{ fontFamily: "var(--font-mono)", background: "var(--accent-soft)", color: "var(--accent)", padding: "1px 6px", borderRadius: 3 }}>{`{{`}</code> — every value wrapped in double curly braces is a placeholder. Replace them with your own info.</p>
+
+                <h2 style={{ fontFamily: "var(--font-serif)", fontSize: 18, fontWeight: 500, marginTop: 24, marginBottom: 8, color: "var(--ink)" }}>3. Drop in real assets</h2>
+                <p>Striped boxes labeled <i>photo / logo / figure / thumb</i> are placeholder slots. Add your image to <code style={{ fontFamily: "var(--font-mono)" }}>assets/</code> and set the path in <code style={{ fontFamily: "var(--font-mono)" }}>data/sample.js</code>.</p>
+
+                <h2 style={{ fontFamily: "var(--font-serif)", fontSize: 18, fontWeight: 500, marginTop: 24, marginBottom: 8, color: "var(--ink)" }}>4. Deploy to GitHub Pages</h2>
+                <p>Once you've picked a variant, the <code style={{ fontFamily: "var(--font-mono)" }}>deploy/</code> folder contains a clean standalone <code style={{ fontFamily: "var(--font-mono)" }}>index.html</code> per variant — copy the contents to your <code style={{ fontFamily: "var(--font-mono)" }}>username.github.io</code> repo.</p>
+              </div>
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

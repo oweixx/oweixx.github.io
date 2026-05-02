@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio Editor — Fill your info</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --paper:    #ffffff;
+      --paper-2:  #f5f3ee;
+      --ink:      #1a1814;
+      --ink-2:    #3d3830;
+      --ink-3:    #6b6358;
+      --rule:     #d8d1c4;
+      --rule-2:   #ebe5d9;
+      --link:     #1a1814;
+      --link-hov: oklch(0.55 0.14 50);
+      --accent:   oklch(0.55 0.14 50);
+      --accent-soft: oklch(0.55 0.14 50 / 0.10);
+      --panel-bg: #f0eee9;
+
+      --font-serif: "Source Serif 4", Georgia, serif;
+      --font-sans:  "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono:  "JetBrains Mono", ui-monospace, Menlo, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body, #root { margin: 0; padding: 0; height: 100%; }
+    body { font-family: var(--font-sans); color: var(--ink); background: var(--panel-bg); -webkit-font-smoothing: antialiased; }
+
+    /* App shell */
+    .shell { display: grid; grid-template-columns: 460px 1fr; height: 100vh; }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; grid-template-rows: 50% 50%; } }
+
+    /* Left panel — editor */
+    .editor {
+      background: var(--panel-bg);
+      border-right: 1px solid var(--rule);
+      overflow-y: auto;
+      padding: 20px 24px 80px;
+    }
+    .editor-head {
+      position: sticky;
+      top: 0;
+      background: var(--panel-bg);
+      padding: 4px 0 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--rule-2);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .editor-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      flex: 1;
+    }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--rule);
+      background: white;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn:hover { border-color: var(--ink-2); }
+    .btn-primary { background: var(--ink); color: white; border-color: var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* Sections */
+    details.sec {
+      background: white;
+      border: 1px solid var(--rule-2);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    details.sec[open] { border-color: var(--rule); }
+    details.sec > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    details.sec > summary::-webkit-details-marker { display: none; }
+    details.sec > summary::before {
+      content: "▸";
+      color: var(--ink-3);
+      font-size: 10px;
+      transition: transform .15s;
+    }
+    details.sec[open] > summary::before { transform: rotate(90deg); }
+    .sec-count {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-3);
+      background: var(--paper-2);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .sec-body { padding: 4px 14px 14px; border-top: 1px solid var(--rule-2); }
+
+    /* Form fields */
+    .field { margin-top: 10px; }
+    .field-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+    .input, .textarea, .select {
+      width: 100%;
+      padding: 7px 10px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--paper-2);
+      border: 1px solid transparent;
+      border-radius: 5px;
+      transition: all .12s;
+      resize: vertical;
+    }
+    .input:focus, .textarea:focus { outline: none; background: white; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .textarea { min-height: 60px; line-height: 1.5; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    /* Repeater */
+    .item-card {
+      background: var(--paper-2);
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid transparent;
+    }
+    .item-head {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .item-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent);
+      background: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+    }
+    .item-actions { margin-left: auto; display: flex; gap: 4px; }
+    .icon-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: var(--ink-3);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .12s;
+    }
+    .icon-btn:hover { background: white; color: var(--ink); }
+    .icon-btn.danger:hover { background: oklch(0.55 0.18 25 / 0.1); color: oklch(0.5 0.18 25); }
+
+    .add-btn {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      border: 1px dashed var(--rule);
+      background: transparent;
+      border-radius: 5px;
+      color: var(--ink-3);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .12s;
+    }
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+    .help {
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    /* Right — preview */
+    .preview-wrap {
+      overflow-y: auto;
+      background: var(--panel-bg);
+      position: relative;
+    }
+    .preview-bar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel-bg);
+      border-bottom: 1px solid var(--rule-2);
+      padding: 10px 18px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .preview-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    iframe.preview {
+      width: 100%;
+      height: calc(100vh - 41px);
+      border: 0;
+      background: white;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--ink);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 10;
+      animation: toast-in .25s ease-out;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tip banner */
+    .tip {
+      background: var(--accent-soft);
+      border: 1px solid oklch(0.55 0.14 50 / 0.25);
+      color: oklch(0.4 0.14 50);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .tip b { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    // ─────────────────────────────────────────────────────────
+    // Default data — same shape as the rendered page
+    // ─────────────────────────────────────────────────────────
+    const DEFAULT_DATA = {
+      name: "Your Name",
+      email: "your.email@institution.edu",
+      photoUrl: "",
+      bio: [
+        "I am a research scientist intern at [Organization 1], also a final year Ph.D. student at [Your Institution] [Your Lab].",
+        "My research aims to build [your one-sentence research mission].",
+        "Specifically, I love solving [specific problem area you work on].",
+      ],
+      links: [
+        { label: "CV", href: "#" },
+        { label: "Google Scholar", href: "#" },
+        { label: "LinkedIn", href: "#" },
+        { label: "Twitter", href: "#" },
+        { label: "GitHub", href: "#" },
+      ],
+      experience: [
+        { org: "Organization", role: "Your Role", location: "City, Country", note: "Working on TOPIC (Manager: NAME)", period: "Mon ’YY – Present", logoUrl: "" },
+        { org: "Previous Org", role: "Your Role", location: "City, Country", note: "Short description", period: "Mon ’YY – Mon ’YY", logoUrl: "" },
+        { org: "Home Institution", role: "Ph.D. Candidate", location: "City, Country (Advisor: NAME)", note: "", period: "Sep ’20 – Feb ’27 (Expected)", logoUrl: "" },
+      ],
+      highlights: [
+        { title: "Project 1", venue: "VENUE ’YY", href: "#", thumbUrl: "" },
+        { title: "Project 2", venue: "VENUE ’YY", href: "#", thumbUrl: "" },
+        { title: "Project 3", venue: "VENUE ’YY", href: "#", thumbUrl: "" },
+        { title: "Project 4", venue: "VENUE ’YY", href: "#", thumbUrl: "" },
+      ],
+      publications: [
+        { title: "Paper Title", authors: "Author A, Author B, **You**, Author C", venue: "Conference / Journal", year: "2026", links: "Project|#, PDF|#, Code|#", thumbUrl: "" },
+      ],
+      awards: [
+        "Award name, Organization, 2024",
+        "Award name, Organization, 2023",
+      ],
+      services: {
+        conferences: [
+          "CVPR: 2024, 2025",
+          "ICCV: 2023, 2025",
+          "NeurIPS: 2024, 2025",
+        ],
+        journals: [
+          "TPAMI: 2024, 2025",
+          "IJCV: 2024, 2025",
+        ],
+      },
+    };
+
+    const STORAGE_KEY = "portfolio-editor-data-v1";
+
+    function loadData() {
+      try {
+        const s = localStorage.getItem(STORAGE_KEY);
+        if (s) return JSON.parse(s);
+      } catch (e) {}
+      return DEFAULT_DATA;
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Build the rendered HTML for the iframe / download
+    // Uses the SAME styles as template.html
+    // ─────────────────────────────────────────────────────────
+    function escHtml(s) {
+      if (s == null) return "";
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    // Limited inline markup: [text](url) → link, **text** → bold
+    function inlineMd(s) {
+      if (!s) return "";
+      let out = escHtml(s);
+      out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, t, u) => `<a href="${escHtml(u)}">${t}</a>`);
+      out = out.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+      return out;
+    }
+
+    function imgOrPh(url, label) {
+      if (url && url.trim()) return `<img src="${escHtml(url)}" alt="" />`;
+      return `<div class="ph">${escHtml(label)}</div>`;
+    }
+
+    function parseLinks(s) {
+      // "Label|url, Label|url"
+      if (!s) return [];
+      return s.split(",").map(p => {
+        const [label, href] = p.split("|").map(x => (x || "").trim());
+        return { label: label || "Link", href: href || "#" };
+      }).filter(l => l.label);
+    }
+
+    function buildHtml(d) {
+      const css = `
+:root {
+  --paper:#ffffff; --paper-2:#f5f3ee; --ink:#1a1814; --ink-2:#3d3830; --ink-3:#6b6358;
+  --rule:#e2dccf; --rule-2:#eee9dd; --link:#1a1814; --link-hov:oklch(0.55 0.14 50);
+  --shape-1:oklch(0.55 0.14 50);
+  --shape-2:oklch(0.65 0.10 220);
+  --shape-3:oklch(0.7 0.12 140);
+  --shape-4:oklch(0.55 0.14 50);
+  --font-serif:"Source Serif 4",Georgia,serif;
+  --font-sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --measure:760px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:15px;line-height:1.62;color:var(--ink);background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+
+/* ── Clean white background ── */
+.page{position:relative;z-index:1}
+h1,h2,h3{margin:0;font-weight:500}p{margin:0}ul{margin:0;padding:0;list-style:none}
+img{display:block;max-width:100%}
+a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--rule)}
+a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
+.page{max-width:var(--measure);margin:0 auto;padding:64px 24px 96px}
+.hero{display:grid;grid-template-columns:160px 1fr;gap:28px;align-items:start;margin-bottom:48px}
+.hero-photo{width:160px;height:160px;border-radius:50%;overflow:hidden;background:var(--paper-2)}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+.hero-name{font-family:var(--font-serif);font-size:38px;font-weight:500;letter-spacing:-0.015em;line-height:1.05}
+.hero-email{font-family:var(--font-mono);font-size:13px;color:var(--ink-3);margin-top:8px}
+.hero-bio{margin-top:18px;color:var(--ink-2)}
+.hero-bio p{margin-bottom:8px}.hero-bio p:last-child{margin-bottom:0}
+.hero-links{display:flex;flex-wrap:wrap;gap:0 12px;align-items:center;margin-top:18px;font-size:14px}
+.hero-links .sep{color:var(--rule);border:0}
+.h2{font-family:var(--font-serif);font-size:22px;font-weight:500;margin:56px 0 20px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.exp-row{display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:start;padding:14px 0;border-bottom:1px solid var(--rule-2)}
+.exp-logo{width:56px;height:56px;border-radius:4px;overflow:hidden;background:var(--paper-2);display:flex;align-items:center;justify-content:center}
+.exp-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
+.exp-role{font-weight:600}
+.exp-org{color:var(--ink-2);font-size:14px}
+.exp-note{color:var(--ink-3);font-size:14px;margin-top:4px}
+.exp-meta{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);white-space:nowrap;text-align:right;padding-top:4px}
+.highlights{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.h-card{display:block;border:0}
+.h-card:hover .h-title{color:var(--link-hov)}
+.h-thumb{aspect-ratio:1/1;border-radius:6px;overflow:hidden;background:var(--paper-2)}
+.h-thumb img{width:100%;height:100%;object-fit:cover}
+.h-title{font-size:14px;margin-top:8px;font-weight:500;transition:color .15s}
+.h-venue{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-top:2px}
+.pub-row{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--rule-2)}
+.pub-thumb{width:110px;height:76px;border-radius:4px;overflow:hidden;background:var(--paper-2)}
+.pub-thumb img{width:100%;height:100%;object-fit:cover}
+.pub-title{font-family:var(--font-serif);font-size:17px;font-weight:500;line-height:1.3}
+.pub-authors{font-size:14px;color:var(--ink-2);margin-top:4px}
+.pub-venue{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+.pub-links{display:flex;gap:12px;margin-top:8px;font-family:var(--font-mono);font-size:11px}
+.pub-links a{color:var(--link-hov);border-bottom:0;text-transform:uppercase;letter-spacing:.06em}
+.bullets li{padding:6px 0;color:var(--ink-2);font-size:14.5px;display:grid;grid-template-columns:18px 1fr;gap:8px}
+.bullets li::before{content:"·";color:var(--ink-3);font-weight:700}
+.services-group .label{font-weight:600;color:var(--ink);margin-bottom:4px}
+.services-group .sub{padding-left:18px}
+.services-group .sub li{padding:3px 0;grid-template-columns:14px 1fr;font-size:14px}
+.services-group .sub li::before{content:"+";color:var(--ink-3)}
+.ph{width:100%;height:100%;background-color:var(--paper-2);background-image:repeating-linear-gradient(135deg,transparent 0 8px,rgba(0,0,0,0.05) 8px 9px);display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:640px){.page{padding:40px 20px 64px}.hero{grid-template-columns:1fr;gap:16px}.hero-photo{width:120px;height:120px}.hero-name{font-size:30px}.highlights{grid-template-columns:repeat(2,1fr)}.exp-row{grid-template-columns:44px 1fr}.exp-meta{grid-column:1/-1;text-align:left;padding-top:0}.pub-row{grid-template-columns:1fr}.pub-thumb{width:100%;height:160px}}
+`;
+
+      const linksHtml = d.links.filter(l => l.label).map((l, i) =>
+        `${i > 0 ? '<span class="sep">|</span>' : ''}<a href="${escHtml(l.href || '#')}">${escHtml(l.label)}</a>`
+      ).join("");
+
+      const expHtml = d.experience.map(e => `
+    <div class="exp-row">
+      <div class="exp-logo">${imgOrPh(e.logoUrl, "logo")}</div>
+      <div>
+        <div class="exp-role">${escHtml(e.org)} – ${escHtml(e.role)}</div>
+        <div class="exp-org">${inlineMd(e.location)}</div>
+        ${e.note ? `<div class="exp-note">${inlineMd(e.note)}</div>` : ''}
+      </div>
+      <div class="exp-meta">${escHtml(e.period)}</div>
+    </div>`).join("");
+
+      const hHtml = d.highlights.map(h => `
+      <a class="h-card" href="${escHtml(h.href || '#')}">
+        <div class="h-thumb">${imgOrPh(h.thumbUrl, "project")}</div>
+        <div class="h-title">${escHtml(h.title)}</div>
+        <div class="h-venue">${escHtml(h.venue)}</div>
+      </a>`).join("");
+
+      const pubHtml = d.publications.length === 0
+        ? '<p style="color:var(--ink-3);font-style:italic;font-family:var(--font-serif)">— No publications yet —</p>'
+        : d.publications.map(p => {
+          const lks = parseLinks(p.links);
+          return `
+    <div class="pub-row">
+      <div class="pub-thumb">${imgOrPh(p.thumbUrl, "figure")}</div>
+      <div>
+        <div class="pub-title">${escHtml(p.title)}</div>
+        <div class="pub-authors">${inlineMd(p.authors)}</div>
+        <div class="pub-venue">${escHtml(p.venue)}${p.year ? ' · ' + escHtml(p.year) : ''}</div>
+        ${lks.length ? `<div class="pub-links">${lks.map(l => `<a href="${escHtml(l.href)}">${escHtml(l.label)}</a>`).join("")}</div>` : ''}
+      </div>
+    </div>`;
+        }).join("");
+
+      const awardsHtml = d.awards.filter(a => a.trim()).map(a =>
+        `<li><span></span><span>${inlineMd(a)}</span></li>`
+      ).join("");
+
+      const confHtml = d.services.conferences.filter(s => s.trim()).map(s =>
+        `<li><span></span><span>${inlineMd(s)}</span></li>`
+      ).join("");
+      const jourHtml = d.services.journals.filter(s => s.trim()).map(s =>
+        `<li><span></span><span>${inlineMd(s)}</span></li>`
+      ).join("");
+
+      return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>${escHtml(d.name)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>${css}</style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <div class="hero-photo">${imgOrPh(d.photoUrl, "photo")}</div>
+    <div>
+      <h1 class="hero-name">${escHtml(d.name)}</h1>
+      <div class="hero-email">${escHtml(d.email)}</div>
+      <div class="hero-bio">
+        ${d.bio.filter(p => p.trim()).map(p => `<p>${inlineMd(p)}</p>`).join("")}
+      </div>
+      <nav class="hero-links">${linksHtml}</nav>
+    </div>
+  </header>
+
+  <h2 class="h2">Experience</h2>
+  ${expHtml}
+
+  <h2 class="h2">Highlighted Research</h2>
+  <div class="highlights">${hHtml}</div>
+
+  <h2 class="h2">Publications</h2>
+  ${pubHtml}
+
+  <h2 class="h2">Awards & Honors</h2>
+  <ul class="bullets">${awardsHtml}</ul>
+
+  <h2 class="h2">Academic Services</h2>
+  <ul class="bullets">
+    <li>
+      <span></span>
+      <div class="services-group">
+        <div class="label">Conference Reviewer</div>
+        <ul class="sub">${confHtml}</ul>
+      </div>
+    </li>
+    <li>
+      <span></span>
+      <div class="services-group">
+        <div class="label">Journal Reviewer</div>
+        <ul class="sub">${jourHtml}</ul>
+      </div>
+    </li>
+  </ul>
+</main>
+<` + `script>
+/* (no background script needed) */
+</` + `script>
+</body>
+</html>`;
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Form components
+    // ─────────────────────────────────────────────────────────
+    function Field({ label, children, help }) {
+      return (
+        <div className="field">
+          <label className="field-label">{label}</label>
+          {children}
+          {help && <div className="help">{help}</div>}
+        </div>
+      );
+    }
+
+    function TextInput({ value, onChange, placeholder }) {
+      return <input className="input" value={value || ""} onChange={e => onChange(e.target.value)} placeholder={placeholder} />;
+    }
+    function TextArea({ value, onChange, placeholder, rows }) {
+      return <textarea className="textarea" value={value || ""} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows || 2} />;
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Main app
+    // ─────────────────────────────────────────────────────────
+    function App() {
+      const [data, setData] = useState(loadData);
+      const [toast, setToast] = useState(null);
+      const iframeRef = useRef(null);
+
+      // Persist on every change
+      useEffect(() => {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+      }, [data]);
+
+      const html = useMemo(() => buildHtml(data), [data]);
+
+      // Update iframe via srcdoc
+      useEffect(() => {
+        if (iframeRef.current) iframeRef.current.srcdoc = html;
+      }, [html]);
+
+      function showToast(msg) {
+        setToast(msg);
+        setTimeout(() => setToast(null), 2200);
+      }
+
+      // Mutators
+      const setField = (k, v) => setData(d => ({ ...d, [k]: v }));
+      const setBio = (i, v) => setData(d => ({ ...d, bio: d.bio.map((p, j) => j === i ? v : p) }));
+      const addBio = () => setData(d => ({ ...d, bio: [...d.bio, ""] }));
+      const delBio = (i) => setData(d => ({ ...d, bio: d.bio.filter((_, j) => j !== i) }));
+
+      const setLink = (i, k, v) => setData(d => ({ ...d, links: d.links.map((l, j) => j === i ? { ...l, [k]: v } : l) }));
+      const addLink = () => setData(d => ({ ...d, links: [...d.links, { label: "", href: "" }] }));
+      const delLink = (i) => setData(d => ({ ...d, links: d.links.filter((_, j) => j !== i) }));
+
+      const setExp = (i, k, v) => setData(d => ({ ...d, experience: d.experience.map((e, j) => j === i ? { ...e, [k]: v } : e) }));
+      const addExp = () => setData(d => ({ ...d, experience: [...d.experience, { org: "", role: "", location: "", note: "", period: "", logoUrl: "" }] }));
+      const delExp = (i) => setData(d => ({ ...d, experience: d.experience.filter((_, j) => j !== i) }));
+      const moveExp = (i, dir) => setData(d => {
+        const arr = [...d.experience];
+        const j = i + dir;
+        if (j < 0 || j >= arr.length) return d;
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+        return { ...d, experience: arr };
+      });
+
+      const setH = (i, k, v) => setData(d => ({ ...d, highlights: d.highlights.map((e, j) => j === i ? { ...e, [k]: v } : e) }));
+      const addH = () => setData(d => ({ ...d, highlights: [...d.highlights, { title: "", venue: "", href: "#", thumbUrl: "" }] }));
+      const delH = (i) => setData(d => ({ ...d, highlights: d.highlights.filter((_, j) => j !== i) }));
+
+      const setPub = (i, k, v) => setData(d => ({ ...d, publications: d.publications.map((e, j) => j === i ? { ...e, [k]: v } : e) }));
+      const addPub = () => setData(d => ({ ...d, publications: [...d.publications, { title: "", authors: "", venue: "", year: "", links: "", thumbUrl: "" }] }));
+      const delPub = (i) => setData(d => ({ ...d, publications: d.publications.filter((_, j) => j !== i) }));
+      const movePub = (i, dir) => setData(d => {
+        const arr = [...d.publications];
+        const j = i + dir;
+        if (j < 0 || j >= arr.length) return d;
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+        return { ...d, publications: arr };
+      });
+
+      const setAward = (i, v) => setData(d => ({ ...d, awards: d.awards.map((a, j) => j === i ? v : a) }));
+      const addAward = () => setData(d => ({ ...d, awards: [...d.awards, ""] }));
+      const delAward = (i) => setData(d => ({ ...d, awards: d.awards.filter((_, j) => j !== i) }));
+
+      const setConf = (i, v) => setData(d => ({ ...d, services: { ...d.services, conferences: d.services.conferences.map((a, j) => j === i ? v : a) } }));
+      const addConf = () => setData(d => ({ ...d, services: { ...d.services, conferences: [...d.services.conferences, ""] } }));
+      const delConf = (i) => setData(d => ({ ...d, services: { ...d.services, conferences: d.services.conferences.filter((_, j) => j !== i) } }));
+
+      const setJour = (i, v) => setData(d => ({ ...d, services: { ...d.services, journals: d.services.journals.map((a, j) => j === i ? v : a) } }));
+      const addJour = () => setData(d => ({ ...d, services: { ...d.services, journals: [...d.services.journals, ""] } }));
+      const delJour = (i) => setData(d => ({ ...d, services: { ...d.services, journals: d.services.journals.filter((_, j) => j !== i) } }));
+
+      // Actions
+      function downloadHtml() {
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "index.html";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast("index.html 다운로드됨 — github.io 저장소에 그대로 push하세요");
+      }
+      function exportJson() {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "portfolio-data.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast("데이터를 JSON으로 저장했어요");
+      }
+      function importJson(e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = () => {
+          try {
+            const parsed = JSON.parse(r.result);
+            setData({ ...DEFAULT_DATA, ...parsed });
+            showToast("데이터를 불러왔어요");
+          } catch (err) {
+            showToast("JSON 파싱 실패: " + err.message);
+          }
+        };
+        r.readAsText(file);
+        e.target.value = "";
+      }
+      function resetAll() {
+        if (confirm("모든 입력을 기본값으로 되돌릴까요?")) {
+          setData(DEFAULT_DATA);
+          showToast("초기화됨");
+        }
+      }
+
+      return (
+        <div className="shell">
+          {/* ── Editor ── */}
+          <div className="editor">
+            <div className="editor-head">
+              <div className="editor-title">Portfolio Editor</div>
+              <button className="btn" onClick={resetAll} title="초기화">Reset</button>
+              <button className="btn-primary btn" onClick={downloadHtml}>Download HTML</button>
+            </div>
+
+            <div className="tip">
+              <b>팁:</b> 입력은 자동으로 브라우저에 저장돼요. 텍스트 안에 <code style={{fontFamily:"var(--font-mono)"}}>[글자](url)</code> 또는 <code style={{fontFamily:"var(--font-mono)"}}>**굵게**</code> 표기를 쓰면 링크/볼드가 됩니다.
+            </div>
+
+            {/* Identity */}
+            <details className="sec" open>
+              <summary>1. 기본 정보 (Identity)</summary>
+              <div className="sec-body">
+                <Field label="Name"><TextInput value={data.name} onChange={v => setField("name", v)} placeholder="Your Name" /></Field>
+                <Field label="Email"><TextInput value={data.email} onChange={v => setField("email", v)} placeholder="you@institution.edu" /></Field>
+                <Field label="Photo URL" help="GitHub Pages에 올린 사진의 경로 (예: assets/profile.png) 또는 외부 URL. 비워두면 placeholder가 표시됩니다.">
+                  <TextInput value={data.photoUrl} onChange={v => setField("photoUrl", v)} placeholder="assets/profile.png" />
+                </Field>
+              </div>
+            </details>
+
+            {/* Bio */}
+            <details className="sec" open>
+              <summary>2. 자기소개 (Bio)<span className="sec-count">{data.bio.length}</span></summary>
+              <div className="sec-body">
+                {data.bio.map((p, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">¶ {i + 1}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn danger" onClick={() => delBio(i)} title="삭제">×</button>
+                      </div>
+                    </div>
+                    <TextArea value={p} onChange={v => setBio(i, v)} rows={3} placeholder="Paragraph text. Markdown links: [text](url), bold: **text**" />
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addBio}>+ 단락 추가</button>
+              </div>
+            </details>
+
+            {/* Links */}
+            <details className="sec">
+              <summary>3. 링크 바 (Links)<span className="sec-count">{data.links.length}</span></summary>
+              <div className="sec-body">
+                {data.links.map((l, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn danger" onClick={() => delLink(i)}>×</button>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <TextInput value={l.label} onChange={v => setLink(i, "label", v)} placeholder="Label (e.g. CV)" />
+                      <TextInput value={l.href} onChange={v => setLink(i, "href", v)} placeholder="URL" />
+                    </div>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addLink}>+ 링크 추가</button>
+              </div>
+            </details>
+
+            {/* Experience */}
+            <details className="sec">
+              <summary>4. Experience<span className="sec-count">{data.experience.length}</span></summary>
+              <div className="sec-body">
+                {data.experience.map((e, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn" onClick={() => moveExp(i, -1)} disabled={i === 0}>↑</button>
+                        <button className="icon-btn" onClick={() => moveExp(i, 1)} disabled={i === data.experience.length - 1}>↓</button>
+                        <button className="icon-btn danger" onClick={() => delExp(i)}>×</button>
+                      </div>
+                    </div>
+                    <Field label="Organization"><TextInput value={e.org} onChange={v => setExp(i, "org", v)} /></Field>
+                    <Field label="Role"><TextInput value={e.role} onChange={v => setExp(i, "role", v)} /></Field>
+                    <div className="row">
+                      <Field label="Location"><TextInput value={e.location} onChange={v => setExp(i, "location", v)} /></Field>
+                      <Field label="Period"><TextInput value={e.period} onChange={v => setExp(i, "period", v)} placeholder="Mon ’YY – Present" /></Field>
+                    </div>
+                    <Field label="Note (optional)"><TextArea value={e.note} onChange={v => setExp(i, "note", v)} placeholder="Working on TOPIC (Manager: [Name](url))" /></Field>
+                    <Field label="Logo URL"><TextInput value={e.logoUrl} onChange={v => setExp(i, "logoUrl", v)} placeholder="assets/nvidia_logo.png" /></Field>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addExp}>+ Experience 추가</button>
+              </div>
+            </details>
+
+            {/* Highlights */}
+            <details className="sec">
+              <summary>5. Highlighted Research<span className="sec-count">{data.highlights.length}</span></summary>
+              <div className="sec-body">
+                {data.highlights.map((h, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn danger" onClick={() => delH(i)}>×</button>
+                      </div>
+                    </div>
+                    <Field label="Title"><TextInput value={h.title} onChange={v => setH(i, "title", v)} /></Field>
+                    <div className="row">
+                      <Field label="Venue"><TextInput value={h.venue} onChange={v => setH(i, "venue", v)} placeholder="CVPR ’26" /></Field>
+                      <Field label="Link URL"><TextInput value={h.href} onChange={v => setH(i, "href", v)} /></Field>
+                    </div>
+                    <Field label="Thumbnail URL"><TextInput value={h.thumbUrl} onChange={v => setH(i, "thumbUrl", v)} placeholder="assets/proj_1.gif" /></Field>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addH}>+ Project 추가</button>
+              </div>
+            </details>
+
+            {/* Publications */}
+            <details className="sec">
+              <summary>6. Publications<span className="sec-count">{data.publications.length}</span></summary>
+              <div className="sec-body">
+                {data.publications.map((p, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn" onClick={() => movePub(i, -1)} disabled={i === 0}>↑</button>
+                        <button className="icon-btn" onClick={() => movePub(i, 1)} disabled={i === data.publications.length - 1}>↓</button>
+                        <button className="icon-btn danger" onClick={() => delPub(i)}>×</button>
+                      </div>
+                    </div>
+                    <Field label="Title"><TextInput value={p.title} onChange={v => setPub(i, "title", v)} /></Field>
+                    <Field label="Authors" help="**Your Name**으로 본인 강조 (굵게).">
+                      <TextInput value={p.authors} onChange={v => setPub(i, "authors", v)} placeholder="A, B, **You**, C" />
+                    </Field>
+                    <div className="row">
+                      <Field label="Venue"><TextInput value={p.venue} onChange={v => setPub(i, "venue", v)} /></Field>
+                      <Field label="Year"><TextInput value={p.year} onChange={v => setPub(i, "year", v)} /></Field>
+                    </div>
+                    <Field label="Links" help="형식: Label|url, Label|url (예: PDF|https://..., Code|https://...)">
+                      <TextInput value={p.links} onChange={v => setPub(i, "links", v)} placeholder="PDF|#, Code|#, Project|#" />
+                    </Field>
+                    <Field label="Thumbnail URL"><TextInput value={p.thumbUrl} onChange={v => setPub(i, "thumbUrl", v)} /></Field>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addPub}>+ Publication 추가</button>
+              </div>
+            </details>
+
+            {/* Awards */}
+            <details className="sec">
+              <summary>7. Awards & Honors<span className="sec-count">{data.awards.length}</span></summary>
+              <div className="sec-body">
+                {data.awards.map((a, i) => (
+                  <div key={i} className="item-card">
+                    <div className="item-head">
+                      <span className="item-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="item-actions">
+                        <button className="icon-btn danger" onClick={() => delAward(i)}>×</button>
+                      </div>
+                    </div>
+                    <TextArea value={a} onChange={v => setAward(i, v)} placeholder="Award name, Organization, Year" rows={2} />
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addAward}>+ Award 추가</button>
+              </div>
+            </details>
+
+            {/* Services */}
+            <details className="sec">
+              <summary>8. Academic Services<span className="sec-count">{data.services.conferences.length + data.services.journals.length}</span></summary>
+              <div className="sec-body">
+                <div style={{fontFamily:"var(--font-mono)",fontSize:11,textTransform:"uppercase",letterSpacing:".06em",color:"var(--ink-3)",margin:"6px 0 4px"}}>Conferences</div>
+                {data.services.conferences.map((s, i) => (
+                  <div key={i} className="item-card" style={{display:"flex",gap:6,alignItems:"center"}}>
+                    <input className="input" value={s} onChange={e => setConf(i, e.target.value)} placeholder="CVPR: 2024, 2025" />
+                    <button className="icon-btn danger" onClick={() => delConf(i)}>×</button>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addConf}>+ Conference 추가</button>
+
+                <div style={{fontFamily:"var(--font-mono)",fontSize:11,textTransform:"uppercase",letterSpacing:".06em",color:"var(--ink-3)",margin:"14px 0 4px"}}>Journals</div>
+                {data.services.journals.map((s, i) => (
+                  <div key={i} className="item-card" style={{display:"flex",gap:6,alignItems:"center"}}>
+                    <input className="input" value={s} onChange={e => setJour(i, e.target.value)} placeholder="TPAMI: 2024, 2025" />
+                    <button className="icon-btn danger" onClick={() => delJour(i)}>×</button>
+                  </div>
+                ))}
+                <button className="add-btn" onClick={addJour}>+ Journal 추가</button>
+              </div>
+            </details>
+
+            {/* Backup */}
+            <details className="sec">
+              <summary>· 데이터 백업 / 복원</summary>
+              <div className="sec-body">
+                <p className="help" style={{margin:"6px 0 8px"}}>다른 컴퓨터에서도 작업하려면 JSON으로 내보내세요. 폼 데이터는 이 브라우저에 자동 저장돼요.</p>
+                <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                  <button className="btn" onClick={exportJson}>Export JSON</button>
+                  <label className="btn" style={{cursor:"pointer"}}>
+                    Import JSON
+                    <input type="file" accept=".json,application/json" onChange={importJson} style={{display:"none"}} />
+                  </label>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          {/* ── Preview ── */}
+          <div className="preview-wrap">
+            <div className="preview-bar">
+              <span className="preview-dot"></span>
+              <span>Live preview</span>
+              <span style={{marginLeft:"auto"}}>{Math.round(html.length / 1024)} KB · auto-saved</span>
+            </div>
+            <iframe ref={iframeRef} className="preview" title="preview"></iframe>
+          </div>
+
+          {toast && <div className="toast">{toast}</div>}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

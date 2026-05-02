@@ -1,0 +1,90 @@
+/* ─────────────────────────────────────────────────────────────
+   Academic Portfolio Template — Design Tokens
+   Shared across all 3 variants.
+   Override any token to retheme the whole template.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Color — warm neutral, single accent */
+  --paper: #faf8f3;            /* off-white background */
+  --paper-2: #f3efe6;          /* subtly warmer surface (cards, inset) */
+  --ink: #1a1814;              /* near-black, warm */
+  --ink-2: #3d3830;            /* secondary text */
+  --ink-3: #6b6358;            /* tertiary / meta */
+  --rule: #d8d1c4;             /* hairlines */
+  --rule-2: #ebe5d9;           /* faint hairlines */
+  --accent: oklch(0.55 0.14 50);   /* deep terracotta / rust */
+  --accent-soft: oklch(0.55 0.14 50 / 0.12);
+  --highlight: oklch(0.92 0.06 90); /* paper-warm highlight */
+
+  /* Type */
+  --font-serif: "Source Serif 4", "Source Serif Pro", "Iowan Old Style", "Charter", Georgia, serif;
+  --font-sans: "Inter Tight", "Söhne", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Scale (modular, ratio ~1.2) */
+  --t-xs: 11px;
+  --t-sm: 13px;
+  --t-base: 15px;
+  --t-md: 17px;
+  --t-lg: 20px;
+  --t-xl: 26px;
+  --t-2xl: 34px;
+  --t-3xl: 46px;
+  --t-display: 64px;
+
+  /* Spacing (4px grid) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* Radii */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+
+  /* Misc */
+  --measure: 68ch;
+}
+
+/* Base reset for all variants */
+.cv-reset, .cv-reset * { box-sizing: border-box; }
+.cv-reset {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11";
+}
+.cv-reset a { color: inherit; text-decoration: none; }
+.cv-reset h1, .cv-reset h2, .cv-reset h3, .cv-reset h4 { margin: 0; font-weight: 500; }
+.cv-reset p { margin: 0; }
+.cv-reset ul, .cv-reset ol { margin: 0; padding: 0; list-style: none; }
+.cv-reset img { display: block; max-width: 100%; }
+
+/* Striped placeholder pattern (used for missing imagery) */
+.cv-placeholder {
+  background-color: var(--paper-2);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 8px,
+    rgba(0,0,0,0.04) 8px 9px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
