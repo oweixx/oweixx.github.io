@@ -399,7 +399,7 @@
   --font-serif:"Source Serif 4",Georgia,serif;
   --font-sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  --measure:760px;
+  --measure:880px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -412,8 +412,8 @@ img{display:block;max-width:100%}
 a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--rule)}
 a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
 .page{max-width:var(--measure);margin:0 auto;padding:64px 24px 96px}
-.hero{display:grid;grid-template-columns:160px 1fr;gap:28px;align-items:start;margin-bottom:48px}
-.hero-photo{width:160px;height:160px;border-radius:50%;overflow:hidden;background:var(--paper-2)}
+.hero{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start;margin-bottom:48px}
+.hero-photo{width:200px;height:200px;border-radius:50%;overflow:hidden;background:transparent}
 .hero-photo img{width:100%;height:100%;object-fit:cover}
 .hero-name{font-family:var(--font-serif);font-size:38px;font-weight:500;letter-spacing:-0.015em;line-height:1.05}
 .hero-email{font-family:var(--font-mono);font-size:13px;color:var(--ink-3);margin-top:8px}
@@ -422,23 +422,24 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
 .hero-links{display:flex;flex-wrap:wrap;gap:0 12px;align-items:center;margin-top:18px;font-size:14px}
 .hero-links .sep{color:var(--rule);border:0}
 .h2{font-family:var(--font-serif);font-size:22px;font-weight:500;margin:56px 0 20px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
-.exp-row{display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:start;padding:14px 0;border-bottom:1px solid var(--rule-2)}
-.exp-logo{width:56px;height:56px;border-radius:4px;overflow:hidden;background:var(--paper-2);display:flex;align-items:center;justify-content:center}
+.exp-row{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:start;padding:16px 0;border-bottom:1px solid var(--rule-2)}
+.exp-logo{width:150px;height:100px;border-radius:4px;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center}
 .exp-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
 .exp-role{font-weight:600}
 .exp-org{color:var(--ink-2);font-size:14px}
 .exp-note{color:var(--ink-3);font-size:14px;margin-top:4px}
 .exp-meta{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);white-space:nowrap;text-align:right;padding-top:4px}
-.highlights{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .h-card{display:block;border:0}
 .h-card:hover .h-title{color:var(--link-hov)}
-.h-thumb{aspect-ratio:1/1;border-radius:6px;overflow:hidden;background:var(--paper-2)}
+.h-thumb{aspect-ratio:1/1;border-radius:6px;overflow:hidden;background:transparent}
 .h-thumb img{width:100%;height:100%;object-fit:cover}
 .h-title{font-size:14px;margin-top:8px;font-weight:500;transition:color .15s}
 .h-venue{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-top:2px}
-.pub-row{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--rule-2)}
-.pub-thumb{width:110px;height:76px;border-radius:4px;overflow:hidden;background:var(--paper-2)}
-.pub-thumb img{width:100%;height:100%;object-fit:cover}
+.pub-row{display:grid;grid-template-columns:320px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid var(--rule-2);align-items:start}
+.pub-thumb{width:320px;border-radius:4px;overflow:hidden;background:transparent}
+.pub-thumb img{width:100%;height:auto;display:block}
+.pub-thumb>.ph{aspect-ratio:16/9}
 .pub-title{font-family:var(--font-serif);font-size:17px;font-weight:500;line-height:1.3}
 .pub-authors{font-size:14px;color:var(--ink-2);margin-top:4px}
 .pub-venue{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
@@ -451,11 +452,11 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
 .services-group .sub li{padding:3px 0;grid-template-columns:14px 1fr;font-size:14px}
 .services-group .sub li::before{content:"+";color:var(--ink-3)}
 .ph{width:100%;height:100%;background-color:var(--paper-2);background-image:repeating-linear-gradient(135deg,transparent 0 8px,rgba(0,0,0,0.05) 8px 9px);display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
-@media (max-width:640px){.page{padding:40px 20px 64px}.hero{grid-template-columns:1fr;gap:16px}.hero-photo{width:120px;height:120px}.hero-name{font-size:30px}.highlights{grid-template-columns:repeat(2,1fr)}.exp-row{grid-template-columns:44px 1fr}.exp-meta{grid-column:1/-1;text-align:left;padding-top:0}.pub-row{grid-template-columns:1fr}.pub-thumb{width:100%;height:160px}}
+@media (max-width:640px){.page{padding:40px 20px 64px}.hero{grid-template-columns:1fr;gap:16px}.hero-photo{width:120px;height:120px}.hero-name{font-size:30px}.highlights{grid-template-columns:repeat(2,1fr)}.exp-row{grid-template-columns:56px 1fr}.exp-meta{grid-column:1/-1;text-align:left;padding-top:0}.pub-row{grid-template-columns:1fr}.pub-thumb{width:100%}}
 `;
 
       const linksHtml = d.links.filter(l => l.label).map((l, i) =>
-        `${i > 0 ? '<span class="sep">|</span>' : ''}<a href="${escHtml(l.href || '#')}">${escHtml(l.label)}</a>`
+        `${i > 0 ? '<span class="sep">|</span>' : ''}<a href="${escHtml(l.href || '#')}" target="_blank" rel="noopener">${escHtml(l.label)}</a>`
       ).join("");
 
       const expHtml = d.experience.map(e => `
@@ -531,15 +532,20 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
   <h2 class="h2">Experience</h2>
   ${expHtml}
 
+  <!-- Highlighted Research disabled
   <h2 class="h2">Highlighted Research</h2>
   <div class="highlights">${hHtml}</div>
+  -->
 
   <h2 class="h2">Publications</h2>
   ${pubHtml}
 
+  <!-- Awards & Honors disabled
   <h2 class="h2">Awards & Honors</h2>
   <ul class="bullets">${awardsHtml}</ul>
+  -->
 
+  <!-- Academic Services disabled
   <h2 class="h2">Academic Services</h2>
   <ul class="bullets">
     <li>
@@ -557,6 +563,7 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
       </div>
     </li>
   </ul>
+  -->
 </main>
 <` + `script>
 /* (no background script needed) */
@@ -801,7 +808,8 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
               </div>
             </details>
 
-            {/* Highlights */}
+            {/* Highlights — DISABLED (set to true to re-enable) */}
+            {false && (
             <details className="sec">
               <summary>5. Highlighted Research<span className="sec-count">{data.highlights.length}</span></summary>
               <div className="sec-body">
@@ -824,6 +832,7 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
                 <button className="add-btn" onClick={addH}>+ Project 추가</button>
               </div>
             </details>
+            )}
 
             {/* Publications */}
             <details className="sec">
@@ -857,7 +866,8 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
               </div>
             </details>
 
-            {/* Awards */}
+            {/* Awards — DISABLED (set to true to re-enable) */}
+            {false && (
             <details className="sec">
               <summary>7. Awards & Honors<span className="sec-count">{data.awards.length}</span></summary>
               <div className="sec-body">
@@ -875,8 +885,10 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
                 <button className="add-btn" onClick={addAward}>+ Award 추가</button>
               </div>
             </details>
+            )}
 
-            {/* Services */}
+            {/* Services — DISABLED (set to true to re-enable) */}
+            {false && (
             <details className="sec">
               <summary>8. Academic Services<span className="sec-count">{data.services.conferences.length + data.services.journals.length}</span></summary>
               <div className="sec-body">
@@ -899,6 +911,7 @@ a:hover{color:var(--link-hov);border-bottom-color:var(--link-hov)}
                 <button className="add-btn" onClick={addJour}>+ Journal 추가</button>
               </div>
             </details>
+            )}
 
             {/* Backup */}
             <details className="sec">

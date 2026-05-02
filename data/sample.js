@@ -7,7 +7,7 @@
 
 window.CV_DATA = {
   identity: {
-    name: "{{YOUR NAME}}",
+    name: "{{ㄹㄹ}}",
     title: "{{ROLE — e.g. Ph.D. Candidate, Research Scientist}}",
     affiliation: "{{LAB / DEPARTMENT}}, {{INSTITUTION}}",
     email: "{{your.email@institution.edu}}",
