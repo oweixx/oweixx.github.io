@@ -15,62 +15,56 @@ const posts = await getPosts();
   <meta name="description" content="MinHyeok Bang — BS student at Jeonbuk National University, researching 3D vision and generative modeling." />
   <link rel="canonical" href="https://oweixx.github.io/" />
   <style is:global>
-    body { font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; }
+    body { font-family: Georgia, serif; font-size: 16px; color: #1a1a1a; }
     a { color: #2779c4; }
     .wrap { min-height: 100vh; padding: 48px 48px 72px; }
     .container { max-width: 1240px; margin: 0 auto; }
-    .name { margin: 0 0 32px; font-size: 36px; line-height: 1.2; font-weight: 700; }
+    .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 700; }
     .profile { display: flex; align-items: center; gap: 40px; }
     .photo { width: 184px; height: 184px; flex: 0 0 184px; }
     .photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     .profile-info { min-width: 0; }
-    .position { margin: 0 0 6px; font-size: 22px; font-weight: 700; line-height: 1.4; }
-    .department { margin: 0 0 18px; font-size: 19px; line-height: 1.5; }
-    .links { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 18px; line-height: 1.5; }
+    .position { margin: 0 0 6px; font-size: 16px; font-weight: 700; line-height: 1.3; }
+    .department { margin: 0 0 18px; font-size: 16px; line-height: 1.3; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 16px; line-height: 1.3; }
     .links a::before { content: '['; }
     .links a::after { content: ']'; }
     .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-family: Arial, sans-serif; font-size: 12px; color: #737373; }
     .section { margin-top: 44px; }
-    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 27px; font-weight: 700; line-height: 1.3; }
-    .about p { margin: 0 0 14px; font-size: 19px; line-height: 1.75; }
+    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 700; line-height: 1; }
+    .about p { margin: 0 0 .5em; font-size: 16px; line-height: 1.8; }
     .about p:last-child { margin-bottom: 0; }
-    .contribution-note { margin: 0 0 26px; font-size: 17px; line-height: 1.5; }
+    .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
     .pubs { display: grid; gap: 36px; }
     .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; }
     .pub-media { display: block; position: relative; overflow: hidden; box-shadow: 0 2px 9px rgb(0 0 0 / 15%); }
     .pub-media img { width: 100%; height: auto; display: block; }
-    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-family: Arial, sans-serif; font-size: 14px; font-weight: 700; line-height: 1.3; }
-    .pub-title { margin: 0 0 10px; font-size: 26px; line-height: 1.35; font-weight: 700; }
+    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
+    .pub-title { margin: 0 0 6px; font-size: 15px; line-height: 1.3; font-weight: 400; }
     .pub-title a { color: inherit; }
     .pub-title a:hover { color: #2779c4; }
-    .pub-authors { margin: 0 0 10px; font-size: 21px; line-height: 1.5; }
+    .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-authors .me { font-weight: 700; }
-    .pub-venue { margin: 0 0 14px; font-size: 19px; line-height: 1.5; font-style: italic; }
-    .pub-links { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 21px; line-height: 1.5; }
+    .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 15px; line-height: 1.3; }
     .news { display: grid; gap: 12px; }
-    .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 17px; line-height: 1.6; }
+    .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
     .news-date { font-weight: 700; }
     .recent-posts .post-list > li:first-child { border-top: 0; }
     .recent-posts .post-list > li { padding: 14px 0 20px; }
-    .recent-posts .post-list h2 { font-size: 20px; }
-    .all-posts { margin: 16px 0 0; font-size: 17px; }
+    .recent-posts .post-list h2 { font-size: 16px; font-weight: 400; }
+    .all-posts { margin: 16px 0 0; font-size: 16px; }
     .footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid #ddd; color: #737373; font-size: 14px; }
     @media (max-width: 760px) {
       .wrap { padding: 32px 22px 48px; }
-      .name { font-size: 32px; margin-bottom: 24px; }
+      .name { margin-bottom: 24px; }
       .profile { gap: 22px; }
       .photo { width: 128px; height: 128px; flex-basis: 128px; }
-      .position { font-size: 19px; }
-      .department { font-size: 16px; margin-bottom: 12px; }
-      .links { font-size: 16px; gap: 6px 10px; }
+      .department { margin-bottom: 12px; }
+      .links { gap: 6px 10px; }
       .section { margin-top: 36px; }
-      .section-title { font-size: 25px; }
-      .about p { font-size: 17px; }
       .pub { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-      .pub-title { font-size: 23px; }
-      .pub-authors, .pub-links { font-size: 18px; }
-      .pub-venue { font-size: 17px; }
-      .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; font-size: 16px; }
+      .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; }
     }
     @media (max-width: 420px) {
       .profile { flex-direction: column; align-items: flex-start; gap: 20px; }
