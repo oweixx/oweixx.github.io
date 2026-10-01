@@ -13,8 +13,10 @@ import BlogLayout from '../layouts/BlogLayout.astro';
         <div class="field-row"><label>카테고리<select id="post-category"><option>Research</option><option>Papers</option><option>Notes</option><option>Life</option></select></label><label>태그<input id="post-tags" type="text" placeholder="3DGS, 회고" /></label></div>
         <label>짧은 설명<input id="post-description" type="text" placeholder="목록에 표시할 한두 문장" /></label>
         <label class="draft-toggle"><input id="post-draft" type="checkbox" checked /> 초안으로 저장</label>
+        <div class="image-tools" aria-label="본문 이미지 넣기"><button id="insert-images" type="button">이미지 추가</button><button id="insert-gallery" type="button">갤러리 추가</button><input id="image-files" type="file" multiple accept="image/png,image/jpeg,image/gif,image/webp,image/avif" hidden /></div>
+        <p id="image-status" class="markdown-help" role="status" aria-live="polite">사진을 선택하면 이미지 파일을 저장하고 본문에 넣습니다.</p>
         <label>본문 <span class="field-hint">Markdown</span><textarea id="post-body" spellcheck="false" placeholder="## 시작하며&#10;&#10;여기에 글을 써보세요." aria-describedby="markdown-help"></textarea></label>
-        <p id="markdown-help" class="markdown-help">제목 <code>##</code> · 코드 <code>```python</code> · 수식 <code>$…$</code> / <code>$$…$$</code> · 이미지 <code>![설명](/assets/blog/image.png)</code></p>
+        <p id="markdown-help" class="markdown-help">제목 <code>##</code> · 코드 <code>```python</code> · 수식 <code>$…$</code> / <code>$$…$$</code> · 이미지 <code>![설명](/assets/blog/image.png)</code> · 여러 이미지는 <code>:::gallery</code>와 <code>:::</code> 사이에 넣습니다. 이미지 주소에는 외부 HTTPS 주소도 사용할 수 있습니다.</p>
       </fieldset>
     </section>
     <section class="preview-panel" aria-label="실시간 미리보기">
@@ -51,6 +53,10 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   .editor-fields textarea { min-height: 430px; resize: vertical; font-family: ui-monospace, Consolas, monospace; line-height: 1.8; tab-size: 2; }
   .field-hint { float: right; color: #aaa; font-size: 11px; }
   .markdown-help { font-size: 11px; color: #888; line-height: 1.9; }
+  .image-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .image-tools input[hidden] { display: none; }
+  .image-tools button { padding: 8px 12px; border: 1px solid #dce1e6; border-radius: 4px; background: #fff; color: #555; font-size: 12px; }
+  .image-tools button:disabled { opacity: .5; cursor: wait; }
   .preview-article { padding: 0 30px 30px; }
   .preview-placeholder { color: #aaa; font-size: 14px; }
   @media (max-width: 900px) { .writer-grid { grid-template-columns: 1fr; } .writer-heading { align-items: flex-start; flex-direction: column; } .editor-fields textarea { min-height: 300px; } }
@@ -60,6 +66,7 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   import { previewMarkdown } from '../lib/markdown.mjs';
   import { parse, stringify } from 'yaml';
   import { attachCopyButtons } from '../scripts/copy-code';
+  import { attachGalleries } from '../scripts/galleries';
 
   const input = (id: string) => document.getElementById(id) as HTMLInputElement;
   const text = (id: string, value: string) => { document.getElementById(id)!.textContent = value; };
@@ -69,6 +76,7 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   let extraMetadata: Record<string, unknown> = {};
   let renderSequence = 0;
   let timer: ReturnType<typeof setTimeout>;
+  let cleanUpGalleries: (() => void) | undefined;
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   input('post-date').value = today;
 
@@ -113,11 +121,13 @@ import BlogLayout from '../layouts/BlogLayout.astro';
       const html = await previewMarkdown(post.body);
       if (sequence !== renderSequence) return;
       const preview = document.getElementById('preview-body')!;
+      cleanUpGalleries?.();
       preview.innerHTML = html || '<p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p>';
       attachCopyButtons(preview);
+      cleanUpGalleries = attachGalleries(preview);
       text('render-status', '미리보기 반영됨');
-    } catch {
-      if (sequence === renderSequence) text('render-status', '문법을 확인해 주세요');
+    } catch (error) {
+      if (sequence === renderSequence) text('render-status', error instanceof Error ? error.message : '문법을 확인해 주세요');
     }
   }
 
@@ -139,6 +149,46 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   } catch { text('save-status', '임시 저장을 사용할 수 없습니다'); }
   document.querySelector('.editor-fields')!.addEventListener('input', changed);
   void renderPreview();
+
+  const imageFiles = input('image-files');
+  const imageButtons = ['insert-images', 'insert-gallery'].map((id) => document.getElementById(id) as HTMLButtonElement);
+  let imageMode: 'single' | 'gallery' = 'single';
+  for (const button of imageButtons) {
+    button.addEventListener('click', () => {
+      imageMode = button.id === 'insert-gallery' ? 'gallery' : 'single';
+      imageFiles.click();
+    });
+  }
+  imageFiles.addEventListener('change', async () => {
+    const files = Array.from(imageFiles.files ?? []);
+    if (!files.length) return;
+    const previousBody = body.value;
+    const start = body.selectionStart;
+    const end = body.selectionEnd;
+    const gallery = imageMode === 'gallery';
+    imageButtons.forEach((button) => { button.disabled = true; });
+    text('image-status', `${files.length}장 저장 중…`);
+    try {
+      const form = new FormData();
+      form.set('slug', input('post-slug').value.trim() || 'uploads');
+      files.forEach((file) => form.append('images', file));
+      const response = await fetch('/write/images/', { method: 'POST', body: form });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || '이미지를 저장하지 못했습니다.');
+      const lines = result.images.map((image: { name: string; url: string }) => `![${image.name.replace(/[\\\[\]]/g, '\\$&')}](${image.url})`).join('\n\n');
+      const markdown = `\n\n${gallery ? `:::gallery\n\n${lines}\n\n:::` : lines}\n\n`;
+      if (body.value === previousBody) body.setRangeText(markdown, start, end, 'end');
+      else body.setRangeText(markdown, body.selectionStart, body.selectionStart, 'end');
+      changed();
+      body.focus();
+      text('image-status', `${files.length}장 저장됨 · assets/blog/에 저장한 이미지와 Markdown 파일을 함께 커밋하세요.`);
+    } catch (error) {
+      text('image-status', error instanceof Error ? error.message : '이미지를 저장하지 못했습니다.');
+    } finally {
+      imageButtons.forEach((button) => { button.disabled = false; });
+      imageFiles.value = '';
+    }
+  });
 
   input('import-file').addEventListener('change', async () => {
     const file = input('import-file').files?.[0];

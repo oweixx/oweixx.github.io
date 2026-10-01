@@ -22,6 +22,7 @@ export default defineConfig({
       'astro:config:setup': ({ command, injectRoute }) => {
         if (command === 'dev') {
           injectRoute({ pattern: '/write', entrypoint: './src/dev/Writer.astro' });
+          injectRoute({ pattern: '/write/images', entrypoint: './src/dev/images.ts' });
         }
       },
     },

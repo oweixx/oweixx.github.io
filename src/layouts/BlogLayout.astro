@@ -43,8 +43,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </div>
     <script>
       import { attachCopyButtons } from '../scripts/copy-code';
+      import { attachGalleries } from '../scripts/galleries';
       import { loadViewCounts } from '../scripts/view-counts';
       attachCopyButtons(document);
+      attachGalleries(document);
       void loadViewCounts();
     </script>
     <Analytics disabled={noindex} />

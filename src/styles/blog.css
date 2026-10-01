@@ -51,6 +51,22 @@ button { cursor: pointer; }
 .prose blockquote p:last-child { margin-bottom: 0; }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
 .prose img { max-width: 100%; height: auto; border-radius: 4px; }
+.prose .post-image { margin: 24px 0; text-align: center; }
+.prose figcaption { margin-top: 10px; font-size: 13px; line-height: 1.6; color: var(--muted); overflow-wrap: anywhere; }
+.image-gallery { margin: 28px 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.gallery-track { position: relative; }
+.gallery-slide { margin: 0; min-width: 0; }
+.prose .gallery-slide img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: contain; border-radius: 0; background: #f7f8fa; }
+.prose .gallery-slide figcaption { margin: 0; padding: 12px 16px; text-align: center; }
+.gallery-ready .gallery-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.gallery-ready .gallery-track::-webkit-scrollbar { display: none; }
+.gallery-track:focus-visible { outline-offset: -3px; }
+.gallery-ready .gallery-slide { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.gallery-controls { display: flex; justify-content: center; align-items: center; gap: 22px; border-top: 1px solid var(--line); padding: 8px 12px; }
+.gallery-controls button { width: 44px; height: 40px; border: 1px solid #dce1e6; border-radius: 4px; background: #fff; color: var(--ink); font-size: 19px; }
+.gallery-controls button:hover:enabled { border-color: var(--blue); color: var(--blue); }
+.gallery-controls button:disabled { opacity: .3; cursor: default; }
+.gallery-position { min-width: 64px; text-align: center; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .prose code { font-family: ui-monospace, Consolas, monospace; font-size: .86em; padding: 2px 5px; border-radius: 3px; background: #f6f7f8; }
 .prose pre { position: relative; margin: 24px 0; padding: 44px 20px 20px; border: 1px solid #e6e9ec; background: #f7f8fa; border-radius: 5px; line-height: 1.7; }
 .prose pre code { display: block; overflow-x: auto; background: transparent; padding: 0; font-size: 13px; }
