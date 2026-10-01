@@ -1,19 +1,27 @@
+---
+import "../styles/blog.css";
+import PostList from "../components/PostList.astro";
+import { getPosts } from "../lib/posts";
+const posts = await getPosts();
+---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MinHyeok Bang</title>
+<meta name="description" content="MinHyeok Bang ? 3D vision, generative modeling, and research notes." />
+<link rel="canonical" href="https://oweixx.github.io/" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet" />
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+<style is:global>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     background: #ffffff;
     -webkit-font-smoothing: antialiased;
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Lato', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: #262626;
   }
   a { color: #2779c4; text-decoration: none; }
@@ -92,7 +100,7 @@
         <p class="bio last">
           My interests lie in 3D vision and generative modeling — Gaussian Splatting, avatars, and style transfer.
         </p>
-        <nav class="links">
+        <nav class="links" aria-label="Profile links">
           <a href="assets/MinhyeokBang_CV.pdf" target="_blank" rel="noopener">CV</a>
           <span class="sep">|</span>
           <a href="https://scholar.google.com/citations?user=p1X1SGAAAAAJ&hl=ko" target="_blank" rel="noopener"> Google Scholar</a>
@@ -102,6 +110,9 @@
           <a href="https://www.instagram.com/oweixx/" target="_blank" rel="noopener">Instagram</a>
           <span class="sep">|</span>
           <a href="mailto:bunsss77@jbnu.ac.kr">Email</a>
+          {import.meta.env.DEV && <><span class="sep">|</span><a href="/write/">글쓰기</a></>}
+          <span class="sep">|</span>
+          <a href="/blog/">Blog</a>
         </nav>
       </div>
 
@@ -179,6 +190,12 @@
       </article> -->
 
     </div>
+
+    <section aria-labelledby="recent-posts-title">
+      <h2 id="recent-posts-title" class="section-title">recent posts</h2>
+      <PostList posts={posts.slice(0, 3)} compact />
+      <p style="font-size: 14px; margin-top: 20px;"><a href="/blog/">All posts →</a></p>
+    </section>
 
     <div class="footer">
       © 2026 MinHyeok Bang

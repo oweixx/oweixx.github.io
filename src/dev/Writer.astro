@@ -1,0 +1,176 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+---
+<BlogLayout title="글쓰기" wide noindex>
+  <header class="writer-heading"><div><p class="eyebrow">LOCAL WORKSPACE</p><h1>글쓰기</h1><p>작성하면서 바로 확인하세요.</p></div><div class="writer-actions"><label class="import-button">파일 열기<input id="import-file" type="file" accept=".md,.markdown,text/markdown,text/plain" disabled /></label><button id="download" type="button" disabled>Markdown 다운로드 ↓</button></div></header>
+  <p class="writer-note">이 브라우저에 임시 저장됩니다. 다운로드한 파일을 <code>src/content/blog/</code>에 넣으면 실제 글 페이지에서도 확인할 수 있습니다. 발행하려면 <code>draft: false</code>로 변경하세요.</p>
+  <div class="writer-grid">
+    <section class="editor-panel" aria-label="글 편집">
+      <div class="panel-bar"><span>작성</span><span id="save-status" role="status" aria-live="polite">작성 화면 준비 중</span></div>
+      <fieldset class="editor-fields" disabled>
+        <label>제목<input id="post-title" type="text" placeholder="글 제목" required /></label>
+        <div class="field-row"><label>글 주소<input id="post-slug" type="text" placeholder="my-research-note" pattern="[a-zA-Z0-9]+([_-][a-zA-Z0-9]+)*" required /></label><label>작성일<input id="post-date" type="date" required /></label></div>
+        <div class="field-row"><label>카테고리<select id="post-category"><option>Research</option><option>Papers</option><option>Notes</option><option>Life</option></select></label><label>태그<input id="post-tags" type="text" placeholder="3DGS, 회고" /></label></div>
+        <label>짧은 설명<input id="post-description" type="text" placeholder="목록에 표시할 한두 문장" /></label>
+        <label class="draft-toggle"><input id="post-draft" type="checkbox" checked /> 초안으로 저장</label>
+        <label>본문 <span class="field-hint">Markdown</span><textarea id="post-body" spellcheck="false" placeholder="## 시작하며&#10;&#10;여기에 글을 써보세요." aria-describedby="markdown-help"></textarea></label>
+        <p id="markdown-help" class="markdown-help">제목 <code>##</code> · 코드 <code>```python</code> · 수식 <code>$…$</code> / <code>$$…$$</code> · 이미지 <code>![설명](/assets/blog/image.png)</code></p>
+      </fieldset>
+    </section>
+    <section class="preview-panel" aria-label="실시간 미리보기">
+      <div class="panel-bar"><span>미리보기</span><span id="render-status" role="status" aria-live="polite">입력하면 바로 반영됩니다</span></div>
+      <article class="preview-article">
+        <header class="article-heading"><div class="post-meta"><span id="preview-category">Research</span><span aria-hidden="true">·</span><span id="preview-date"></span><span id="preview-draft" class="draft-badge">초안</span></div><h1 id="preview-title">글 제목</h1><p id="preview-description" class="article-description"></p><div id="preview-tags" class="post-tags"></div></header>
+        <div id="preview-body" class="prose"><p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p></div>
+      </article>
+    </section>
+  </div>
+</BlogLayout>
+<style>
+  .writer-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 40px 0 20px; }
+  .writer-heading h1 { margin: 0; font-size: 30px; font-weight: 500; }
+  .writer-heading p:last-child { margin: 10px 0 0; color: #737373; font-size: 14px; }
+  .writer-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .writer-actions button, .import-button { border: 1px solid #d9dfe5; border-radius: 4px; background: #fff; font-size: 13px; padding: 10px 14px; cursor: pointer; line-height: 1.5; }
+  .writer-actions button { background: #2779c4; border-color: #2779c4; color: #fff; }
+  .import-button:focus-within { outline: 2px solid #2779c4; outline-offset: 3px; }
+  .import-button input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .writer-note { font-size: 12px; line-height: 1.9; color: #737373; margin: 0 0 24px; }
+  .writer-note code { color: #555; }
+  .writer-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; }
+  .editor-panel, .preview-panel { border: 1px solid #e5e8eb; border-radius: 5px; overflow: hidden; min-width: 0; }
+  .panel-bar { padding: 13px 18px; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; border-bottom: 1px solid #e5e8eb; color: #555; background: #fafbfc; }
+  .panel-bar > :last-child { color: #888; font-size: 11px; }
+  .editor-fields { padding: 22px; border: 0; margin: 0; min-width: 0; }
+  .writer-actions button:disabled { opacity: .5; cursor: wait; }
+  .editor-fields label { display: block; font-size: 12px; color: #555; margin-bottom: 18px; }
+  .editor-fields input:not([type=checkbox]), .editor-fields select, .editor-fields textarea { display: block; width: 100%; margin-top: 8px; border: 1px solid #dce1e6; border-radius: 3px; padding: 9px 10px; background: #fff; color: #262626; font-size: 13px; }
+  .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+  .editor-fields .draft-toggle { display: flex; align-items: center; gap: 8px; }
+  .draft-toggle input { margin: 0; accent-color: #2779c4; }
+  .editor-fields textarea { min-height: 430px; resize: vertical; font-family: ui-monospace, Consolas, monospace; line-height: 1.8; tab-size: 2; }
+  .field-hint { float: right; color: #aaa; font-size: 11px; }
+  .markdown-help { font-size: 11px; color: #888; line-height: 1.9; }
+  .preview-article { padding: 0 30px 30px; }
+  .preview-placeholder { color: #aaa; font-size: 14px; }
+  @media (max-width: 900px) { .writer-grid { grid-template-columns: 1fr; } .writer-heading { align-items: flex-start; flex-direction: column; } .editor-fields textarea { min-height: 300px; } }
+  @media (max-width: 640px) { .preview-article { padding: 0 20px 20px; } .editor-fields { padding: 18px; } }
+</style>
+<script>
+  import { previewMarkdown } from '../lib/markdown.mjs';
+  import { parse, stringify } from 'yaml';
+  import { attachCopyButtons } from '../scripts/copy-code';
+
+  const input = (id: string) => document.getElementById(id) as HTMLInputElement;
+  const text = (id: string, value: string) => { document.getElementById(id)!.textContent = value; };
+  const category = document.getElementById('post-category') as HTMLSelectElement;
+  const body = document.getElementById('post-body') as HTMLTextAreaElement;
+  const key = 'oweixx-blog-writer-v1';
+  let extraMetadata: Record<string, unknown> = {};
+  let renderSequence = 0;
+  let timer: ReturnType<typeof setTimeout>;
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+  input('post-date').value = today;
+
+  function values() {
+    return {
+      ...extraMetadata,
+      title: input('post-title').value.trim(),
+      slug: input('post-slug').value.trim(),
+      date: input('post-date').value,
+      category: category.value,
+      tags: input('post-tags').value.split(',').map((tag) => tag.trim()).filter(Boolean),
+      description: input('post-description').value.trim(),
+      draft: input('post-draft').checked,
+      body: body.value,
+    };
+  }
+
+  function restore(post: Record<string, unknown>) {
+    const { title, slug, date, category: postCategory, tags, description, draft, body: postBody, ...extra } = post;
+    extraMetadata = extra;
+    input('post-title').value = String(title ?? '');
+    input('post-slug').value = String(slug ?? '');
+    input('post-date').value = String(date ?? today).slice(0, 10);
+    category.value = ['Research', 'Papers', 'Notes', 'Life'].includes(String(postCategory)) ? String(postCategory) : 'Notes';
+    input('post-tags').value = Array.isArray(tags) ? tags.join(', ') : String(tags ?? '');
+    input('post-description').value = String(description ?? '');
+    input('post-draft').checked = draft !== false;
+    body.value = String(postBody ?? '');
+  }
+
+  async function renderPreview() {
+    const sequence = ++renderSequence;
+    const post = values();
+    text('preview-title', post.title || '글 제목');
+    text('preview-date', post.date.replaceAll('-', '.'));
+    text('preview-category', post.category);
+    text('preview-description', post.description);
+    document.getElementById('preview-draft')!.hidden = !post.draft;
+    const tags = document.getElementById('preview-tags')!;
+    tags.replaceChildren(...post.tags.map((tag) => { const el = document.createElement('span'); el.textContent = `#${tag}`; return el; }));
+    try {
+      const html = await previewMarkdown(post.body);
+      if (sequence !== renderSequence) return;
+      const preview = document.getElementById('preview-body')!;
+      preview.innerHTML = html || '<p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p>';
+      attachCopyButtons(preview);
+      text('render-status', '미리보기 반영됨');
+    } catch {
+      if (sequence === renderSequence) text('render-status', '문법을 확인해 주세요');
+    }
+  }
+
+  function changed() {
+    try {
+      localStorage.setItem(key, JSON.stringify(values()));
+      text('save-status', '브라우저 임시 저장됨');
+    } catch { text('save-status', '임시 저장 불가 · 파일로 다운로드하세요'); }
+    // Invalidate pending renders immediately, before the next debounce fires.
+    renderSequence++;
+    clearTimeout(timer);
+    timer = setTimeout(renderPreview, 180);
+  }
+
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) { restore(JSON.parse(saved)); text('save-status', '임시 저장한 글을 복원했습니다'); }
+    else { text('save-status', '작성 준비됨'); }
+  } catch { text('save-status', '임시 저장을 사용할 수 없습니다'); }
+  document.querySelector('.editor-fields')!.addEventListener('input', changed);
+  void renderPreview();
+
+  input('import-file').addEventListener('change', async () => {
+    const file = input('import-file').files?.[0];
+    if (!file) return;
+    try {
+      const markdown = (await file.text()).replace(/^\uFEFF/, '').replaceAll('\r\n', '\n');
+      const match = markdown.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+      const metadata = match ? parse(match[1]) : {};
+      if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) throw new Error('Invalid metadata');
+      const filenameSlug = file.name.replace(/\.m(?:arkdown|d)$/i, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
+      restore({ ...metadata, slug: metadata.slug ?? filenameSlug, body: match ? markdown.slice(match[0].length) : markdown });
+      changed();
+      text('save-status', '파일을 열고 임시 저장했습니다');
+    } catch { text('save-status', '파일의 Markdown / YAML 형식을 확인해 주세요'); }
+    input('import-file').value = '';
+  });
+
+  document.getElementById('download')!.addEventListener('click', () => {
+    for (const id of ['post-title', 'post-slug', 'post-date']) {
+      if (!input(id).reportValidity()) return;
+    }
+    const { body: markdown, ...metadata } = values();
+    const file = `---\n${stringify(metadata)}---\n\n${markdown}\n`;
+    const url = URL.createObjectURL(new Blob([file], { type: 'text/markdown;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${metadata.date}-${metadata.slug}.md`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    text('save-status', '다운로드됨 · 블로그 폴더에 저장하세요');
+  });
+  (document.querySelector('.editor-fields') as HTMLFieldSetElement).disabled = false;
+  input('import-file').disabled = false;
+  (document.getElementById('download') as HTMLButtonElement).disabled = false;
+</script>

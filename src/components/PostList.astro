@@ -1,0 +1,21 @@
+---
+import { formatDate, postUrl, type Post } from '../lib/posts';
+interface Props { posts: Post[]; compact?: boolean }
+const { posts, compact = false } = Astro.props;
+---
+<ul class:list={['post-list', { compact }]}>
+  {posts.map((post) => (
+    <li>
+      <article>
+        <div class="post-meta">
+          <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
+          {!compact && <><span aria-hidden="true">·</span><span>{post.data.category}</span></>}
+          {post.data.draft && <span class="draft-badge">초안</span>}
+        </div>
+        <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+        {!compact && post.data.description && <p class="post-description">{post.data.description}</p>}
+        {!compact && post.data.tags.length > 0 && <div class="post-tags">{post.data.tags.map((tag) => <span>#{tag}</span>)}</div>}
+      </article>
+    </li>
+  ))}
+</ul>

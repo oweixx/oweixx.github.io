@@ -1,0 +1,34 @@
+---
+import { render } from 'astro:content';
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { getPosts, postSlug, postUrl, formatDate } from '../../../lib/posts';
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
+    params: { year: String(post.data.date.getUTCFullYear()), slug: postSlug(post) },
+    props: { post, newer: posts[index - 1], older: posts[index + 1] },
+  }));
+}
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+---
+<BlogLayout title={post.data.title} description={post.data.description} noindex={post.data.draft}>
+  <a class="back-link" href="/blog/">← All posts</a>
+  {post.data.draft && <p class="draft-notice">초안 미리보기 · 이 글은 배포에 포함되지 않습니다.</p>}
+  <article>
+    <header class="article-heading">
+      <div class="post-meta"><span>{post.data.category}</span><span aria-hidden="true">·</span><time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time></div>
+      <h1>{post.data.title}</h1>
+      {post.data.description && <p class="article-description">{post.data.description}</p>}
+      {post.data.updated && <p class="post-meta">수정 {formatDate(post.data.updated)}</p>}
+      {post.data.tags.length > 0 && <div class="post-tags">{post.data.tags.map((tag) => <span>#{tag}</span>)}</div>}
+    </header>
+    {toc.length > 1 && <details class="toc"><summary>목차</summary><ul>{toc.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul></details>}
+    <div class="prose"><Content /></div>
+  </article>
+  <nav class="post-navigation" aria-label="다른 글">
+    <div>{older && <a href={postUrl(older)}><span>← 이전 글</span>{older.data.title}</a>}</div>
+    <div>{newer && <a href={postUrl(newer)}><span>다음 글 →</span>{newer.data.title}</a>}</div>
+  </nav>
+</BlogLayout>

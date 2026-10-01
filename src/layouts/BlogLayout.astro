@@ -1,0 +1,48 @@
+---
+import '../styles/blog.css';
+import 'katex/dist/katex.min.css';
+import 'highlight.js/styles/github.css';
+interface Props {
+  title: string;
+  description?: string;
+  wide?: boolean;
+  noindex?: boolean;
+}
+const { title, description = 'Research notes, things I learn, and thoughts along the way.', wide = false, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · MinHyeok Bang</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={`${title} · MinHyeok Bang`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <div class:list={['blog-shell', { wide }]}>
+      <header class="site-header">
+        <a class="site-name" href="/"><strong>MinHyeok</strong> Bang</a>
+        <nav aria-label="주 메뉴">
+          <a href="/">Home</a>
+          {import.meta.env.DEV && <a href="/write/">글쓰기</a>}
+          <a href="/blog/" aria-current={Astro.url.pathname.startsWith('/blog/') ? 'page' : undefined}>Blog</a>
+        </nav>
+      </header>
+      <main id="main"><slot /></main>
+      <footer class="site-footer">© {new Date().getUTCFullYear()} MinHyeok Bang <a href="/">Home ↗</a></footer>
+    </div>
+    <script>
+      import { attachCopyButtons } from '../scripts/copy-code';
+      attachCopyButtons(document);
+    </script>
+  </body>
+</html>
