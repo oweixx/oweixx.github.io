@@ -2,6 +2,7 @@
 import '../styles/blog.css';
 import 'katex/dist/katex.min.css';
 import 'highlight.js/styles/github.css';
+import Analytics from '../components/Analytics.astro';
 interface Props {
   title: string;
   description?: string;
@@ -33,6 +34,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <a class="site-name" href="/"><strong>MinHyeok</strong> Bang</a>
         <nav aria-label="주 메뉴">
           <a href="/">Home</a>
+          <a href="/stats/" aria-current={Astro.url.pathname.startsWith('/stats/') ? 'page' : undefined}>Stats</a>
           {import.meta.env.DEV && <a href="/write/">글쓰기</a>}
           <a href="/blog/" aria-current={Astro.url.pathname.startsWith('/blog/') ? 'page' : undefined}>Blog</a>
         </nav>
@@ -42,7 +44,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </div>
     <script>
       import { attachCopyButtons } from '../scripts/copy-code';
+      import { loadViewCounts } from '../scripts/view-counts';
       attachCopyButtons(document);
+      void loadViewCounts();
     </script>
+    <Analytics disabled={noindex} />
   </body>
 </html>

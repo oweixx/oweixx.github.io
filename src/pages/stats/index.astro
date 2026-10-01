@@ -1,0 +1,68 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { getPosts, postUrl } from '../../lib/posts';
+import { analyticsSite } from '../../config/analytics';
+const posts = (await getPosts()).filter((post) => !post.data.draft);
+---
+<BlogLayout title="Stats">
+  <header class="page-heading stats-heading"><p class="eyebrow">READERS & VISITS</p><h1>Stats</h1><p>홈페이지와 블로그의 방문 기록을 함께 봅니다.</p></header>
+  <div id="statistics" data-site={analyticsSite}>
+    <div class="stats-cards">
+      <section><h2>전체 페이지 방문</h2><p data-total="TOTAL">—</p><span>수집 시작 이후 누적</span></section>
+      <section><h2>홈페이지 방문</h2><p data-total="/">—</p><span>메인 페이지 누적</span></section>
+      <section><h2>공개 글</h2><p>{posts.length}</p><span>블로그 포스트</span></section>
+    </div>
+    <section class="stats-section">
+      <div class="stats-section-heading"><h2>일별 방문 추이</h2><div class="period-buttons" aria-label="통계 기간"><button type="button" data-days="7" aria-pressed="true">7일</button><button type="button" data-days="30" aria-pressed="false">30일</button></div></div>
+      <p id="stats-status" class="stats-status" role="status" aria-live="polite">방문 기록을 불러오는 중입니다.</p>
+      <div id="daily-chart" class="daily-chart" aria-busy="true"></div>
+      <details id="daily-details" class="daily-details" hidden><summary>날짜별 수치 보기</summary><table><thead><tr><th scope="col">날짜</th><th scope="col">페이지 방문</th></tr></thead><tbody id="daily-values"></tbody></table></details>
+    </section>
+    <section class="stats-section">
+      <div class="stats-section-heading"><h2>글별 방문</h2><span class="stats-label">누적 방문 순</span></div>
+      <ul id="post-ranking" class="post-ranking">{posts.map((post) => <li data-post-path={postUrl(post)}><div><a href={postUrl(post)}>{post.data.title}</a><span class="rank-value">—</span></div><div class="rank-track" aria-hidden="true"><div class="rank-fill"></div></div></li>)}</ul>
+      {posts.length === 0 && <p class="stats-status">아직 공개된 글이 없습니다.</p>}
+    </section>
+  </div>
+  <p class="stats-footnote">같은 세션에서 같은 페이지를 반복해서 방문한 경우 한 번으로 집계합니다. 여러 페이지를 본 방문은 각 페이지에 집계되므로 전체 페이지 방문 수는 사람 수와 다릅니다. 일별 집계는 UTC 기준이며 한국 시간 오전 9시에 날짜가 바뀝니다. 수치는 최대 4시간 지연될 수 있습니다. 집계 연결 이전의 방문 기록은 포함되지 않습니다.</p>
+  <noscript><p class="stats-status">방문 통계를 보려면 JavaScript를 켜주세요.</p></noscript>
+</BlogLayout>
+<style>
+  .stats-heading { padding-bottom: 30px; }
+  .stats-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #ededed; border-radius: 4px; }
+  .stats-cards section { padding: 24px 22px; }
+  .stats-cards section + section { border-left: 1px solid #ededed; }
+  .stats-cards h2 { margin: 0; font-size: 12px; font-weight: 400; color: #777; }
+  .stats-cards p { font-size: 32px; font-weight: 700; margin: 14px 0 10px; font-variant-numeric: tabular-nums; }
+  .stats-cards section > span { font-size: 11px; color: #999; }
+  .stats-section { margin-top: 46px; }
+  .stats-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+  .stats-section-heading h2 { font-size: 18px; font-weight: 500; margin: 0; }
+  .period-buttons { display: flex; gap: 5px; }
+  .period-buttons button { border: 1px solid #e5e5e5; background: #fff; color: #777; padding: 6px 12px; font-size: 12px; border-radius: 3px; }
+  .period-buttons button[aria-pressed=true] { color: #2779c4; border-color: #c7dcee; background: #f4f8fc; }
+  .stats-status { color: #888; font-size: 12px; line-height: 1.8; margin: 14px 0; }
+  .daily-chart { min-height: 200px; border-bottom: 1px solid #ededed; }
+  .daily-chart[aria-busy=true] { opacity: .45; }
+  .daily-chart :global(svg) { display: block; width: 100%; height: auto; }
+  .daily-chart :global(.empty-chart) { display: grid; min-height: 200px; place-items: center; color: #999; font-size: 13px; background: #fafbfc; border-radius: 4px; text-align: center; padding: 24px; }
+  .daily-details { margin-top: 14px; color: #777; font-size: 12px; }
+  .daily-details summary { cursor: pointer; }
+  .daily-details table { border-collapse: collapse; width: 100%; margin-top: 14px; font-variant-numeric: tabular-nums; }
+  .daily-details th, .daily-details td { text-align: left; border-bottom: 1px solid #ededed; padding: 9px 12px; }
+  .post-ranking { margin: 20px 0 0; padding: 0; list-style: none; }
+  .post-ranking li { padding: 20px 0; border-top: 1px solid #ededed; }
+  .post-ranking li > div:first-child { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-size: 14px; line-height: 1.6; }
+  .post-ranking a { color: #333; }
+  .post-ranking a:hover { color: #2779c4; }
+  .rank-value { color: #777; font-size: 12px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .rank-track { height: 4px; margin-top: 14px; background: #f2f4f6; border-radius: 3px; }
+  .rank-fill { width: 0; height: 100%; background: #a6c9e7; border-radius: 3px; }
+  .stats-label { color: #999; font-size: 11px; }
+  .stats-footnote { font-size: 11px; line-height: 1.9; color: #999; margin: 36px 0 0; }
+  @media (max-width: 640px) { .stats-cards section { padding: 18px 12px; } .stats-cards h2 { font-size: 11px; } .stats-cards p { font-size: 26px; } .stats-cards section > span { font-size: 10px; } }
+</style>
+<script>
+  import { initialiseStats } from '../../scripts/statistics';
+  void initialiseStats();
+</script>

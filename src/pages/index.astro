@@ -2,6 +2,8 @@
 import "../styles/blog.css";
 import PostList from "../components/PostList.astro";
 import { getPosts } from "../lib/posts";
+import Analytics from "../components/Analytics.astro";
+import ViewCount from "../components/ViewCount.astro";
 const posts = await getPosts();
 ---
 <!doctype html>
@@ -10,7 +12,7 @@ const posts = await getPosts();
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MinHyeok Bang</title>
-<meta name="description" content="MinHyeok Bang ? 3D vision, generative modeling, and research notes." />
+<meta name="description" content="MinHyeok Bang — 3D vision, generative modeling, and research notes." />
 <link rel="canonical" href="https://oweixx.github.io/" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,6 +42,8 @@ const posts = await getPosts();
   .bio .strong { color: #1a1a1a; font-weight: 400; }
   .links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 15px; }
   .links .sep { color: #cfcfcf; }
+  .site-visits { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: 12px; color: #999; font-variant-numeric: tabular-nums; }
+  .site-visits a { color: #999; }
   .photo { flex: 0 0 300px; max-width: 300px; }
   .photo img { width: 100%; height: auto; border-radius: 8px; display: block; box-shadow: 0 2px 14px rgba(0,0,0,0.08); }
 
@@ -112,8 +116,15 @@ const posts = await getPosts();
           <a href="mailto:bunsss77@jbnu.ac.kr">Email</a>
           {import.meta.env.DEV && <><span class="sep">|</span><a href="/write/">글쓰기</a></>}
           <span class="sep">|</span>
+          <a href="/stats/">Stats</a>
+          <span class="sep">|</span>
           <a href="/blog/">Blog</a>
         </nav>
+        <div class="site-visits" aria-label="전체 사이트 방문 통계">
+          <ViewCount path="TOTAL" period="today" label="오늘 방문 (UTC)" />
+          <ViewCount path="TOTAL" label="전체 방문" />
+          <a href="/stats/">통계 보기 ↗</a>
+        </div>
       </div>
 
       <div class="photo">
@@ -203,5 +214,10 @@ const posts = await getPosts();
 
   </div>
 </div>
+<script>
+  import { loadViewCounts } from '../scripts/view-counts';
+  void loadViewCounts();
+</script>
+<Analytics />
 </body>
 </html>

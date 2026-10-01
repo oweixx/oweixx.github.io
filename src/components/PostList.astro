@@ -1,5 +1,6 @@
 ---
 import { formatDate, postUrl, type Post } from '../lib/posts';
+import ViewCount from './ViewCount.astro';
 interface Props { posts: Post[]; compact?: boolean }
 const { posts, compact = false } = Astro.props;
 ---
@@ -11,6 +12,7 @@ const { posts, compact = false } = Astro.props;
           <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
           {!compact && <><span aria-hidden="true">·</span><span>{post.data.category}</span></>}
           {post.data.draft && <span class="draft-badge">초안</span>}
+          {!post.data.draft && <><span aria-hidden="true">·</span><ViewCount path={postUrl(post)} /></>}
         </div>
         <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
         {!compact && post.data.description && <p class="post-description">{post.data.description}</p>}

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BlogLayout from '../../../layouts/BlogLayout.astro';
 import { getPosts, postSlug, postUrl, formatDate } from '../../../lib/posts';
+import ViewCount from '../../../components/ViewCount.astro';
 export async function getStaticPaths() {
   const posts = await getPosts();
   return posts.map((post, index) => ({
@@ -18,7 +19,7 @@ const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 
   {post.data.draft && <p class="draft-notice">초안 미리보기 · 이 글은 배포에 포함되지 않습니다.</p>}
   <article>
     <header class="article-heading">
-      <div class="post-meta"><span>{post.data.category}</span><span aria-hidden="true">·</span><time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time></div>
+      <div class="post-meta"><span>{post.data.category}</span><span aria-hidden="true">·</span><time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>{!post.data.draft && <><span aria-hidden="true">·</span><ViewCount path={postUrl(post)} /></>}</div>
       <h1>{post.data.title}</h1>
       {post.data.description && <p class="article-description">{post.data.description}</p>}
       {post.data.updated && <p class="post-meta">수정 {formatDate(post.data.updated)}</p>}
