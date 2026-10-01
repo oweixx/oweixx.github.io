@@ -7,7 +7,7 @@ category: Research
 tags: [회고, CVPR]
 draft: false
 ---
-### **That Time**
+### **결과 발표**
 
 1월 22일 오후 9시에 나오는 것으로 예상된 CVPR 2026 Review가 나오지 역시나 제때 나오지 않아 한참을 기다리다 자고 일어난 다음날 이미 새벽 3시에 Review가 나왔다고 메일이 와있었다.
 
