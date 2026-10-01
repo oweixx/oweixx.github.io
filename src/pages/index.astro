@@ -43,7 +43,6 @@ const posts = await getPosts();
   .links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 15px; }
   .links .sep { color: #cfcfcf; }
   .site-visits { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: 12px; color: #999; font-variant-numeric: tabular-nums; }
-  .site-visits a { color: #999; }
   .photo { flex: 0 0 300px; max-width: 300px; }
   .photo img { width: 100%; height: auto; border-radius: 8px; display: block; box-shadow: 0 2px 14px rgba(0,0,0,0.08); }
 
@@ -105,25 +104,16 @@ const posts = await getPosts();
           My interests lie in 3D vision and generative modeling — Gaussian Splatting, avatars, and style transfer.
         </p>
         <nav class="links" aria-label="Profile links">
-          <a href="assets/MinhyeokBang_CV.pdf" target="_blank" rel="noopener">CV</a>
-          <span class="sep">|</span>
           <a href="https://scholar.google.com/citations?user=p1X1SGAAAAAJ&hl=ko" target="_blank" rel="noopener"> Google Scholar</a>
           <span class="sep">|</span>
           <a href="https://github.com/oweixx" target="_blank" rel="noopener">GitHub</a>
-          <span class="sep">|</span>
-          <a href="https://www.instagram.com/oweixx/" target="_blank" rel="noopener">Instagram</a>
-          <span class="sep">|</span>
-          <a href="mailto:bunsss77@jbnu.ac.kr">Email</a>
           {import.meta.env.DEV && <><span class="sep">|</span><a href="/write/">글쓰기</a></>}
-          <span class="sep">|</span>
-          <a href="/stats/">Stats</a>
           <span class="sep">|</span>
           <a href="/blog/">Blog</a>
         </nav>
         <div class="site-visits" aria-label="전체 사이트 방문 통계">
           <ViewCount path="TOTAL" period="today" label="오늘 방문 (UTC)" />
           <ViewCount path="TOTAL" label="전체 방문" />
-          <a href="/stats/">통계 보기 ↗</a>
         </div>
       </div>
 
