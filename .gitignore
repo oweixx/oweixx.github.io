@@ -15,3 +15,5 @@ dist/
 .astro/
 .local-tools/
 .qa/
+.wrangler/
+.dev.vars

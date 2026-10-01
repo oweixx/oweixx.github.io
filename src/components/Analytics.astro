@@ -1,16 +1,5 @@
 ---
-import { analyticsSite, trackedHostname } from '../config/analytics';
 interface Props { disabled?: boolean }
 const { disabled = false } = Astro.props;
 ---
-{import.meta.env.PROD && !disabled && <script is:inline define:vars={{ analyticsSite, trackedHostname }}>
-  // Production previews and local writing sessions never send pageviews.
-  if (location.hostname === trackedHostname) {
-    const tracker = document.createElement('script');
-    tracker.async = true;
-    tracker.src = 'https://gc.zgo.at/count.js';
-    tracker.setAttribute('data-goatcounter', analyticsSite + '/count');
-    tracker.setAttribute('data-goatcounter-settings', JSON.stringify({ path: location.pathname }));
-    document.head.appendChild(tracker);
-  }
-</script>}
+{import.meta.env.PROD && !disabled && <span id="visit-context" data-path={Astro.url.pathname} hidden></span>}

@@ -1,0 +1,11 @@
+{
+  "name": "oweixx-visits",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "vars": { "SITE_ORIGIN": "https://oweixx.github.io" },
+  "durable_objects": {
+    "bindings": [{ "name": "VISITS", "class_name": "VisitCounter" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["VisitCounter"] }]
+}

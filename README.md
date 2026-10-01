@@ -60,15 +60,25 @@ draft: true
 
 ## 방문 통계
 
-GoatCounter의 `https://oweixx.goatcounter.com`에 연결합니다. 공개 사이트에서 방문 기록을 수집하며, 로컬 미리보기와 글쓰기 화면은 집계하지 않습니다.
+Cloudflare Workers와 SQLite Durable Object에 방문수를 저장합니다. 공개 사이트에서 페이지를 열거나 새로고침하면 한 번 집계하며, 저장된 결과를 응답받는 즉시 화면에 표시합니다. 다른 방문자의 접속도 WebSocket으로 반영됩니다. 로컬 미리보기와 글쓰기 화면은 집계하지 않습니다.
 
-- 홈페이지: 전체 사이트의 오늘 방문수와 누적 방문수.
-- 블로그 목록과 글: 해당 글의 누적 방문수.
+- 홈페이지: 전체 사이트의 `Today`, `Total`.
+- 블로그 목록과 글: 해당 글의 누적 `Visits`. 목록을 보는 것만으로 각 글의 Visits가 증가하지 않습니다.
 - `/stats/`: 최근 7일·30일 방문 그래프, 홈페이지 누적 방문수, 글별 방문 순위. 모든 방문자가 볼 수 있습니다.
 
-같은 세션에서 같은 페이지를 반복해서 보는 방문은 한 번으로 집계됩니다. 전체 방문수는 페이지별 방문의 합이며 사람 수와는 다릅니다. 일별 집계는 공개 집계 서비스의 **UTC 기준**입니다(한국 시간 오전 9시에 날짜 변경). 공개 조회수는 최대 4시간 지연될 수 있으며, 연결 이전의 방문 기록은 가져오지 않습니다.
+전체 방문수는 페이지를 연 횟수의 합이며 사람 수와는 다릅니다. **한국 시간 자정**에 Today가 초기화됩니다. 통신 재시도는 같은 방문 ID를 사용해 중복 집계를 막으며, 새로고침에는 새 ID를 부여합니다. IP, 쿠키, 개인 식별 정보는 저장하지 않습니다. 실시간 카운터를 연결한 시점부터 집계하며 이전 GoatCounter 기록은 합산하지 않습니다.
 
-GoatCounter 설정에서 **Allow adding visitor counts on your website**를 켜두어야 합니다. 연결 주소는 `src/config/analytics.ts`에서 관리하며 API 키는 필요하지 않습니다. 집계 요청이 실패하면 숫자 대신 `—` 또는 안내 문구를 보여줍니다.
+연결 주소는 `src/config/analytics.ts`에서 관리합니다. 브라우저에는 공개 주소만 포함되며 Cloudflare 인증 정보는 포함하지 않습니다. 집계 요청이 실패하면 숫자 대신 `—` 또는 안내 문구를 보여줍니다. 공개 카운터는 로그인 없이 집계하므로 고의적인 요청이나 자동화 브라우저 방문도 증가할 수 있습니다.
+
+카운터 서버 코드를 수정할 때는 Node.js 24와 인증된 Cloudflare 계정으로 다음 명령을 실행합니다. 일반 글 수정에는 서버 재배포가 필요하지 않습니다.
+
+```sh
+npm ci --prefix services/visits
+npm test --prefix services/visits
+npm run deploy --prefix services/visits
+```
+
+최초 연결 시에는 `npx --prefix services/visits wrangler login`으로 로그인합니다. 설정은 `services/visits/wrangler.jsonc`에 있으며, 이 저장소의 GitHub Actions는 서버 테스트와 사이트 배포를 수행합니다. Workers 서버 배포는 위 명령으로 별도로 실행합니다. 로컬 서버는 `npm run dev --prefix services/visits`로 시작하고 `PUBLIC_VISITS_ENDPOINT=http://127.0.0.1:8787`로 테스트 빌드의 연결 주소를 바꿀 수 있습니다.
 
 ## 빌드와 배포
 
