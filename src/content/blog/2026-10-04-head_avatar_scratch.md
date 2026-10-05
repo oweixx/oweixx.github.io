@@ -5,7 +5,7 @@ date: 2026-10-04
 category: Research
 tags: []
 description: ELITE 논문 기반으로 간단한 Head Avatar를 구현한다.
-draft: true
+draft: false
 ---
 
 ### 들어가며
