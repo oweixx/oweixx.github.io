@@ -47,7 +47,9 @@ const posts = await getPosts();
     .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-authors .me { font-weight: 700; }
     .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
-    .pub-links { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 15px; line-height: 1.3; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: #262626; font-size: 12px; font-weight: 400; line-height: 1.5; }
+    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: #2779c4; border-color: #2779c4; text-decoration: none; }
     .news { display: grid; gap: 12px; }
     .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
     .news-date { font-weight: 700; }
@@ -134,11 +136,9 @@ const posts = await getPosts();
                 <p class="pub-authors"><span class="me">Min Hyeok Bang</span>*, Jun Hyeong Kim*, Seung Wook Kim, Se Ho Lee</p>
                 <p class="pub-venue">European Conference on Computer Vision (ECCV), 2026</p>
                 <nav class="pub-links" aria-label="Publication links">
-                  <a href="https://arxiv.org/abs/2606.24144" target="_blank" rel="noopener">[paper]</a>
-                  <span aria-hidden="true">·</span>
-                  <a href="https://github.com/oweixx/gast" target="_blank" rel="noopener">[code]</a>
-                  <span aria-hidden="true">·</span>
-                  <a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">[project]</a>
+                  <a href="https://arxiv.org/abs/2606.24144" target="_blank" rel="noopener">ARXIV</a>
+                  <a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">WEBSITE</a>
+                  <a href="https://github.com/oweixx/gast" target="_blank" rel="noopener">CODE</a>
                 </nav>
               </div>
             </article>
