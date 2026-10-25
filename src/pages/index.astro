@@ -18,50 +18,53 @@ const posts = await getPosts();
   <link rel="canonical" href="https://oweixx.github.io/" />
   <SiteFonts />
   <style is:global>
-    /* Typography measured against c-he.github.io (al-folio / Bootstrap / MDB). */
+    body { font-size: 16px; color: #1a1a1a; }
     a { color: #2779c4; }
-    .wrap { min-height: 100vh; padding: 48px 0 72px; }
-    .container { width: 100%; max-width: 960px; padding: 0 15px; margin: 0 auto; }
-    .name { margin: 0 0 8px; font-size: 40px; line-height: 1.2; font-weight: 300; }
+    .wrap { min-height: 100vh; padding: 48px 48px 72px; }
+    .container { max-width: 1240px; margin: 0 auto; }
+    .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 300; }
     .name strong { font-weight: 700; }
     .profile { display: flex; align-items: center; gap: 40px; }
     .photo { width: 184px; height: 184px; flex: 0 0 184px; }
     .photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     .profile-info { min-width: 0; }
-    .position { margin: 0; font-size: 16px; font-weight: 500; line-height: 1.5; }
-    .department { margin: 0 0 16px; font-size: 16px; line-height: 1.5; }
+    .position { margin: 0 0 6px; font-size: 16px; font-weight: 700; line-height: 1.3; }
+    .department { margin: 0 0 18px; font-size: 16px; line-height: 1.3; }
     .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 12px; color: #737373; }
-    .section { margin-top: 32px; }
-    .section-title { margin: 0 0 8px; font-size: 32px; font-weight: 300; line-height: 1.2; }
-    .about p { margin: 0 0 16px; font-size: 16px; line-height: 1.5; }
-    .contribution-note { margin: 0 0 24px; font-size: 16px; line-height: 1.5; }
+    .section { margin-top: 44px; }
+    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
+    .about p { margin: 0 0 .5em; font-size: 16px; line-height: 1.6; }
+    .about p:last-child { margin-bottom: 0; }
+    .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
     .pubs { display: grid; gap: 36px; }
     .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; }
     .pub-media { display: block; position: relative; overflow: hidden; box-shadow: 0 2px 9px rgb(0 0 0 / 15%); }
     .pub-media img { width: 100%; height: auto; display: block; }
     .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
-    .pub-title { margin: 0; font-size: 16px; line-height: 1.5; font-weight: 400; }
+    .pub-title { margin: 0 0 6px; font-size: 15px; line-height: 1.3; font-weight: 400; }
     .pub-title a { color: inherit; }
     .pub-title a:hover { color: #2779c4; }
-    .pub-authors { margin: 0; font-size: 16px; line-height: 1.5; }
-    .pub-authors .me { font-weight: 400; border-bottom: 1px solid; }
-    .pub-venue { margin: 0; font-size: 16px; line-height: 1.5; }
-    .pub-links { display: flex; flex-wrap: wrap; gap: 0 10px; }
-    .pub-links a { display: inline-flex; align-items: center; justify-content: center; margin: 6px 0; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: var(--ink); font-size: 10.24px; font-weight: 400; line-height: 1.5; }
+    .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-authors .me { font-weight: 700; }
+    .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: #262626; font-size: 12px; font-weight: 400; line-height: 1.5; }
     .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: #2779c4; border-color: #2779c4; text-decoration: none; }
-    .news { display: grid; }
-    .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; padding: 3.2px 4.8px; font-size: 16px; line-height: 1.5; color: #212529; }
-    .news-date { font-weight: 400; }
+    .news { display: grid; gap: 12px; }
+    .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
+    .news-date { font-weight: 700; }
     .recent-posts .post-list > li:first-child { border-top: 0; }
     .recent-posts .post-list > li { padding: 14px 0 20px; }
-    .recent-posts .post-list h2 { font-size: 24px; font-weight: 300; }
+    .recent-posts .post-list h2 { font-size: 16px; font-weight: 400; }
     .all-posts { margin: 16px 0 0; font-size: 16px; }
     .footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid #ddd; color: #737373; font-size: 14px; }
     @media (max-width: 760px) {
-      .wrap { padding: 32px 0 48px; }
+      .wrap { padding: 32px 22px 48px; }
+      .name { margin-bottom: 24px; }
       .profile { gap: 22px; }
       .photo { width: 128px; height: 128px; flex-basis: 128px; }
       .department { margin-bottom: 12px; }
+      .section { margin-top: 36px; }
       .pub { grid-template-columns: minmax(0, 1fr); gap: 22px; }
       .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; }
     }
@@ -131,7 +134,7 @@ const posts = await getPosts();
               <div class="pub-info">
                 <h3 class="pub-title"><a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">Geometry-Aware Style Transfer in 3D Gaussian Splatting</a></h3>
                 <p class="pub-authors"><span class="me">Min Hyeok Bang</span>*, Jun Hyeong Kim*, Seung Wook Kim, Se Ho Lee</p>
-                <p class="pub-venue"><em>European Conference on Computer Vision</em> (ECCV), 2026</p>
+                <p class="pub-venue">European Conference on Computer Vision (ECCV), 2026</p>
                 <nav class="pub-links" aria-label="Publication links">
                   <a href="https://arxiv.org/abs/2606.24144" target="_blank" rel="noopener">ARXIV</a>
                   <a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">WEBSITE</a>
