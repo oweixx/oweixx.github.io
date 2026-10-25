@@ -4,6 +4,8 @@ import PostList from "../components/PostList.astro";
 import { getPosts } from "../lib/posts";
 import Analytics from "../components/Analytics.astro";
 import ViewCount from "../components/ViewCount.astro";
+import SiteFonts from "../components/SiteFonts.astro";
+import ProfileLinks from "../components/ProfileLinks.astro";
 const posts = await getPosts();
 ---
 <!doctype html>
@@ -14,24 +16,23 @@ const posts = await getPosts();
   <title>MinHyeok Bang</title>
   <meta name="description" content="MinHyeok Bang — BS student at Jeonbuk National University, researching 3D vision and generative modeling." />
   <link rel="canonical" href="https://oweixx.github.io/" />
+  <SiteFonts />
   <style is:global>
-    body { font-family: Georgia, serif; font-size: 16px; color: #1a1a1a; }
+    body { font-size: 16px; color: #1a1a1a; }
     a { color: #2779c4; }
     .wrap { min-height: 100vh; padding: 48px 48px 72px; }
     .container { max-width: 1240px; margin: 0 auto; }
-    .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 700; }
+    .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 300; }
+    .name strong { font-weight: 700; }
     .profile { display: flex; align-items: center; gap: 40px; }
     .photo { width: 184px; height: 184px; flex: 0 0 184px; }
     .photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
     .profile-info { min-width: 0; }
     .position { margin: 0 0 6px; font-size: 16px; font-weight: 700; line-height: 1.3; }
     .department { margin: 0 0 18px; font-size: 16px; line-height: 1.3; }
-    .links { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 16px; line-height: 1.3; }
-    .links a::before { content: '['; }
-    .links a::after { content: ']'; }
-    .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-family: Arial, sans-serif; font-size: 12px; color: #737373; }
+    .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 12px; color: #737373; }
     .section { margin-top: 44px; }
-    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 700; line-height: 1; }
+    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
     .about p { margin: 0 0 .5em; font-size: 16px; line-height: 1.8; }
     .about p:last-child { margin-bottom: 0; }
     .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
@@ -61,7 +62,6 @@ const posts = await getPosts();
       .profile { gap: 22px; }
       .photo { width: 128px; height: 128px; flex-basis: 128px; }
       .department { margin-bottom: 12px; }
-      .links { gap: 6px 10px; }
       .section { margin-top: 36px; }
       .pub { grid-template-columns: minmax(0, 1fr); gap: 22px; }
       .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; }
@@ -78,18 +78,13 @@ const posts = await getPosts();
   <div class="wrap">
     <div class="container">
       <header>
-        <h1 class="name">MinHyeok Bang</h1>
+        <h1 class="name"><strong>MinHyeok</strong> Bang</h1>
         <div class="profile">
           <div class="photo"><img src="/assets/profile.png" alt="MinHyeok Bang" width="184" height="184" /></div>
           <div class="profile-info">
             <p class="position">B.S Student @ JBNU</p>
             <p class="department">Computer Science · Jeonbuk National University</p>
-            <nav class="links" aria-label="Profile links">
-              <a href="https://scholar.google.com/citations?user=p1X1SGAAAAAJ&hl=ko" target="_blank" rel="noopener">Google Scholar</a>
-              <a href="https://github.com/oweixx" target="_blank" rel="noopener">GitHub</a>
-              {import.meta.env.DEV && <a href="/write/">글쓰기</a>}
-              <a href="/blog/">Blog</a>
-            </nav>
+            <ProfileLinks />
             <div class="site-visits" aria-label="Site visits">
               <ViewCount path="TOTAL" period="today" label="Today" />
               <ViewCount path="TOTAL" label="Total" />
@@ -105,6 +100,24 @@ const posts = await getPosts();
           <p>My research interests lie in 3D vision and generative modeling, including Gaussian Splatting, avatars, and style transfer.</p>
           <p>I work with <a href="https://jbnu-vilab.github.io/people/">Prof. Se-Ho Lee</a> at the <a href="https://jbnu-vilab.github.io/">Vision Intelligence Lab</a> @ JBNU and <a href="https://vml.kaist.ac.kr/main/people/person/1">Prof. Junyong Noh</a> at the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a> @ KAIST.</p>
           <p>I write about my research and learning experiences on my <a href="/blog/">blog</a>.</p>
+        </section>
+
+        <section class="section" aria-labelledby="news-title">
+          <h2 id="news-title" class="section-title">News</h2>
+          <div class="news">
+            <div class="news-row">
+              <div class="news-date">Jun, 2026</div>
+              <div><a href="https://kjun627.github.io/gast-web/">Geometry-Aware Style Transfer</a> has been accepted to <strong>ECCV 2026</strong>.</div>
+            </div>
+            <div class="news-row">
+              <div class="news-date">Dec, 2025</div>
+              <div>Joined the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a> @ KAIST as an undergraduate researcher.</div>
+            </div>
+            <div class="news-row">
+              <div class="news-date">Apr, 2025</div>
+              <div>Joined the <a href="https://jbnu-vilab.github.io/">Vision Intelligence Lab</a> @ JBNU as an undergraduate researcher.</div>
+            </div>
+          </div>
         </section>
 
         <section class="section" aria-labelledby="publications-title">
@@ -132,23 +145,7 @@ const posts = await getPosts();
           </div>
         </section>
 
-        <section class="section" aria-labelledby="news-title">
-          <h2 id="news-title" class="section-title">News</h2>
-          <div class="news">
-            <div class="news-row">
-              <div class="news-date">Jun, 2026</div>
-              <div><a href="https://kjun627.github.io/gast-web/">Geometry-Aware Style Transfer</a> has been accepted to <strong>ECCV 2026</strong>.</div>
-            </div>
-            <div class="news-row">
-              <div class="news-date">Dec, 2025</div>
-              <div>Joined the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a> @ KAIST as an undergraduate researcher.</div>
-            </div>
-            <div class="news-row">
-              <div class="news-date">Apr, 2025</div>
-              <div>Joined the <a href="https://jbnu-vilab.github.io/">Vision Intelligence Lab</a> @ JBNU as an undergraduate researcher.</div>
-            </div>
-          </div>
-        </section>
+
 
         <section class="section recent-posts" aria-labelledby="recent-posts-title">
           <h2 id="recent-posts-title" class="section-title">Recent Posts</h2>

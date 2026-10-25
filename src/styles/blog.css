@@ -1,7 +1,7 @@
 :root { --ink: #262626; --muted: #737373; --line: #ededed; --blue: #2779c4; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #fff; color: var(--ink); font-family: 'Lato', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: #fff; color: var(--ink); font-family: 'Roboto', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
 a { color: var(--blue); text-decoration: none; text-underline-offset: 4px; }
 a:hover { color: #1a578f; text-decoration: underline; }
 button, input, textarea, select { font: inherit; }
@@ -13,7 +13,7 @@ button { cursor: pointer; }
 .blog-shell.wide { max-width: 1500px; }
 .site-header { padding: 44px 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid var(--line); }
 .site-name { color: #1a1a1a; font-size: 21px; font-weight: 300; white-space: nowrap; }
-.site-name strong { font-weight: 900; }
+.site-name strong { font-weight: 700; }
 .site-header nav { display: flex; gap: 24px; font-size: 14px; }
 .site-header nav [aria-current] { color: var(--ink); }
 .page-heading { padding: 64px 0 40px; }
