@@ -127,12 +127,6 @@ npm run preview
 
 기존 루트 `index.html`의 홈페이지는 `src/pages/index.astro`로 옮겼습니다. 프로필, About Me, News, 논문 표시 내용은 이 파일에서 수정합니다. BibTeX 인용 정보는 `src/data/publications.ts`에서 관리합니다. 게재 권호나 DOI를 모르면 임의로 넣지 않고, 확인 후 인용 정보를 갱신합니다. `assets/`의 기존 파일과 주소는 그대로 사용합니다. `legacy/`는 참고용 보관 디렉터리이며 새 빌드에 포함되지 않습니다.
 
-## 논문 썸네일 영상
-
-홈페이지는 `assets/edgar.webm`, `assets/geometry.webm`을 우선 사용하고, 지원하지 않거나 로딩에 실패하면 같은 이름의 `.mp4`를 사용합니다. 화면에 보일 때 음소거·자동 반복 재생하며, 화면 밖이나 다른 탭에서는 정지합니다. 동작 줄이기 설정을 사용하거나 JavaScript가 꺼져 있으면 `*-poster.webp` 정지 이미지를 표시합니다.
-
-원본 `edgar.gif`, `geometry.gif`는 보관합니다. 영상은 원본 해상도와 프레임별 재생 시점을 유지해 변환했습니다. MP4는 H.264 CRF 16, WebM은 VP9 CRF 18을 사용한 손실 압축입니다. 썸네일을 갱신할 때는 두 영상 형식과 정지 이미지를 함께 교체하고, `src/components/PublicationVideo.astro` 및 홈페이지의 크기 설정을 확인합니다.
-
 ## 리디자인 이전 사본
 
 2026-11-07 리디자인 이전 상태는 GitHub의 `backup/pre-jon-redesign-20261107` 브랜치에 보관했습니다. 해당 기준 커밋은 `02efb83fcf4df0b647d4b24c7aa84a7ca18500dc`입니다. 로컬 ZIP 사본은 `.qa/homepage-before-jon-20261107.zip`이며 Git에 포함하지 않습니다.
