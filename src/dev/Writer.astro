@@ -6,29 +6,39 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   <p class="writer-note">입력 내용은 브라우저에 임시 저장됩니다. <strong>파일에 저장</strong>하면 블로그 폴더에 반영됩니다. 공개하려면 초안을 해제해 저장한 후 커밋·push하세요. <kbd>Ctrl / ⌘ + S</kbd>로도 저장할 수 있습니다.</p>
   <div class="post-library"><label for="existing-post">기존 글</label><select id="existing-post" disabled><option value="">글 목록을 불러오는 중…</option></select><button id="open-post" type="button" disabled>열기</button><a id="saved-preview" href="/blog/" target="_blank" rel="noopener" hidden>글 페이지 미리보기 ↗</a></div>
   <p id="file-status" class="writer-note" role="status">새 글</p>
-  <div class="writer-grid">
-    <section class="editor-panel" aria-label="글 편집">
-      <div class="panel-bar"><span>작성</span><span id="save-status" role="status" aria-live="polite">작성 화면 준비 중</span></div>
+  <details id="post-settings" class="post-settings" open>
+    <summary>글 정보 <span>제목 · 주소 · 카테고리 · 공개 설정</span></summary>
+    <div class="settings-grid">
       <fieldset class="editor-fields" disabled>
         <label>제목<input id="post-title" type="text" placeholder="글 제목" required /></label>
         <div class="field-row"><label>글 주소<input id="post-slug" type="text" placeholder="my-research-note" pattern="[a-zA-Z0-9]+([_-][a-zA-Z0-9]+)*" required /></label><label>작성일<input id="post-date" type="date" required /></label></div>
         <div class="field-row"><label>카테고리<select id="post-category"><option>Research</option><option>Papers</option><option>Notes</option><option>Life</option></select></label><label>태그<input id="post-tags" type="text" placeholder="3DGS, 회고" /></label></div>
         <label>짧은 설명<input id="post-description" type="text" placeholder="목록에 표시할 한두 문장" /></label>
         <label class="draft-toggle"><input id="post-draft" type="checkbox" checked /> 초안으로 저장</label>
-        <div class="image-tools" aria-label="본문 이미지 넣기"><button id="insert-images" type="button">이미지 추가</button><button id="insert-gallery" type="button">갤러리 추가</button><input id="image-files" type="file" multiple accept="image/png,image/jpeg,image/gif,image/webp,image/avif" hidden /></div>
-        <p id="image-status" class="markdown-help" role="status" aria-live="polite">사진을 선택하거나 본문에 붙여넣기·드래그해서 넣을 수 있습니다.</p>
-        <label>본문 <span class="field-hint">Markdown</span><textarea id="post-body" spellcheck="false" placeholder="## 시작하며&#10;&#10;여기에 글을 써보세요." aria-describedby="markdown-help"></textarea></label>
-        <p id="markdown-help" class="markdown-help">제목 <code>##</code> · 코드 <code>```python</code> · 수식 <code>$…$</code> / <code>$$…$$</code> · 이미지 <code>![설명](/assets/blog/image.png)</code> · 여러 이미지는 <code>:::gallery</code>와 <code>:::</code> 사이에 넣습니다. 이미지 주소에는 외부 HTTPS 주소도 사용할 수 있습니다.</p>
+      </fieldset>
+      <header class="article-heading settings-preview" aria-label="글 정보 미리보기"><div class="post-meta"><span id="preview-category">Research</span><span aria-hidden="true">·</span><span id="preview-date"></span><span id="preview-draft" class="draft-badge">초안</span></div><h1 id="preview-title">글 제목</h1><p id="preview-description" class="article-description"></p><div id="preview-tags" class="post-tags"></div></header>
+    </div>
+  </details>
+  <div class="writer-toolbar">
+    <div class="image-tools" aria-label="본문 이미지 넣기"><button id="insert-images" type="button" disabled>이미지 추가</button><button id="insert-gallery" type="button" disabled>갤러리 추가</button><input id="image-files" type="file" multiple accept="image/png,image/jpeg,image/gif,image/webp,image/avif" hidden /></div>
+    <label class="scroll-toggle"><input id="sync-scroll" type="checkbox" checked /> 스크롤 연결</label>
+  </div>
+  <p id="image-status" class="markdown-help" role="status" aria-live="polite">사진을 선택하거나 본문에 붙여넣기·드래그해서 넣을 수 있습니다.</p>
+  <div class="writer-grid">
+    <section class="editor-panel" aria-label="글 편집">
+      <div class="panel-bar"><label for="post-body">본문 · Markdown</label><span id="save-status" role="status" aria-live="polite">작성 화면 준비 중</span></div>
+      <fieldset class="editor-fields editor-body-fields" disabled>
+        <textarea id="post-body" spellcheck="false" placeholder="## 시작하며&#10;&#10;여기에 글을 써보세요." aria-describedby="markdown-help"></textarea>
       </fieldset>
     </section>
     <section class="preview-panel" aria-label="실시간 미리보기">
       <div class="panel-bar"><span>미리보기</span><span id="render-status" role="status" aria-live="polite">입력하면 바로 반영됩니다</span></div>
-      <article class="preview-article">
-        <header class="article-heading"><div class="post-meta"><span id="preview-category">Research</span><span aria-hidden="true">·</span><span id="preview-date"></span><span id="preview-draft" class="draft-badge">초안</span></div><h1 id="preview-title">글 제목</h1><p id="preview-description" class="article-description"></p><div id="preview-tags" class="post-tags"></div></header>
+      <article id="preview-scroll" class="preview-article" tabindex="0" aria-label="본문 미리보기">
         <div id="preview-body" class="prose"><p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p></div>
       </article>
     </section>
   </div>
+  <p id="markdown-help" class="markdown-help">제목 <code>##</code> · 코드 <code>```python</code> · 수식 <code>$…$</code> / <code>$$…$$</code> · 이미지 <code>![설명](/assets/blog/image.png)</code> · 여러 이미지는 <code>:::gallery</code>와 <code>:::</code> 사이에 넣습니다. 스크롤 연결을 끄면 두 창을 따로 움직일 수 있습니다.</p>
 </BlogLayout>
 <style>
   .writer-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 40px 0 20px; }
@@ -45,28 +55,38 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   .post-library select { min-width: 0; flex: 1; max-width: 600px; border: 1px solid #dce1e6; padding: 9px; background: white; }
   .post-library button { padding: 9px 14px; border: 1px solid #dce1e6; background: white; border-radius: 3px; }
   .post-library [hidden] { display: none; }
-  .writer-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; }
-  .editor-panel, .preview-panel { border: 1px solid #e5e8eb; border-radius: 5px; overflow: hidden; min-width: 0; }
-  .panel-bar { padding: 13px 18px; display: flex; justify-content: space-between; gap: 12px; font-size: 12px; border-bottom: 1px solid #e5e8eb; color: #555; background: #fafbfc; }
+  .writer-grid, .settings-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 24px; }
+  .writer-grid { height: clamp(360px, 72dvh, 900px); }
+  .editor-panel, .preview-panel { display: flex; flex-direction: column; border: 1px solid #e5e8eb; border-radius: 5px; overflow: hidden; min-width: 0; min-height: 0; }
+  .panel-bar { flex: 0 0 auto; min-height: 44px; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; border-bottom: 1px solid #e5e8eb; color: #555; background: #fafbfc; }
   .panel-bar > :last-child { color: #888; font-size: 11px; }
   .editor-fields { padding: 22px; border: 0; margin: 0; min-width: 0; }
+  .post-settings { border: 1px solid #e5e8eb; border-radius: 5px; margin-bottom: 20px; }
+  .post-settings summary { padding: 14px 18px; font-size: 13px; cursor: pointer; }
+  .post-settings summary span { margin-left: 10px; color: #888; font-size: 12px; }
+  .settings-preview { padding: 22px 30px; min-width: 0; }
+  .writer-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .scroll-toggle { display: flex; align-items: center; gap: 7px; font-size: 12px; white-space: nowrap; }
+  .scroll-toggle input { accent-color: #2779c4; }
   .writer-actions button:disabled { opacity: .5; cursor: wait; }
   .editor-fields label { display: block; font-size: 12px; color: #555; margin-bottom: 18px; }
   .editor-fields input:not([type=checkbox]), .editor-fields select, .editor-fields textarea { display: block; width: 100%; margin-top: 8px; border: 1px solid #dce1e6; border-radius: 3px; padding: 9px 10px; background: #fff; color: #262626; font-size: 13px; }
   .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
   .editor-fields .draft-toggle { display: flex; align-items: center; gap: 8px; }
   .draft-toggle input { margin: 0; accent-color: #2779c4; }
-  .editor-fields textarea { min-height: 430px; resize: vertical; font-family: ui-monospace, Consolas, monospace; line-height: 1.8; tab-size: 2; }
-  .field-hint { float: right; color: #aaa; font-size: 11px; }
+  .editor-body-fields { flex: 1; min-height: 0; padding: 0; display: flex; }
+  .editor-fields textarea { height: 100%; min-height: 0; margin: 0; padding: 22px; border: 0; border-radius: 0; resize: none; font-family: ui-monospace, Consolas, monospace; line-height: 1.8; tab-size: 2; overflow-y: auto; }
+  .editor-fields textarea, .preview-article { overscroll-behavior-y: contain; scrollbar-gutter: stable; scroll-behavior: auto; overflow-anchor: none; }
+  .editor-fields textarea:focus-visible, .preview-article:focus-visible { outline-offset: -2px; }
   .markdown-help { font-size: 11px; color: #888; line-height: 1.9; }
   .image-tools { display: flex; flex-wrap: wrap; gap: 8px; }
   .image-tools input[hidden] { display: none; }
   .image-tools button { padding: 8px 12px; border: 1px solid #dce1e6; border-radius: 4px; background: #fff; color: #555; font-size: 12px; }
   .image-tools button:disabled { opacity: .5; cursor: wait; }
-  .preview-article { padding: 0 30px 30px; }
+  .preview-article { flex: 1; min-height: 0; overflow-y: auto; padding: 22px 30px; }
   .preview-placeholder { color: #aaa; font-size: 14px; }
-  @media (max-width: 900px) { .writer-grid { grid-template-columns: 1fr; } .writer-heading { align-items: flex-start; flex-direction: column; } .editor-fields textarea { min-height: 300px; } }
-  @media (max-width: 640px) { .preview-article { padding: 0 20px 20px; } .editor-fields { padding: 18px; } }
+  @media (max-width: 900px) { .writer-grid, .settings-grid { grid-template-columns: 1fr; } .writer-grid { height: auto; } .editor-panel, .preview-panel { height: clamp(320px, 55dvh, 600px); } .writer-heading { align-items: flex-start; flex-direction: column; } }
+  @media (max-width: 640px) { .preview-article, .settings-preview { padding: 18px 20px; } .editor-fields { padding: 18px; } .editor-body-fields { padding: 0; } .post-settings summary span { display: none; } }
 </style>
 <script>
   import "../scripts/writer";

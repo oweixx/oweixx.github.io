@@ -22,15 +22,40 @@ const safeMarkdownSchema = {
     figure: [['className', 'gallery-slide']],
   },
 };
-export const rehypePlugins = [[rehypeSanitize, safeMarkdownSchema], rehypeImages, rehypeKatex, [rehypeHighlight, { detect: false }], rehypeSlug];
+const safeHtmlPlugins = [[rehypeSanitize, safeMarkdownSchema], rehypeImages];
+const formattingPlugins = [rehypeKatex, [rehypeHighlight, { detect: false }], rehypeSlug];
+export const rehypePlugins = [...safeHtmlPlugins, ...formattingPlugins];
+
+function rememberPreviewSource() {
+  return (tree, file) => {
+    // KaTeX replaces math nodes, but keeps their place among the root blocks.
+    file.data.previewPositions = tree.children.map(node => node.position);
+  };
+}
+
+// Add trusted source offsets after sanitizing, only in the local writer.
+function rehypePreviewSource() {
+  return (tree, file) => {
+    tree.children.forEach((node, index) => {
+      const position = node.position ?? file.data.previewPositions[index];
+      if (node.type !== 'element' || !position) return;
+      node.properties['data-source-start'] = position.start.offset;
+      node.properties['data-source-end'] = position.end.offset;
+    });
+  };
+}
 
 // Preview and publication share the full pipeline, including image galleries.
-export async function previewMarkdown(markdown) {
-  return String(await unified()
+export async function previewMarkdown(markdown, { sourceMap = false } = {}) {
+  const processor = unified()
     .use(remarkParse)
     .use(remarkPlugins)
     .use(remarkRehype)
-    .use(rehypePlugins)
+    .use(safeHtmlPlugins);
+  if (sourceMap) processor.use(rememberPreviewSource);
+  processor.use(formattingPlugins);
+  if (sourceMap) processor.use(rehypePreviewSource);
+  return String(await processor
     .use(rehypeStringify)
     .process(markdown));
 }

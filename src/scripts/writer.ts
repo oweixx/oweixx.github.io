@@ -3,12 +3,15 @@ import { parse } from 'yaml';
 import { serializePostDocument } from '../lib/post-document.mjs';
 import { attachCopyButtons } from './copy-code';
 import { attachGalleries } from './galleries';
+import { connectWriterScroll } from './writer-scroll';
 
 const input = (id: string) => document.getElementById(id) as HTMLInputElement;
 const button = (id: string) => document.getElementById(id) as HTMLButtonElement;
 const text = (id: string, value: string) => { document.getElementById(id)!.textContent = value; };
 const category = document.getElementById('post-category') as HTMLSelectElement;
 const body = document.getElementById('post-body') as HTMLTextAreaElement;
+const preview = document.getElementById('preview-body')!;
+const scrollSync = connectWriterScroll(body, document.getElementById('preview-scroll')!, preview, input('sync-scroll'));
 const library = document.getElementById('existing-post') as HTMLSelectElement;
 const previewLink = document.getElementById('saved-preview') as HTMLAnchorElement;
 const key = 'oweixx-blog-writer-v1';
@@ -57,6 +60,7 @@ function restore(post: Record<string, unknown>) {
   input('post-description').value = String(description ?? '');
   input('post-draft').checked = draft !== false;
   body.value = String(postBody ?? '');
+  scrollSync.reset();
 }
 async function renderPreview() {
   const sequence = ++renderSequence;
@@ -68,12 +72,12 @@ async function renderPreview() {
     const el = document.createElement('span'); el.textContent = `#${tag}`; return el;
   }));
   try {
-    const html = await previewMarkdown(post.body);
+    const html = await previewMarkdown(post.body, { sourceMap: true });
     if (sequence !== renderSequence) return;
-    const preview = document.getElementById('preview-body')!;
     cleanUpGalleries?.();
     preview.innerHTML = html || '<p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p>';
     attachCopyButtons(preview); cleanUpGalleries = attachGalleries(preview);
+    scrollSync.update(post.body);
     text('render-status', '미리보기 반영됨');
   } catch (error) { if (sequence === renderSequence) text('render-status', error instanceof Error ? error.message : '문법을 확인해 주세요'); }
 }
@@ -98,7 +102,7 @@ async function refreshLibrary() {
 }
 async function savePost() {
   if (busy) return;
-  for (const id of ['post-title', 'post-slug', 'post-date']) if (!input(id).reportValidity()) return;
+  if (!validatePostFields()) return;
   const post = values();
   const savingSnapshot = snapshot();
   setBusy(true); text('save-status', '파일 저장 중…');
@@ -132,6 +136,7 @@ button('new-post').addEventListener('click', () => {
   if (!canSwitch()) return;
   restore({ category: 'Research', draft: true }); activeFile = null; revision = null;
   savedSnapshot = snapshot(); library.value = ''; previewLink.hidden = true;
+  (document.getElementById('post-settings') as HTMLDetailsElement).open = true;
   changed(); text('save-status', '새 글을 작성하세요'); input('post-title').focus();
 });
 
@@ -181,8 +186,17 @@ input('import-file').addEventListener('change', async () => {
   } catch { text('save-status', '파일의 Markdown / YAML 형식을 확인해 주세요'); }
   input('import-file').value = '';
 });
+function validatePostFields() {
+  for (const id of ['post-title', 'post-slug', 'post-date']) {
+    if (input(id).checkValidity()) continue;
+    (document.getElementById('post-settings') as HTMLDetailsElement).open = true;
+    input(id).reportValidity();
+    return false;
+  }
+  return true;
+}
 button('download').addEventListener('click', () => {
-  for (const id of ['post-title', 'post-slug', 'post-date']) if (!input(id).reportValidity()) return;
+  if (!validatePostFields()) return;
   const post = values();
   const url = URL.createObjectURL(new Blob([serializePostDocument(post)], { type: 'text/markdown;charset=utf-8' }));
   const link = document.createElement('a'); link.href = url; link.download = `${post.date}-${post.slug}.md`; link.click();
@@ -201,7 +215,9 @@ try {
     if (activeFile) showPreview(`/blog/${input('post-date').value.slice(0, 4)}/${input('post-slug').value}/`);
   } else text('save-status', '작성 준비됨');
 } catch { text('save-status', '임시 저장을 복원하지 못했습니다'); }
-document.querySelector('.editor-fields')!.addEventListener('input', changed);
-(document.querySelector('.editor-fields') as HTMLFieldSetElement).disabled = false;
+for (const fields of document.querySelectorAll<HTMLFieldSetElement>('.editor-fields')) {
+  fields.addEventListener('input', changed);
+  fields.disabled = false;
+}
 button('download').disabled = false; setBusy(false); updateFileStatus(); void renderPreview();
 void refreshLibrary().catch(error => text('file-status', `글 목록을 불러오지 못했습니다: ${error.message}`));
