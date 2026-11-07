@@ -12,15 +12,15 @@ export const publications = [
     venue: 'ACM Transactions on Graphics', year: 2026, note: 'Accepted', impactFactor: '13.0',
     paper: 'https://arxiv.org/abs/2611.07909', website: 'https://kwanyun.github.io/edgar/#top', code: 'https://github.com/kwanyun/edgar-code/',
     summary: 'We use identity-guided diffusion to repair Gaussian avatar renderings, then transfer these improvements back into a single 3D avatar for fast rendering.',
-    bibtex: `@article{yun2026edgar,
-  title = {{EDGAR}: Efficient Diffusion-Driven Gaussian Avatar Refinement via Synthetic Failure},
-  author = {Yun, Kwan and Bang, MinHyeok and Koo, Colette Suhjung and Noh, Junyong},
-  journal = {ACM Transactions on Graphics},
-  year = {2026},
-  note = {Accepted for publication},
-  eprint = {2611.07909},
-  archivePrefix = {arXiv},
-  url = {https://arxiv.org/abs/2611.07909}
+    // Source: https://github.com/kwanyun/edgar-code#citation (2026-11-08)
+    bibtex: `@misc{yun2026edgar,
+  title={EDGAR: Efficient Diffusion-Driven Gaussian Avatar Refinement via Synthetic Failure},
+  author={Kwan Yun and Minhyeok Bang and Colette Suhjung Koo and Junyong Noh},
+  year={2026},
+  eprint={2611.07909},
+  archivePrefix={arXiv},
+  primaryClass={cs.GR},
+  url={https://arxiv.org/abs/2611.07909},
 }`,
   },
   {
@@ -35,14 +35,13 @@ export const publications = [
     venue: 'European Conference on Computer Vision (ECCV)', year: 2026, note: '', impactFactor: '',
     paper: 'https://arxiv.org/abs/2606.24144', website: 'https://kjun627.github.io/gast-web/', code: 'https://github.com/oweixx/gast',
     summary: 'We transfer both appearance and geometry from a style image to a 3D Gaussian scene by alternating color and geometry updates with RGB, depth, and edge guidance.',
-    bibtex: `@inproceedings{bang2026geometry,
-  title = {Geometry-Aware Style Transfer in {3D} Gaussian Splatting},
+    // Source: https://github.com/oweixx/gast#citation (2026-11-08)
+    bibtex: `@inproceedings{bang2026gast,
+  title = {Geometry-aware style transfer in 3D gaussian splatting},
   author = {Bang, Min Hyeok and Kim, Jun Hyeong and Kim, Seung-Wook and Lee, Se-Ho},
-  booktitle = {European Conference on Computer Vision},
-  year = {2026},
-  eprint = {2606.24144},
-  archivePrefix = {arXiv},
-  url = {https://arxiv.org/abs/2606.24144}
+  booktitle = {Proc. European Conference on Computer Vision (ECCV)},
+  address = {Malmö, Sweden},
+  year = {2026}
 }`,
   },
 ];
