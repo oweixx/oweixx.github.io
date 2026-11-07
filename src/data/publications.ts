@@ -25,7 +25,7 @@ export const publications = [
   },
   {
     id: 'geometry-aware-style-transfer', title: 'Geometry-Aware Style Transfer in 3D Gaussian Splatting',
-    image: '/assets/geometry.jpeg', imageAlt: 'Geometry-aware style transfer results in 3D Gaussian Splatting',
+    image: '/assets/geometry.gif', imageAlt: 'Animated geometry-aware style transfer results in 3D Gaussian Splatting',
     authors: [
       { name: 'Min Hyeok Bang', url: 'https://oweixx.github.io/', me: true, equal: true },
       { name: 'Jun Hyeong Kim', url: 'https://kjun627.github.io/', equal: true },
