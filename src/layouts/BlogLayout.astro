@@ -4,6 +4,7 @@ import 'katex/dist/katex.min.css';
 import 'highlight.js/styles/github.css';
 import Analytics from '../components/Analytics.astro';
 import SiteFonts from '../components/SiteFonts.astro';
+import SiteIcon from '../components/SiteIcon.astro';
 interface Props {
   title: string;
   description?: string;
@@ -25,6 +26,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <SiteFonts />
+    <SiteIcon />
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>

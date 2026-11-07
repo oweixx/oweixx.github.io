@@ -5,6 +5,7 @@ import { getPosts } from "../lib/posts";
 import Analytics from "../components/Analytics.astro";
 import ViewCount from "../components/ViewCount.astro";
 import SiteFonts from "../components/SiteFonts.astro";
+import SiteIcon from "../components/SiteIcon.astro";
 import ProfileLinks from "../components/ProfileLinks.astro";
 import Citation from "../components/Citation.astro";
 import { publications } from "../data/publications";
@@ -19,6 +20,7 @@ const posts = await getPosts();
   <meta name="description" content="MinHyeok Bang — BS student at Jeonbuk National University, researching 3D vision and generative modeling." />
   <link rel="canonical" href="https://oweixx.github.io/" />
   <SiteFonts />
+  <SiteIcon />
   <style is:global>
     body { font-size: 16px; color: #1a1a1a; }
     a { color: #2779c4; }
