@@ -1,11 +1,13 @@
-﻿---
-import '../styles/blog.css';
-import { getPosts, formatDate, postUrl } from '../lib/posts';
-import { publications } from '../data/publications';
-import Analytics from '../components/Analytics.astro';
-import ViewCount from '../components/ViewCount.astro';
-import SiteFonts from '../components/SiteFonts.astro';
-import Citation from '../components/Citation.astro';
+---
+import "../styles/blog.css";
+import PostList from "../components/PostList.astro";
+import { getPosts } from "../lib/posts";
+import Analytics from "../components/Analytics.astro";
+import ViewCount from "../components/ViewCount.astro";
+import SiteFonts from "../components/SiteFonts.astro";
+import ProfileLinks from "../components/ProfileLinks.astro";
+import Citation from "../components/Citation.astro";
+import { publications } from "../data/publications";
 const posts = await getPosts();
 ---
 <!doctype html>
@@ -14,64 +16,173 @@ const posts = await getPosts();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MinHyeok Bang</title>
-  <meta name="description" content="MinHyeok Bang — undergraduate researcher in 3D vision, Gaussian avatars, and generative modeling at Jeonbuk National University." />
+  <meta name="description" content="MinHyeok Bang — BS student at Jeonbuk National University, researching 3D vision and generative modeling." />
   <link rel="canonical" href="https://oweixx.github.io/" />
   <SiteFonts />
+  <style is:global>
+    body { font-size: 16px; color: #1a1a1a; }
+    a { color: #2779c4; }
+    .wrap { min-height: 100vh; padding: 48px 48px 72px; }
+    .container { max-width: 1240px; margin: 0 auto; }
+    .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 300; }
+    .name strong { font-weight: 700; }
+    .profile { display: flex; align-items: center; gap: 40px; }
+    .photo { width: 184px; height: 184px; flex: 0 0 184px; }
+    .photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .profile-info { min-width: 0; }
+    .position { margin: 0 0 6px; font-size: 16px; font-weight: 700; line-height: 1.3; }
+    .department { margin: 0 0 18px; font-size: 16px; line-height: 1.3; }
+    .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 12px; color: #737373; }
+    .section { margin-top: 44px; }
+    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
+    .about p { margin: 0 0 .5em; font-size: 16px; line-height: 1.6; }
+    .about p:last-child { margin-bottom: 0; }
+    .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
+    .pubs { display: grid; gap: 36px; }
+    .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; }
+    .pub-media { display: block; position: relative; overflow: hidden; box-shadow: 0 2px 9px rgb(0 0 0 / 15%); }
+    .pub-media img { width: 100%; height: auto; display: block; }
+    .pub-media.edgar img { max-height: 320px; object-fit: contain; background: #f8faf8; }
+    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
+    .pub-title { margin: 0 0 6px; font-size: 15px; line-height: 1.3; font-weight: 400; }
+    .pub-title a { color: inherit; }
+    .pub-title a:hover { color: #2779c4; }
+    .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-authors a { color: #000; text-decoration: none; }
+    .pub-authors a:hover, .pub-authors a:focus-visible { color: #2779c4; }
+    .pub-authors .me { font-weight: 700; }
+    .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: #262626; font-size: 12px; font-weight: 400; line-height: 1.5; }
+    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: #2779c4; border-color: #2779c4; text-decoration: none; }
+    .news { display: grid; gap: 12px; }
+    .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
+    .news-date { font-weight: 700; }
+    .recent-posts .post-list > li:first-child { border-top: 0; }
+    .recent-posts .post-list > li { padding: 14px 0 20px; }
+    .recent-posts .post-list h2 { font-size: 16px; font-weight: 400; }
+    .all-posts { margin: 16px 0 0; font-size: 16px; }
+    .footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid #ddd; color: #737373; font-size: 14px; }
+    @media (max-width: 760px) {
+      .wrap { padding: 32px 22px 48px; }
+      .name { margin-bottom: 24px; }
+      .profile { gap: 22px; }
+      .photo { width: 128px; height: 128px; flex-basis: 128px; }
+      .department { margin-bottom: 12px; }
+      .section { margin-top: 36px; }
+      .pub { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+      .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; }
+    }
+    @media (max-width: 420px) {
+      .profile { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .photo { width: 144px; height: 144px; flex-basis: auto; }
+      .news-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+    }
+  </style>
 </head>
-<body class="academic-home">
+<body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="home-shell">
-    <header class="profile">
-      <div class="profile-copy">
-        <h1>MinHyeok Bang</h1>
-        <p>I am a B.S. student in Computer Science at Jeonbuk National University.</p>
-        <p>I work with <a href="https://vilab.jbnu.ac.kr/">Prof. Se-Ho Lee</a> at the <a href="https://vilab.jbnu.ac.kr/">Vision Intelligence Lab</a>, JBNU, and <a href="https://vml.kaist.ac.kr/main/people/person/1">Prof. Junyong Noh</a> at the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a>, KAIST.</p>
-        <p>I also write about research and things I learn on my <a href="/blog/">blog</a>.</p>
-        <nav class="profile-links" aria-label="Profile links">
-          <a href="https://github.com/oweixx" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">/</span>
-          <a href="https://scholar.google.com/citations?user=p1X1SGAAAAAJ&hl=ko" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">/</span>
-          {import.meta.env.DEV && <><a href="/write/">글쓰기</a><span aria-hidden="true">/</span></>}
-          <a href="/blog/">Blog</a>
-        </nav>
-        <div class="site-visits" aria-label="Site visits"><ViewCount path="TOTAL" period="today" label="Today" /><ViewCount path="TOTAL" label="Total" /></div>
-      </div>
-      <a class="portrait" href="/assets/profile.png" aria-label="View MinHyeok Bang's profile photo"><img src="/assets/profile.png" alt="MinHyeok Bang" width="256" height="256" /></a>
-    </header>
-    <main id="main">
-      <section aria-labelledby="research-title">
-        <div class="section-intro">
-          <h2 id="research-title">Research</h2>
-          <p>I am interested in 3D vision and generative modeling. My research focuses on Gaussian avatars and on transferring appearance and geometry to 3D scenes.</p>
-          <p class="contribution-note">* indicates equal contribution.</p>
+  <div class="wrap">
+    <div class="container">
+      <header>
+        <h1 class="name"><strong>MinHyeok</strong> Bang</h1>
+        <div class="profile">
+          <div class="photo"><img src="/assets/profile.png" alt="MinHyeok Bang" width="184" height="184" /></div>
+          <div class="profile-info">
+            <p class="position">B.S Student @ JBNU</p>
+            <p class="department">Computer Science · Jeonbuk National University</p>
+            <ProfileLinks />
+            <div class="site-visits" aria-label="Site visits">
+              <ViewCount path="TOTAL" period="today" label="Today" />
+              <ViewCount path="TOTAL" label="Total" />
+            </div>
+          </div>
         </div>
-        <div class="publications">
-          {publications.map((paper) => (
-            <article class="publication" id={paper.id}>
-              <a class="publication-media" href={paper.website} target="_blank" rel="noopener" aria-label={`${paper.title} project`}><img src={paper.image} alt={paper.imageAlt} loading="lazy" decoding="async" width="160" height="160" /></a>
-              <div class="publication-copy">
-                <h3><a href={paper.website} target="_blank" rel="noopener">{paper.title}</a></h3>
-                <p class="pub-authors">{paper.authors.map((author, index) => <>{index > 0 && ', '}<a class:list={{ me: author.me }} href={author.url} target={author.me ? undefined : '_blank'} rel={author.me ? undefined : 'noopener'}>{author.name}</a>{'equal' in author && author.equal && '*'}</>)}</p>
-                <p class="pub-venue"><em>{paper.venue}</em>{paper.impactFactor && <> (IF: <a href="https://www.eurekalert.org/news-releases/1134416" title="2025 Journal Impact Factor, announced by ACM in July 2026">{paper.impactFactor}</a>)</>}, {paper.year}{paper.note && <> · {paper.note}</>}</p>
-                <div class="pub-links" aria-label={`${paper.title} resources`}>
-                  <a href={paper.paper} target="_blank" rel="noopener">ARXIV</a>
-                  <a href={paper.website} target="_blank" rel="noopener">WEBSITE</a>
-                  <a href={paper.code} target="_blank" rel="noopener">CODE</a>
-                  <Citation id={paper.id} bibtex={paper.bibtex} />
-                </div>
-                <p class="paper-summary">{paper.summary}</p>
+      </header>
+
+      <main id="main">
+        <section class="section about" aria-labelledby="about-title">
+          <h2 id="about-title" class="section-title">About Me</h2>
+          <p>I am an undergraduate student at Jeonbuk National University, majoring in Computer Science.</p>
+          <p>My research interests lie in 3D vision and generative modeling, including Gaussian Splatting, avatars, and style transfer.</p>
+          <p>I work with <a href="https://jbnu-vilab.github.io/people/">Prof. Se-Ho Lee</a> at the <a href="https://jbnu-vilab.github.io/">Vision Intelligence Lab</a> @ JBNU and <a href="https://vml.kaist.ac.kr/main/people/person/1">Prof. Junyong Noh</a> at the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a> @ KAIST.</p>
+          <p>I write about my research and learning experiences on my <a href="/blog/">blog</a>.</p>
+        </section>
+
+        <section class="section" aria-labelledby="news-title">
+          <h2 id="news-title" class="section-title">News</h2>
+          <div class="news">
+            <div class="news-row">
+              <div class="news-date">Nov, 2026</div>
+              <div><a href="https://kwanyun.github.io/edgar/#top">EDGAR</a> has been accepted to <strong>ACM Transactions on Graphics (TOG)</strong>.</div>
+            </div>
+            <div class="news-row">
+              <div class="news-date">Jun, 2026</div>
+              <div><a href="https://kjun627.github.io/gast-web/">Geometry-Aware Style Transfer</a> has been accepted to <strong>ECCV 2026</strong>.</div>
+            </div>
+            <div class="news-row">
+              <div class="news-date">Dec, 2025</div>
+              <div>Joined the <a href="https://vml.kaist.ac.kr/">Visual Media Lab</a> @ KAIST as an undergraduate researcher.</div>
+            </div>
+            <div class="news-row">
+              <div class="news-date">Apr, 2025</div>
+              <div>Joined the <a href="https://jbnu-vilab.github.io/">Vision Intelligence Lab</a> @ JBNU as an undergraduate researcher.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="publications-title">
+          <h2 id="publications-title" class="section-title">Publications</h2>
+          <p class="contribution-note">* indicates equal contribution</p>
+          <div class="pubs">
+            <article class="pub" id="edgar">
+              <a class="pub-media edgar" href="https://kwanyun.github.io/edgar/#top" target="_blank" rel="noopener" aria-label="EDGAR project">
+                <span class="pub-badge">ACM TOG 2026</span>
+                <img src="/assets/edgar.gif" alt="Animated comparison of the original Gaussian avatar and the EDGAR-refined avatar" width="720" height="864" loading="lazy" decoding="async" />
+              </a>
+              <div class="pub-info">
+                <h3 class="pub-title"><a href="https://kwanyun.github.io/edgar/#top" target="_blank" rel="noopener">EDGAR: Efficient Diffusion-Driven Gaussian Avatar Refinement via Synthetic Failure</a></h3>
+                <p class="pub-authors"><a href="https://kwanyun.github.io/" target="_blank" rel="noopener">Kwan Yun</a>, <a class="me" href="https://oweixx.github.io/">MinHyeok Bang</a>, <a href="https://sj0414.github.io/colette-koo/" target="_blank" rel="noopener">Colette Suhjung Koo</a>, <a href="https://vml.kaist.ac.kr/main/people/person/1" target="_blank" rel="noopener">Junyong Noh</a></p>
+                <!-- 2025 JCR Journal Impact Factor, reported by ACM in July 2026. -->
+                <p class="pub-venue">ACM Transactions on Graphics (<a href="https://www.acm.org/media-center/2026/july/impact-factors-2026" target="_blank" rel="noopener" title="2025 Journal Impact Factor · ACM announcement, July 2026">IF: 13.0</a>), 2026 · Accepted</p>
+                <nav class="pub-links" aria-label="EDGAR publication links">
+                  <a href="https://arxiv.org/abs/2611.07909" target="_blank" rel="noopener">ARXIV</a>
+                  <a href="https://kwanyun.github.io/edgar/#top" target="_blank" rel="noopener">WEBSITE</a>
+                  <a href="https://github.com/kwanyun/edgar-code/" target="_blank" rel="noopener">CODE</a>
+                  <Citation id="edgar" bibtex={publications.find(paper => paper.id === 'edgar')!.bibtex} />
+                </nav>
               </div>
             </article>
-          ))}
-        </div>
-      </section>
-      <section class="blog-section" aria-labelledby="blog-title">
-        <h2 id="blog-title"><a href="/blog/">Blog</a></h2>
-        <p>Research notes and things I learn along the way.</p>
-        <ul>{posts.slice(0, 3).map(post => <li><time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time><a href={postUrl(post)}>{post.data.title}</a></li>)}</ul>
-        <a class="all-posts" href="/blog/">All posts →</a>
-      </section>
-    </main>
-    <footer>© 2026 MinHyeok Bang <span>Layout inspired by <a href="https://jonbarron.info/">Jon Barron</a>.</span></footer>
+            <article class="pub">
+              <a class="pub-media" href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener" aria-label="Geometry-Aware Style Transfer project">
+                <span class="pub-badge">ECCV 2026</span>
+                <img src="/assets/geometry.jpeg" alt="Examples of geometry-aware style transfer in 3D Gaussian Splatting" />
+              </a>
+              <div class="pub-info">
+                <h3 class="pub-title"><a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">Geometry-Aware Style Transfer in 3D Gaussian Splatting</a></h3>
+                <p class="pub-authors"><a class="me" href="https://oweixx.github.io/">Min Hyeok Bang</a>*, <a href="https://kjun627.github.io/" target="_blank" rel="noopener">Jun Hyeong Kim</a>*, <a href="https://pknu-vlab.github.io/" target="_blank" rel="noopener">Seung Wook Kim</a>, <a href="https://vilab.jbnu.ac.kr/" target="_blank" rel="noopener">Se Ho Lee</a></p>
+                <p class="pub-venue">European Conference on Computer Vision (ECCV), 2026</p>
+                <nav class="pub-links" aria-label="Publication links">
+                  <a href="https://arxiv.org/abs/2606.24144" target="_blank" rel="noopener">ARXIV</a>
+                  <a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">WEBSITE</a>
+                  <a href="https://github.com/oweixx/gast" target="_blank" rel="noopener">CODE</a>
+                  <Citation id="geometry-aware-style-transfer" bibtex={publications.find(paper => paper.id === 'geometry-aware-style-transfer')!.bibtex} />
+                </nav>
+              </div>
+            </article>
+          </div>
+        </section>
+
+
+
+        <section class="section recent-posts" aria-labelledby="recent-posts-title">
+          <h2 id="recent-posts-title" class="section-title">Recent Posts</h2>
+          <PostList posts={posts.slice(0, 3)} compact />
+          <p class="all-posts"><a href="/blog/">All posts →</a></p>
+        </section>
+      </main>
+      <footer class="footer">© 2026 MinHyeok Bang</footer>
+    </div>
   </div>
   <script>
     import { loadViewCounts } from '../scripts/view-counts';
@@ -80,59 +191,3 @@ const posts = await getPosts();
   <Analytics />
 </body>
 </html>
-<style is:global>
-  .academic-home { font-size: 14px; line-height: normal; color: #000; }
-  .academic-home a { color: #1772d0; text-decoration: none; }
-  .academic-home a:hover { color: #f09228; }
-  .home-shell { width: 100%; max-width: 800px; margin: 8px auto 0; }
-  .profile { display: grid; grid-template-columns: 63% 37%; align-items: center; }
-  .profile-copy { padding: 20px; }
-  .profile h1 { margin: 0; padding-top: 20px; font-size: 32px; font-weight: 400; text-align: center; }
-  .profile p { margin: 14px 0; }
-  .profile-links { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
-  .profile-links span { color: #000; }
-  .site-visits { display: flex; justify-content: center; gap: 18px; margin-top: 14px; font-size: 12px; color: #777; }
-  .portrait { display: block; margin: 20px; }
-  .portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; }
-  .home-shell h2 { margin: 0; font-size: 22px; font-weight: 400; }
-  .section-intro { padding: 16px; }
-  .section-intro p { margin: 14px 0 0; }
-  .section-intro .contribution-note { color: #666; font-size: 12px; }
-  .publications { display: grid; gap: 10px; }
-  .publication { display: grid; grid-template-columns: 192px minmax(0, 1fr); align-items: center; scroll-margin-top: 16px; }
-  .publication-media { display: block; margin: 16px; }
-  .publication-media img { display: block; width: 160px; height: 160px; object-fit: contain; }
-  .publication-copy { padding: 8px; min-width: 0; }
-  .publication h3 { margin: 0; font-size: 14px; font-weight: 700; }
-  .pub-authors, .pub-venue { margin: 3px 0 0; }
-  .academic-home .pub-authors a { color: #000; }
-  .academic-home .pub-authors a:hover, .academic-home .pub-authors a:focus-visible { color: #1772d0; }
-  .pub-authors .me { font-weight: 700; }
-  .pub-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .academic-home .pub-links > a { display: inline-flex; align-items: center; padding: 4px 12px; border: 1px solid #262626; border-radius: 2px; color: #262626; font-size: 11px; line-height: 1.5; }
-  .academic-home .pub-links > a:hover, .academic-home .pub-links > a:focus-visible { color: #fff; background: #1772d0; border-color: #1772d0; }
-  .paper-summary { margin: 12px 0 0; }
-  .blog-section { padding: 24px 16px; }
-  .blog-section h2 a { color: #000; }
-  .blog-section p { margin: 14px 0; }
-  .blog-section ul { padding: 0; margin: 0 0 14px; list-style: none; display: grid; gap: 12px; }
-  .blog-section li { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 12px; }
-  .blog-section time { color: #666; font-size: 12px; }
-  .home-shell footer { padding: 24px 16px; font-size: 12px; color: #777; display: flex; justify-content: space-between; gap: 16px; }
-  @media (max-width: 560px) {
-    .profile { grid-template-columns: 1fr; }
-    .profile-copy { padding: 16px 20px; }
-    .portrait { width: 168px; margin: 0 auto 20px; }
-    .publication { grid-template-columns: 120px minmax(0, 1fr); align-items: start; }
-    .publication-media { margin: 12px; }
-    .publication-media img { width: 96px; height: 120px; }
-    .publication-copy { padding: 12px 16px 12px 0; }
-    .home-shell footer { flex-wrap: wrap; }
-  }
-  @media (max-width: 380px) {
-    .publication { grid-template-columns: 1fr; }
-    .publication-media { margin: 12px 16px 0; }
-    .publication-media img { width: 160px; height: 120px; }
-    .publication-copy { padding: 12px 16px; }
-  }
-</style>

@@ -1,6 +1,6 @@
 # Personal homepage & blog
 
-개인 연구 홈페이지와 Markdown 블로그입니다. 홈페이지는 Jon Barron의 간결한 프로필·Research 배치를 참고하고, 논문별 요약과 BibTeX 복사를 제공합니다.
+개인 연구 홈페이지와 Markdown 블로그입니다. 프로필, About Me, News, Publications, Recent Posts로 구성하며, 논문별 BibTeX 복사와 로컬 글쓰기·파일 저장 기능을 제공합니다.
 
 ## 배포 전에 작성하고 확인하기
 
@@ -125,8 +125,10 @@ npm run preview
 
 배포 준비가 되면 GitHub 저장소의 **Settings → Pages → Source**를 **GitHub Actions**로 설정합니다. 이후 `main`에 push하면 검사와 빌드를 통과한 결과가 GitHub Pages에 배포됩니다. Pull request에서는 검사와 빌드만 실행됩니다. 현재 설정의 배포 주소는 <https://oweixx.github.io/>입니다.
 
-기존 루트 `index.html`의 홈페이지는 `src/pages/index.astro`로 옮겼습니다. 프로필과 Research 소개는 이 파일에서 수정합니다. 논문 제목·저자·요약·링크·BibTeX는 `src/data/publications.ts`에서 관리합니다. 게재 권호나 DOI를 모르면 임의로 넣지 않고, 확인 후 인용 정보를 갱신합니다. `assets/`의 기존 파일과 주소는 그대로 사용합니다. `legacy/`는 참고용 보관 디렉터리이며 새 빌드에 포함되지 않습니다.
+기존 루트 `index.html`의 홈페이지는 `src/pages/index.astro`로 옮겼습니다. 프로필, About Me, News, 논문 표시 내용은 이 파일에서 수정합니다. BibTeX 인용 정보는 `src/data/publications.ts`에서 관리합니다. 게재 권호나 DOI를 모르면 임의로 넣지 않고, 확인 후 인용 정보를 갱신합니다. `assets/`의 기존 파일과 주소는 그대로 사용합니다. `legacy/`는 참고용 보관 디렉터리이며 새 빌드에 포함되지 않습니다.
 
 ## 리디자인 이전 사본
 
 2026-11-07 리디자인 이전 상태는 GitHub의 `backup/pre-jon-redesign-20261107` 브랜치에 보관했습니다. 해당 기준 커밋은 `02efb83fcf4df0b647d4b24c7aa84a7ca18500dc`입니다. 로컬 ZIP 사본은 `.qa/homepage-before-jon-20261107.zip`이며 Git에 포함하지 않습니다.
+
+현재 디자인은 이 이전 버전으로 복원했으며, 추가한 BibTeX 복사와 글쓰기 기능은 유지합니다.
