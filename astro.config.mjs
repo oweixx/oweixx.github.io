@@ -23,6 +23,7 @@ export default defineConfig({
         if (command === 'dev') {
           injectRoute({ pattern: '/write', entrypoint: './src/dev/Writer.astro' });
           injectRoute({ pattern: '/write/images', entrypoint: './src/dev/images.ts' });
+          injectRoute({ pattern: '/write/posts', entrypoint: './src/dev/posts.ts' });
         }
       },
     },

@@ -1,0 +1,41 @@
+---
+interface Props { id: string; bibtex: string }
+const { id, bibtex } = Astro.props;
+---
+<details class="citation" id={`citation-${id}`}>
+  <summary>BIBTEX</summary>
+  <div class="citation-panel">
+    <button type="button" class="copy-citation">Copy citation</button>
+    <span class="citation-status" role="status" aria-live="polite"></span>
+    <pre tabindex="0"><code>{bibtex}</code></pre>
+  </div>
+</details>
+<script>
+  for (const citation of document.querySelectorAll<HTMLElement>('.citation')) {
+    const button = citation.querySelector<HTMLButtonElement>('.copy-citation')!;
+    const status = citation.querySelector<HTMLElement>('.citation-status')!;
+    const code = citation.querySelector('code')!;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent ?? '');
+        status.textContent = 'Copied';
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        window.getSelection()?.removeAllRanges();
+        window.getSelection()?.addRange(range);
+        status.textContent = 'Select and copy with Ctrl/Cmd + C';
+      }
+    });
+  }
+</script>
+<style>
+  .citation { display: contents; }
+  summary { display: inline-flex; align-items: center; padding: 4px 12px; border: 1px solid #262626; border-radius: 2px; font-size: 11px; line-height: 1.5; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover, summary:focus-visible { color: #fff; background: #1772d0; border-color: #1772d0; }
+  .citation-panel { flex-basis: 100%; min-width: 0; padding: 12px; background: #f7f7f7; border: 1px solid #eee; }
+  pre { margin: 10px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; line-height: 1.5; }
+  .copy-citation { padding: 4px 8px; background: #fff; border: 1px solid #bbb; border-radius: 2px; font-size: 12px; }
+  .citation-status { margin-left: 8px; color: #555; font-size: 12px; }
+</style>
