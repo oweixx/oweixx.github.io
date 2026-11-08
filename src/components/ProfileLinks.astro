@@ -13,8 +13,10 @@
 </nav>
 <style>
   .profile-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-  .profile-links a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: #262626; border-radius: 4px; }
-  .profile-links a:hover, .profile-links a:focus-visible { color: #2779c4; text-decoration: none; }
+  .profile-links a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--blue); border-radius: 6px; transition: color .18s ease, background-color .18s ease, transform .18s ease; }
+  .profile-links a:hover, .profile-links a:focus-visible { color: var(--blue-deep); background: var(--blue-soft); text-decoration: none; }
   .profile-links svg { display: block; width: 30px; height: 30px; }
   .profile-links .writer-link { font-size: 13px; padding: 0 6px; }
+  @media (hover: hover) and (pointer: fine) { .profile-links a:hover { transform: translateY(-2px); } }
+  @media (prefers-reduced-motion: reduce) { .profile-links a { transition: none; } .profile-links a:hover { transform: none; } }
 </style>

@@ -39,7 +39,7 @@ const posts = (await getPosts()).filter((post) => !post.data.draft);
   .stats-section-heading h2 { font-size: 18px; font-weight: 500; margin: 0; }
   .period-buttons { display: flex; gap: 5px; }
   .period-buttons button { border: 1px solid #e5e5e5; background: #fff; color: #777; padding: 6px 12px; font-size: 12px; border-radius: 3px; }
-  .period-buttons button[aria-pressed=true] { color: #2779c4; border-color: #c7dcee; background: #f4f8fc; }
+  .period-buttons button[aria-pressed=true] { color: var(--blue); border-color: var(--blue-border); background: var(--blue-soft); }
   .stats-status { color: #888; font-size: 12px; line-height: 1.8; margin: 14px 0; }
   .daily-chart { min-height: 200px; border-bottom: 1px solid #ededed; }
   .daily-chart[aria-busy=true] { opacity: .45; }
@@ -53,10 +53,10 @@ const posts = (await getPosts()).filter((post) => !post.data.draft);
   .post-ranking li { padding: 20px 0; border-top: 1px solid #ededed; }
   .post-ranking li > div:first-child { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-size: 14px; line-height: 1.6; }
   .post-ranking a { color: #333; }
-  .post-ranking a:hover { color: #2779c4; }
+  .post-ranking a:hover { color: var(--blue); }
   .rank-value { color: #777; font-size: 12px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
   .rank-track { height: 4px; margin-top: 14px; background: #f2f4f6; border-radius: 3px; }
-  .rank-fill { width: 0; height: 100%; background: #a6c9e7; border-radius: 3px; }
+  .rank-fill { width: 0; height: 100%; background: var(--blue); border-radius: 3px; }
   .stats-label { color: #999; font-size: 11px; }
   .stats-footnote { font-size: 11px; line-height: 1.9; color: #999; margin: 36px 0 0; }
   @media (max-width: 640px) { .stats-cards section { padding: 18px 12px; } .stats-cards h2 { font-size: 11px; } .stats-cards p { font-size: 26px; } .stats-cards section > span { font-size: 10px; } }

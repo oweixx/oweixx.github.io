@@ -23,11 +23,10 @@ const posts = await getPosts();
   <SiteIcon />
   <style is:global>
     body { font-size: 16px; color: #1a1a1a; }
-    a { color: #2779c4; }
     .wrap { min-height: 100vh; padding: 48px 48px 72px; }
     .container { max-width: 1240px; margin: 0 auto; }
     .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 300; }
-    .name strong { font-weight: 700; }
+    .name strong { font-weight: 700; color: var(--blue); }
     .profile { display: flex; align-items: center; gap: 40px; }
     .photo { width: 184px; height: 184px; flex: 0 0 184px; }
     .photo img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -35,36 +34,49 @@ const posts = await getPosts();
     .position { margin: 0 0 6px; font-size: 16px; font-weight: 700; line-height: 1.3; }
     .department { margin: 0 0 18px; font-size: 16px; line-height: 1.3; }
     .site-visits { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 12px; color: #737373; }
+    .site-visits [data-counter-value] { color: var(--blue-deep); font-weight: 500; }
     .section { margin-top: 44px; }
-    .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
+    .section-title { position: relative; margin: 0 0 16px; padding-bottom: 9px; border-bottom: 1px solid #e2e8f0; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
+    .section-title::after { content: ''; position: absolute; left: 0; bottom: -1px; width: 48px; height: 2px; background: var(--blue); border-radius: 2px; }
     .about p { margin: 0 0 .5em; font-size: 16px; line-height: 1.6; }
     .about p:last-child { margin-bottom: 0; }
     .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
-    .pubs { display: grid; gap: 36px; }
-    .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; }
-    .pub-media { display: block; position: relative; overflow: hidden; box-shadow: 0 2px 9px rgb(0 0 0 / 15%); }
+    .pubs { display: grid; gap: 24px; }
+    .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; min-width: 0; padding: 18px; border: 1px solid #e3e8f0; border-radius: 10px; background: #fff; transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .pub:focus-within { border-color: var(--blue-border); background: var(--blue-wash); box-shadow: 0 6px 20px rgb(var(--blue-rgb) / 10%); }
+    .pub:focus-within .pub-title a { color: var(--blue); }
+    .pub-info { min-width: 0; }
+    .pub-media { display: block; position: relative; overflow: hidden; border-radius: 6px; box-shadow: 0 2px 8px rgb(15 35 65 / 10%); }
     .pub-media img { width: 100%; height: auto; display: block; }
     .pub-media.edgar img { max-height: 320px; object-fit: contain; background: #f8faf8; }
-    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
+    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
     .pub-title { margin: 0 0 6px; font-size: 17px; line-height: 1.3; font-weight: 500; }
     .pub-title a { color: inherit; }
-    .pub-title a:hover { color: #2779c4; }
+    .pub-title a:hover { color: var(--blue-deep); }
     .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-authors a { color: #000; text-decoration: none; }
-    .pub-authors a:hover, .pub-authors a:focus-visible { color: #2779c4; }
+    .pub-authors a:hover, .pub-authors a:focus-visible { color: var(--blue); }
     .pub-authors .me { font-weight: 700; }
     .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: #262626; font-size: 12px; font-weight: 400; line-height: 1.5; }
-    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: #2779c4; border-color: #2779c4; text-decoration: none; }
+    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid var(--blue-border); border-radius: 4px; background: #fff; color: var(--blue-deep); font-size: 12px; font-weight: 400; line-height: 1.5; transition: color .18s ease, background-color .18s ease, border-color .18s ease; }
+    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: var(--blue); border-color: var(--blue); text-decoration: none; }
     .news { display: grid; gap: 12px; }
     .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
-    .news-date { font-weight: 700; }
+    .news-date { font-weight: 700; color: var(--blue-deep); }
     .recent-posts .post-list > li:first-child { border-top: 0; }
     .recent-posts .post-list > li { padding: 14px 0 20px; }
     .recent-posts .post-list h2 { font-size: 16px; font-weight: 400; }
     .all-posts { margin: 16px 0 0; font-size: 16px; }
     .footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid #ddd; color: #737373; font-size: 14px; }
+    @media (hover: hover) and (pointer: fine) {
+      .pub:hover { border-color: var(--blue-border); background: var(--blue-wash); box-shadow: 0 6px 20px rgb(var(--blue-rgb) / 10%); transform: translateY(-2px); }
+      .pub:hover .pub-title a { color: var(--blue); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pub, .pub-links a { transition: none; }
+      .pub:hover { transform: none; }
+    }
     @media (max-width: 760px) {
       .wrap { padding: 32px 22px 48px; }
       .name { margin-bottom: 24px; }
@@ -72,7 +84,7 @@ const posts = await getPosts();
       .photo { width: 128px; height: 128px; flex-basis: 128px; }
       .department { margin-bottom: 12px; }
       .section { margin-top: 36px; }
-      .pub { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+      .pub { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 14px; }
       .news-row { grid-template-columns: 90px minmax(0, 1fr); gap: 14px; }
     }
     @media (max-width: 420px) {
