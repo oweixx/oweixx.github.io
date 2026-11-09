@@ -1,5 +1,5 @@
 export const palettes = [
-  { id: 'current', name: '현재 디자인', note: '적용된 Deep Teal', color: '#16766f', hover: '#105751', tint: '#f1f8f7', border: '#bedbd5' },
+  { id: 'current', name: '현재 디자인', note: '적용된 Monochrome', color: '#262626', hover: '#000000', tint: '#fafafa', border: '#cccccc' },
   { id: 'blue', name: 'Ocean Blue', note: '차분하고 선명한 블루', color: '#3563a8', hover: '#25497e', tint: '#f3f6fc', border: '#c5d3ea' },
   { id: 'teal', name: 'Deep Teal', note: '푸른빛이 도는 청록', color: '#16766f', hover: '#105751', tint: '#f1f8f7', border: '#bedbd5' },
   { id: 'forest', name: 'Forest Green', note: '차분한 짙은 초록', color: '#3f6b4f', hover: '#2c5039', tint: '#f4f8f3', border: '#cadcc9' },
