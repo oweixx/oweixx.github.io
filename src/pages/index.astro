@@ -40,7 +40,7 @@ const posts = await getPosts();
     .section-title { margin: 0 0 16px; padding-bottom: 7px; border-bottom: 1px solid #ccc; font-size: 1.25em; font-weight: 400; line-height: 1.3; }
     .about p { margin: 0 0 .25em; font-size: 16px; line-height: 1.5; }
     .about p:last-child { margin-bottom: 0; }
-    .about a, .news a { font-weight: 700; }
+    .about a, .news a { font-weight: 400; }
     .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
     .pubs { display: grid; gap: 24px; }
     .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; min-width: 0; padding: 18px; border: 1px solid #eee; border-radius: 10px; background: #fff; transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease, transform .2s ease; }
@@ -49,6 +49,9 @@ const posts = await getPosts();
     .pub-media { display: block; position: relative; overflow: hidden; border-radius: 6px; box-shadow: 0 2px 8px rgb(0 0 0 / 10%); }
     .pub-media img { width: 100%; height: auto; display: block; }
     .pub-media.edgar img { max-height: 320px; object-fit: contain; background: #f8faf8; }
+    .pub-media.gast { background: #fff; }
+    /* The 512×288 GIF has 47px black bands above and below its content. */
+    .pub-media.gast img { clip-path: inset(16.319444% 0); }
     .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
     .pub-title { margin: 0 0 6px; font-size: 17px; line-height: 1.3; font-weight: 500; }
     .pub-title a { color: inherit; }
@@ -58,7 +61,7 @@ const posts = await getPosts();
     .pub-authors a:hover, .pub-authors a:focus-visible { color: var(--blue); text-decoration: underline; }
     .pub-authors .me { font-weight: 700; }
     .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
-    .pub-venue strong { font-weight: 700; }
+    .pub-venue strong { font-weight: 400; }
     .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: var(--publication-link-color); font-size: 12px; font-weight: 400; line-height: 1.5; }
     .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: var(--blue); border-color: var(--blue); text-decoration: none; }
@@ -166,9 +169,9 @@ const posts = await getPosts();
               </div>
             </article>
             <article class="pub">
-              <a class="pub-media" href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener" aria-label="Geometry-Aware Style Transfer project">
+              <a class="pub-media gast" href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener" aria-label="Geometry-Aware Style Transfer project">
                 <span class="pub-badge">ECCV 2026</span>
-                <img src="/assets/geometry.gif" alt="Animated geometry-aware style transfer results in 3D Gaussian Splatting" loading="lazy" decoding="async" />
+                <img src="/assets/geometry.gif" alt="Animated geometry-aware style transfer results in 3D Gaussian Splatting" width="512" height="288" loading="lazy" decoding="async" />
               </a>
               <div class="pub-info">
                 <h3 class="pub-title"><a href="https://kjun627.github.io/gast-web/" target="_blank" rel="noopener">Geometry-Aware Style Transfer in 3D Gaussian Splatting</a></h3>
