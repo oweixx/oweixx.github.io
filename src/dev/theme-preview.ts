@@ -23,7 +23,6 @@ function previewCss(palette: Palette) {
     #color-preview-page .pub-authors a:hover, #color-preview-page .pub-authors a:focus-visible,
     #color-preview-page .profile-links a { color: var(--preview-color); }
     #color-preview-page .profile-links a:hover { color: var(--preview-hover); }
-    #color-preview-page .pub-badge { background: var(--preview-color); }
     #color-preview-page .pub-links a, #color-preview-page .citation summary { color: var(--preview-color); border-color: var(--preview-color); }
     #color-preview-page .pub-links a:hover, #color-preview-page .pub-links a:focus-visible,
     #color-preview-page .citation summary:hover, #color-preview-page .citation summary:focus-visible { background: var(--preview-color); border-color: var(--preview-color); color: #fff; }

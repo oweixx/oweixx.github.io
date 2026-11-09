@@ -22,6 +22,7 @@ export default defineConfig({
       'astro:config:setup': ({ command, injectRoute }) => {
         if (command === 'dev') {
           injectRoute({ pattern: '/theme-preview', entrypoint: './src/dev/ThemePreview.astro' });
+          injectRoute({ pattern: '/badge-preview', entrypoint: './src/dev/BadgePreview.astro' });
           injectRoute({ pattern: '/write', entrypoint: './src/dev/Writer.astro' });
           injectRoute({ pattern: '/write/images', entrypoint: './src/dev/images.ts' });
           injectRoute({ pattern: '/write/posts', entrypoint: './src/dev/posts.ts' });

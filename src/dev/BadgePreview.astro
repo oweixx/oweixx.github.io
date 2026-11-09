@@ -1,0 +1,119 @@
+---
+import '../styles/blog.css';
+import SiteFonts from '../components/SiteFonts.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+import { badgeVariants, badgeCss, defaultBadgeVariant } from './badge-variants';
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Badge Preview · Minhyeok Bang</title>
+    <SiteFonts />
+    <!-- Load the intermediate weight so 600 and 700 can be compared accurately. -->
+    <link id="badge-preview-font" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@600&display=swap" />
+    <SiteIcon />
+    <style is:inline set:html={badgeVariants.map(variant => badgeCss(`[data-variant="${variant.id}"] .sample-badge`, variant)).join('\n')} />
+  </head>
+  <body>
+    <main class="badge-studio">
+      <header class="studio-heading">
+        <div><p class="eyebrow">PUBLICATION BADGES</p><h1>작은 배지, 다른 강조</h1><p class="intro">굵기와 형태를 골라 실제 논문 썸네일에서 비교해 보세요.</p></div>
+        <a class="home-link" href="/" target="_blank" rel="noopener">현재 홈페이지 ↗</a>
+      </header>
+      <div class="studio-grid">
+        <aside class="variant-panel" aria-label="배지 스타일 선택">
+          <div class="variant-list" role="group" aria-label="배지 스타일">
+            {badgeVariants.map(variant => (
+              <button type="button" class="variant" data-variant={variant.id} aria-pressed={variant.id === defaultBadgeVariant.id}>
+                <span class="variant-heading"><span class="number">{variant.number}</span><strong>{variant.name}</strong><span class="selected-mark" aria-hidden="true">✓</span></span>
+                <span class="sample-row" aria-hidden="true">
+                  <span class="sample-badge"><span class="badge-venue">ACM TOG</span>{' '}<span class="badge-year">2026</span></span>
+                  <span class="sample-badge"><span class="badge-venue">ECCV</span>{' '}<span class="badge-year">2026</span></span>
+                </span>
+                <small>{variant.note}</small>
+              </button>
+            ))}
+          </div>
+          <p class="panel-note">모두 현재와 같은 12px입니다.<br />글씨 크기보다 굵기와 대비에 차이를 줬어요.<br /><a href="/theme-preview/?theme=pink&amp;section=publications" target="_blank" rel="noopener">옅은 Dusty Pink로 보기 ↗</a></p>
+        </aside>
+        <section class="preview-panel" aria-label="홈페이지 배지 미리보기">
+          <div class="preview-toolbar">
+            <div class="selection" role="status" aria-live="polite"><span id="selected-number">{defaultBadgeVariant.number}</span><strong id="selected-name">{defaultBadgeVariant.name}</strong></div>
+            <div class="toolbar-actions">
+              <button type="button" id="compare-original" aria-pressed="false">이전 배지와 비교</button>
+              <div class="viewport-controls" role="group" aria-label="화면 크기">
+                <button type="button" data-viewport="desktop" aria-pressed="true">PC</button>
+                <button type="button" data-viewport="mobile" aria-pressed="false">모바일</button>
+              </div>
+            </div>
+          </div>
+          <div class="preview-stage" id="badge-stage">
+            <div class="frame-shell" id="badge-shell"><iframe id="badge-frame" src="/" title="선택한 배지가 적용된 Publications"></iframe></div>
+            <p class="loading" id="badge-loading" role="status">논문 썸네일을 불러오는 중…</p>
+          </div>
+          <footer><span>로컬 데모 · 여기서 고른 스타일은 미리보기에만 적용됩니다.</span><span id="viewport-label">PC · 1360px</span></footer>
+        </section>
+      </div>
+    </main>
+    <script>import './badge-preview';</script>
+  </body>
+</html>
+<style is:global>
+  body { background: #fafbfc; }
+  .badge-studio { max-width: 1800px; margin: 0 auto; padding: 28px; }
+  .studio-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+  .studio-heading .eyebrow { margin: 0 0 8px; font-size: 10px; color: var(--blue); letter-spacing: .16em; font-weight: 500; }
+  .studio-heading h1 { font-size: 25px; font-weight: 500; letter-spacing: -.7px; margin: 0; }
+  .intro { margin: 9px 0 0; font-size: 13px; color: #737373; line-height: 1.6; }
+  .home-link { white-space: nowrap; font-size: 12px; }
+  .studio-grid { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .variant-list { display: grid; gap: 8px; }
+  .variant { text-align: left; background: #fff; color: var(--ink); border: 1px solid #e3e7ec; padding: 12px 14px; border-radius: 8px; min-width: 0; }
+  .variant:hover { border-color: var(--accent-border); }
+  .variant[aria-pressed=true] { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+  .variant-heading { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+  .number { font-size: 10px; color: #8a929c; font-variant-numeric: tabular-nums; }
+  .variant strong { font-size: 12px; font-weight: 500; }
+  .selected-mark { margin-left: auto; visibility: hidden; color: var(--blue); font-size: 12px; }
+  .variant[aria-pressed=true] .selected-mark { visibility: visible; }
+  .sample-row { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+  .sample-badge { display: inline-block; padding: 4px 9px; border-radius: 3px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; white-space: nowrap; }
+  .variant small { display: block; color: #737373; font-size: 10px; margin-top: 10px; line-height: 1.5; }
+  .panel-note { font-size: 11px; line-height: 1.8; color: #737373; margin: 14px 2px 0; }
+  .preview-panel { min-width: 0; position: sticky; top: 20px; }
+  .preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; min-height: 35px; }
+  .selection { display: flex; gap: 10px; align-items: center; font-size: 12px; }
+  .selection > span { color: #8a929c; font-variant-numeric: tabular-nums; }
+  .selection strong { font-weight: 500; }
+  .toolbar-actions { display: flex; align-items: center; gap: 12px; }
+  .toolbar-actions button { border: 1px solid #dde2e8; border-radius: 5px; padding: 7px 10px; background: #fff; color: #666; font-size: 11px; }
+  .toolbar-actions button[aria-pressed=true] { color: var(--blue); border-color: var(--accent-border); background: var(--accent-tint); }
+  .toolbar-actions button:disabled { opacity: .4; cursor: default; }
+  .viewport-controls { display: flex; gap: 4px; }
+  .preview-stage { position: relative; height: max(710px, calc(100svh - 220px)); display: flex; align-items: flex-start; justify-content: center; padding: 16px; border: 1px solid #e3e7ec; border-radius: 10px; background: #f0f2f5; }
+  .frame-shell { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 5px; background: #fff; box-shadow: 0 3px 18px rgb(0 0 0 / 4%); }
+  iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; transform-origin: top left; }
+  .loading { position: absolute; top: 40%; padding: 12px 16px; background: #fff; border: 1px solid #eee; border-radius: 5px; font-size: 12px; color: #737373; }
+  [hidden] { display: none !important; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 12px; font-size: 10px; color: #888; line-height: 1.6; }
+  @media (max-width: 950px) {
+    .studio-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .variant-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .preview-panel { position: static; }
+  }
+  @media (max-width: 600px) {
+    .badge-studio { padding: 20px 14px; }
+    .studio-heading { align-items: flex-start; gap: 12px; }
+    .studio-heading h1 { font-size: 21px; }
+    .home-link { font-size: 10px; padding-top: 25px; }
+    .variant-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .variant { padding: 12px; }
+    .sample-row { gap: 6px; }
+    .preview-toolbar { flex-wrap: wrap; }
+    .toolbar-actions { margin-left: auto; gap: 8px; }
+    .preview-stage { padding: 8px; }
+  }
+</style>
