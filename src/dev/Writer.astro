@@ -46,8 +46,9 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   .writer-heading p:last-child { margin: 10px 0 0; color: #737373; font-size: 14px; }
   .writer-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .writer-actions button, .import-button { border: 1px solid #d9dfe5; border-radius: 4px; background: #fff; font-size: 13px; padding: 10px 14px; cursor: pointer; line-height: 1.5; }
-  .writer-actions button { background: #2779c4; border-color: #2779c4; color: #fff; }
-  .import-button:focus-within { outline: 2px solid #2779c4; outline-offset: 3px; }
+  .writer-actions button { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .writer-actions button:hover, .writer-actions button:focus-visible { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .import-button:focus-within { outline: 2px solid var(--blue); outline-offset: 3px; }
   .import-button input { position: absolute; width: 1px; height: 1px; opacity: 0; }
   .writer-note { font-size: 12px; line-height: 1.9; color: #737373; margin: 0 0 24px; }
   .writer-note code { color: #555; }
@@ -67,13 +68,13 @@ import BlogLayout from '../layouts/BlogLayout.astro';
   .settings-preview { padding: 22px 30px; min-width: 0; }
   .writer-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .scroll-toggle { display: flex; align-items: center; gap: 7px; font-size: 12px; white-space: nowrap; }
-  .scroll-toggle input { accent-color: #2779c4; }
+  .scroll-toggle input { accent-color: var(--blue); }
   .writer-actions button:disabled { opacity: .5; cursor: wait; }
   .editor-fields label { display: block; font-size: 12px; color: #555; margin-bottom: 18px; }
   .editor-fields input:not([type=checkbox]), .editor-fields select, .editor-fields textarea { display: block; width: 100%; margin-top: 8px; border: 1px solid #dce1e6; border-radius: 3px; padding: 9px 10px; background: #fff; color: #262626; font-size: 13px; }
   .field-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
   .editor-fields .draft-toggle { display: flex; align-items: center; gap: 8px; }
-  .draft-toggle input { margin: 0; accent-color: #2779c4; }
+  .draft-toggle input { margin: 0; accent-color: var(--blue); }
   .editor-body-fields { flex: 1; min-height: 0; padding: 0; display: flex; }
   .editor-fields textarea { height: 100%; min-height: 0; margin: 0; padding: 22px; border: 0; border-radius: 0; resize: none; font-family: ui-monospace, Consolas, monospace; line-height: 1.8; tab-size: 2; overflow-y: auto; }
   .editor-fields textarea, .preview-article { overscroll-behavior-y: contain; scrollbar-gutter: stable; scroll-behavior: auto; overflow-anchor: none; }

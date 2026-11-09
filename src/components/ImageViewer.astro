@@ -30,7 +30,7 @@
   .viewer-actions { gap: 8px; }
   .viewer-position { font-size: 12px; color: #737373; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
   .image-viewer button, .viewer-original { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 6px; background: transparent; color: #444; font-size: 13px; line-height: 1.4; text-decoration: none; }
-  .image-viewer button:hover:enabled, .viewer-original:hover { background: #f5f5f5; color: #111; text-decoration: none; }
+  .image-viewer button:hover:enabled, .image-viewer button:focus-visible:enabled, .viewer-original:hover, .viewer-original:focus-visible { background: var(--accent-tint); color: var(--accent-hover); text-decoration: none; }
   .image-viewer button:disabled { opacity: .25; cursor: default; }
   .viewer-canvas { flex: 1; min-height: 0; min-width: 0; display: flex; overflow: auto; overscroll-behavior: contain; touch-action: pan-y pinch-zoom; scroll-behavior: auto; }
   .viewer-image { display: block; flex: 0 0 auto; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; margin: auto; border-radius: 3px; cursor: zoom-in; }
