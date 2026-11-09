@@ -3,6 +3,7 @@ import { parse } from 'yaml';
 import { serializePostDocument } from '../lib/post-document.mjs';
 import { attachCopyButtons } from './copy-code';
 import { attachGalleries } from './galleries';
+import { prepareImageViewer } from './image-viewer';
 import { connectWriterScroll } from './writer-scroll';
 
 const input = (id: string) => document.getElementById(id) as HTMLInputElement;
@@ -77,6 +78,7 @@ async function renderPreview() {
     cleanUpGalleries?.();
     preview.innerHTML = html || '<p class="preview-placeholder">왼쪽에 글을 입력하면 여기에 표시됩니다.</p>';
     attachCopyButtons(preview); cleanUpGalleries = attachGalleries(preview);
+    prepareImageViewer(preview);
     scrollSync.update(post.body);
     text('render-status', '미리보기 반영됨');
   } catch (error) { if (sequence === renderSequence) text('render-status', error instanceof Error ? error.message : '문법을 확인해 주세요'); }

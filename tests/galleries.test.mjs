@@ -32,6 +32,13 @@ test('gallery captions and image URLs cannot execute HTML or script', async () =
   assert.match(html, /<figcaption>(?:&#x3C;|&lt;)script>/);
 });
 
+test('generic upload alt text stays accessible without adding a placeholder caption', async () => {
+  const html = await previewMarkdown(':::gallery\n![image](/photo.png)\n![image](/figure.png "Actual caption")\n:::');
+  assert.equal((html.match(/alt="image"/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /<figcaption>image<\/figcaption>/);
+  assert.match(html, /<figcaption>Actual caption<\/figcaption>/);
+});
+
 test('invalid gallery content gives an author-facing error and code examples remain code', async () => {
   await assert.rejects(previewMarkdown(':::gallery\n글만 있습니다\n:::'), /Markdown 이미지/);
   await assert.rejects(previewMarkdown(':::gallery\n:::'), /이미지를 한 장 이상/);

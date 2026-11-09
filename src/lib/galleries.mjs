@@ -1,6 +1,9 @@
 const element = (tagName, properties, children) => ({ type: 'element', tagName, properties, children });
 const text = (value) => ({ type: 'text', value });
 
+// Uploads default to "image"; keep that alt text without printing it as a caption.
+export const imageCaption = (alt = '', title = '') => title || (alt.trim().toLowerCase() === 'image' ? '' : alt);
+
 // Generate structured HTML before sanitizing, using only Markdown images.
 export function remarkGalleries() {
   return (tree, file) => {
@@ -30,7 +33,7 @@ export function remarkGalleries() {
       node.data = {
         hName: 'div', hProperties: { className: ['image-gallery'] },
         hChildren: [element('div', { className: ['gallery-track'] }, images.map((image) => {
-          const caption = image.title || image.alt || '';
+          const caption = imageCaption(image.alt, image.title);
           return element('figure', { className: ['gallery-slide'] }, [
             element('img', { src: image.url, alt: image.alt || '', ...(image.title ? { title: image.title } : {}) }, []),
             ...(caption ? [element('figcaption', {}, [text(caption)])] : []),

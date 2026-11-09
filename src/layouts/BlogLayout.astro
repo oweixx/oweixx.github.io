@@ -5,6 +5,7 @@ import 'highlight.js/styles/github.css';
 import Analytics from '../components/Analytics.astro';
 import SiteFonts from '../components/SiteFonts.astro';
 import SiteIcon from '../components/SiteIcon.astro';
+import ImageViewer from '../components/ImageViewer.astro';
 interface Props {
   title: string;
   description?: string;
@@ -42,12 +43,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <main id="main"><slot /></main>
       <footer class="site-footer">© {new Date().getUTCFullYear()} Minhyeok Bang <a href="/">Home ↗</a></footer>
     </div>
+    <ImageViewer />
     <script>
       import { attachCopyButtons } from '../scripts/copy-code';
       import { attachGalleries } from '../scripts/galleries';
+      import { prepareImageViewer } from '../scripts/image-viewer';
       import { loadViewCounts } from '../scripts/view-counts';
       attachCopyButtons(document);
       attachGalleries(document);
+      prepareImageViewer(document);
       void loadViewCounts();
     </script>
     <Analytics disabled={noindex} />

@@ -1,0 +1,51 @@
+<dialog class="image-viewer" id="image-viewer" aria-label="이미지 확대 보기">
+  <div class="viewer-toolbar">
+    <span class="viewer-position" aria-live="polite" aria-atomic="true"></span>
+    <div class="viewer-actions">
+      <button type="button" class="viewer-zoom" aria-pressed="false" disabled>확대</button>
+      <a class="viewer-original" target="_blank" rel="noopener">원본 ↗</a>
+      <button type="button" class="viewer-close" aria-label="확대 보기 닫기" autofocus>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+  </div>
+  <div class="viewer-canvas" tabindex="0" aria-label="확대 이미지 · 확대 후 스크롤하여 이동">
+    <img class="viewer-image" alt="" draggable="false" />
+    <p class="viewer-error" role="status" hidden>이미지를 불러오지 못했습니다. 원본 링크로 확인해 주세요.</p>
+  </div>
+  <div class="viewer-footer">
+    <button type="button" class="viewer-previous" aria-label="이전 이미지">←</button>
+    <p class="viewer-caption"></p>
+    <button type="button" class="viewer-next" aria-label="다음 이미지">→</button>
+  </div>
+</dialog>
+<style is:global>
+  html.image-viewer-open { overflow: hidden; scrollbar-gutter: stable; }
+  .image-viewer { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 16px 32px; border: 0; background: #fff; color: #262626; }
+  .image-viewer::backdrop { background: #fff; }
+  .image-viewer[open] { display: flex; flex-direction: column; gap: 12px; }
+  .image-viewer [hidden] { display: none; }
+  .viewer-toolbar, .viewer-actions { display: flex; align-items: center; }
+  .viewer-toolbar { flex: 0 0 auto; justify-content: space-between; gap: 16px; }
+  .viewer-actions { gap: 8px; }
+  .viewer-position { font-size: 12px; color: #737373; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+  .image-viewer button, .viewer-original { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 6px; background: transparent; color: #444; font-size: 13px; line-height: 1.4; text-decoration: none; }
+  .image-viewer button:hover:enabled, .viewer-original:hover { background: #f5f5f5; color: #111; text-decoration: none; }
+  .image-viewer button:disabled { opacity: .25; cursor: default; }
+  .viewer-canvas { flex: 1; min-height: 0; min-width: 0; display: flex; overflow: auto; overscroll-behavior: contain; touch-action: pan-y pinch-zoom; scroll-behavior: auto; }
+  .viewer-image { display: block; flex: 0 0 auto; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; margin: auto; border-radius: 3px; cursor: zoom-in; }
+  .viewer-canvas.is-zoomed { touch-action: pan-x pan-y pinch-zoom; }
+  .viewer-canvas.is-zoomed .viewer-image { max-width: none; max-height: none; cursor: zoom-out; }
+  .viewer-error { margin: auto; padding: 24px; font-size: 14px; }
+  .viewer-footer { flex: 0 0 auto; display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 16px; }
+  .viewer-caption { margin: 0; max-height: 15dvh; overflow-y: auto; text-align: center; color: #666; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+  .image-viewer .viewer-previous, .image-viewer .viewer-next { font-size: 22px; padding: 0; }
+  .viewer-footer.is-single > button { visibility: hidden; }
+  @media (max-width: 640px) {
+    .image-viewer { padding: max(8px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }
+    .image-viewer[open] { gap: 8px; }
+    .viewer-actions { gap: 0; }
+    .viewer-footer { gap: 8px; }
+    .viewer-caption { font-size: 12px; }
+  }
+</style>

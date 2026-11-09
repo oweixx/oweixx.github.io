@@ -4,6 +4,8 @@ export function attachGalleries(root: ParentNode) {
     const track = gallery.querySelector<HTMLElement>('.gallery-track');
     const slides = Array.from(gallery.querySelectorAll<HTMLElement>('.gallery-slide'));
     if (!track || slides.length < 2) return;
+    const events = new AbortController();
+    const { signal } = events;
     gallery.classList.add('gallery-ready');
     gallery.setAttribute('role', 'region');
     gallery.setAttribute('aria-roledescription', '이미지 갤러리');
@@ -37,41 +39,60 @@ export function attachGalleries(root: ParentNode) {
     let current = 0;
     let frame = 0;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    function fitHeight() {
+      const image = slides[current].querySelector('img');
+      // Let unloaded images establish their size before fixing the track height.
+      track!.style.height = image?.complete && image.naturalHeight
+        ? `${Math.ceil(slides[current].getBoundingClientRect().height)}px` : '';
+    }
     function update(index: number) {
       current = Math.max(0, Math.min(slides.length - 1, index));
       status.textContent = `${current + 1} / ${slides.length}`;
       previous.disabled = current === 0;
       next.disabled = current === slides.length - 1;
-      slides.forEach((slide, index) => slide.setAttribute('aria-hidden', String(index !== current)));
+      slides.forEach((slide, index) => {
+        slide.setAttribute('aria-hidden', String(index !== current));
+        slide.inert = index !== current;
+      });
+      fitHeight();
     }
     function move(index: number) {
       index = Math.max(0, Math.min(slides.length - 1, index));
       track!.scrollTo({ left: slides[index].offsetLeft, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
     }
-    previous.addEventListener('click', () => move(current - 1));
-    next.addEventListener('click', () => move(current + 1));
+    previous.addEventListener('click', () => move(current - 1), { signal });
+    next.addEventListener('click', () => move(current + 1), { signal });
     track.addEventListener('keydown', (event) => {
       const destinations: Record<string, number> = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: slides.length - 1 };
       if (!(event.key in destinations)) return;
       event.preventDefault();
       move(destinations[event.key]);
-    });
+    }, { signal });
     track.addEventListener('scroll', () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const closest = slides.reduce((best, slide, index) => Math.abs(slide.offsetLeft - track.scrollLeft) < Math.abs(slides[best].offsetLeft - track.scrollLeft) ? index : best, 0);
-        update(closest);
+        if (closest !== current) update(closest);
       });
-    }, { passive: true });
+    }, { passive: true, signal });
+    track.addEventListener('load', fitHeight, { capture: true, signal });
     let width = track.getBoundingClientRect().width;
     const observer = new ResizeObserver(() => {
-      if (width === track.getBoundingClientRect().width) return;
-      width = track.getBoundingClientRect().width;
-      track.scrollTo({ left: slides[current].offsetLeft, behavior: 'instant' });
+      const nextWidth = track.getBoundingClientRect().width;
+      if (width !== nextWidth) {
+        width = nextWidth;
+        track.scrollTo({ left: slides[current].offsetLeft, behavior: 'instant' });
+      }
+      fitHeight();
     });
-    observer.observe(track);
+    // Observe slides, not the height we change, including late image/font loads.
+    slides.forEach(slide => observer.observe(slide));
     update(0);
-    cleanups.push(() => { observer.disconnect(); cancelAnimationFrame(frame); });
+    cleanups.push(() => {
+      events.abort(); observer.disconnect(); cancelAnimationFrame(frame);
+      controls.remove(); gallery.classList.remove('gallery-ready'); track.style.height = '';
+      slides.forEach(slide => { slide.inert = false; slide.removeAttribute('aria-hidden'); });
+    });
   });
   return () => cleanups.forEach((cleanup) => cleanup());
 }
