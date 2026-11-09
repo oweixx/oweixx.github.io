@@ -22,7 +22,7 @@ const posts = await getPosts();
   <SiteFonts />
   <SiteIcon />
   <style is:global>
-    :root { --blue: #262626; --accent-hover: #000; --accent-tint: #fafafa; --accent-border: #ccc; --profile-link-color: var(--blue); --publication-link-color: var(--blue); }
+    :root { --blue: #3563a8; --accent-hover: #25497e; --accent-tint: #f3f6fc; --accent-border: #c5d3ea; --profile-link-color: var(--blue); --publication-link-color: var(--blue); }
     body { font-size: 16px; color: #1a1a1a; }
     a { color: var(--blue); }
     a:hover { color: var(--accent-hover); }
@@ -58,6 +58,7 @@ const posts = await getPosts();
     .pub-authors a:hover, .pub-authors a:focus-visible { color: var(--blue); text-decoration: underline; }
     .pub-authors .me { font-weight: 700; }
     .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+    .pub-venue strong { font-weight: 700; }
     .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
     .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: var(--publication-link-color); font-size: 12px; font-weight: 400; line-height: 1.5; }
     .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: var(--blue); border-color: var(--blue); text-decoration: none; }
@@ -155,7 +156,7 @@ const posts = await getPosts();
                 <h3 class="pub-title"><a href="https://kwanyun.github.io/edgar/#top" target="_blank" rel="noopener">EDGAR: Efficient Diffusion-Driven Gaussian Avatar Refinement via Synthetic Failure</a></h3>
                 <p class="pub-authors"><a href="https://kwanyun.github.io/" target="_blank" rel="noopener">Kwan Yun</a>, <a class="me" href="https://oweixx.github.io/">Minhyeok Bang</a>, <a href="https://sj0414.github.io/colette-koo/" target="_blank" rel="noopener">Colette Suhjung Koo</a>, <a href="https://vml.kaist.ac.kr/main/people/person/1" target="_blank" rel="noopener">Junyong Noh</a></p>
                 <!-- 2025 JCR Journal Impact Factor, reported by ACM in July 2026. -->
-                <p class="pub-venue">ACM Transactions on Graphics (<a href="https://www.acm.org/media-center/2026/july/impact-factors-2026" target="_blank" rel="noopener" title="2025 Journal Impact Factor · ACM announcement, July 2026">IF: 13.0</a>), 2026 · Accepted</p>
+                <p class="pub-venue">ACM Transactions on Graphics (<a href="https://www.acm.org/media-center/2026/july/impact-factors-2026" target="_blank" rel="noopener" title="2025 Journal Impact Factor · ACM announcement, July 2026"><strong>IF: 13.0</strong></a>), 2026 · Accepted</p>
                 <nav class="pub-links" aria-label="EDGAR publication links">
                   <a href="https://arxiv.org/abs/2611.07909" target="_blank" rel="noopener">ARXIV</a>
                   <a href="https://kwanyun.github.io/edgar/#top" target="_blank" rel="noopener">WEBSITE</a>

@@ -1,7 +1,7 @@
 ---
 import SiteFonts from '../components/SiteFonts.astro';
 import SiteIcon from '../components/SiteIcon.astro';
-import { palettes } from './theme-palettes';
+import { palettes, defaultPalette } from './theme-palettes';
 ---
 <!doctype html>
 <html lang="ko">
@@ -21,7 +21,7 @@ import { palettes } from './theme-palettes';
       </header>
       <div class="palette-list" role="group" aria-label="컬러 선택">
         {palettes.map((palette) => (
-          <button class="palette" type="button" data-palette={palette.id} aria-pressed={palette.id === 'blue'} style={`--swatch: ${palette.color}`}>
+          <button class="palette" type="button" data-palette={palette.id} aria-pressed={palette.id === defaultPalette.id} style={`--swatch: ${palette.color}`}>
             <span class="swatch" aria-hidden="true"></span><span><strong>{palette.name}</strong><small>{palette.note}</small></span><span class="selected-mark" aria-hidden="true">✓</span>
           </button>
         ))}
@@ -30,7 +30,7 @@ import { palettes } from './theme-palettes';
         <fieldset><legend>색 적용 범위</legend><div class="segmented"><button type="button" data-emphasis="subtle" aria-pressed="true">링크·배지·버튼</button><button type="button" data-emphasis="headings" aria-pressed="false">제목까지</button></div></fieldset>
         <fieldset><legend>화면 크기</legend><div class="segmented"><button type="button" data-viewport="desktop" aria-pressed="true">PC</button><button type="button" data-viewport="mobile" aria-pressed="false">모바일</button></div></fieldset>
         <label class="section-control">바로 보기<select id="preview-section"><option value="top">전체</option><option value="about">About Me</option><option value="news">News</option><option value="publications">Publications</option><option value="posts">Recent Posts</option></select></label>
-        <div class="selection" role="status" aria-live="polite"><span id="selected-name">Ocean Blue</span><code id="selected-color">#3563A8</code></div>
+        <div class="selection" role="status" aria-live="polite"><span id="selected-name">{defaultPalette.name}</span><code id="selected-color">{defaultPalette.color.toUpperCase()}</code></div>
       </div>
       <div class="preview-stage" id="preview-stage">
         <div class="frame-shell" id="frame-shell"><iframe id="site-preview" src="/" title="메인 페이지 컬러 미리보기"></iframe></div>
@@ -57,7 +57,7 @@ import { palettes } from './theme-palettes';
   .intro { color: #777; margin: 8px 0 0; font-size: 13px; }
   .home-link { color: #555; text-decoration: none; white-space: nowrap; font-size: 12px; }
   .home-link:hover { text-decoration: underline; }
-  .palette-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .palette-list { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
   .palette { display: flex; position: relative; align-items: center; gap: 12px; min-width: 0; padding: 14px 12px; border: 1px solid #e3e3e3; border-radius: 8px; background: #fff; text-align: left; color: #333; }
   .palette:hover { border-color: #aaa; }
   .palette[aria-pressed=true] { border-color: var(--swatch); box-shadow: inset 0 0 0 1px var(--swatch); }

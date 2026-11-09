@@ -1,11 +1,11 @@
-import { palettes, type Palette } from './theme-palettes';
+import { palettes, defaultPalette, type Palette } from './theme-palettes';
 
 const frame = document.querySelector<HTMLIFrameElement>('#site-preview')!;
 const stage = document.querySelector<HTMLElement>('#preview-stage')!;
 const shell = document.querySelector<HTMLElement>('#frame-shell')!;
 const sectionSelect = document.querySelector<HTMLSelectElement>('#preview-section')!;
 const params = new URLSearchParams(location.search);
-let selected: Palette = palettes.find(palette => palette.id === params.get('theme')) ?? palettes[1];
+let selected: Palette = palettes.find(palette => palette.id === params.get('theme')) ?? defaultPalette;
 let emphasis = params.get('emphasis') === 'headings' ? 'headings' : 'subtle';
 let viewport = params.get('viewport') === 'mobile' ? 'mobile' : 'desktop';
 const sections: Record<string, string> = { top: '.name', about: '.about', news: '[aria-labelledby="news-title"]', publications: '[aria-labelledby="publications-title"]', posts: '.recent-posts' };
@@ -14,7 +14,7 @@ sectionSelect.value = params.get('section') && sections[params.get('section')!] 
 function previewCss(palette: Palette) {
   if (palette.id === 'current') return '';
   return `
-    #color-preview-page { --preview-color: ${palette.color}; --preview-hover: ${palette.hover}; --preview-tint: ${palette.tint}; --preview-border: ${palette.border}; --blue: ${palette.color}; }
+    #color-preview-page { --preview-color: ${palette.color}; --preview-hover: ${palette.hover}; --preview-tint: ${palette.tint}; --preview-border: ${palette.border}; --blue: var(--preview-color); --accent-hover: var(--preview-hover); --accent-tint: var(--preview-tint); --accent-border: var(--preview-border); --profile-link-color: var(--preview-color); --publication-link-color: var(--preview-color); }
     #color-preview-page a { color: var(--preview-color); }
     #color-preview-page a:hover { color: var(--preview-hover); }
     #color-preview-page .pub-title a { color: inherit; }
