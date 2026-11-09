@@ -5,7 +5,7 @@ export const publications = [
     image: '/assets/edgar.gif', imageAlt: 'Animated comparison of the original and EDGAR-refined Gaussian avatar',
     authors: [
       { name: 'Kwan Yun', url: 'https://kwanyun.github.io/' },
-      { name: 'MinHyeok Bang', url: 'https://oweixx.github.io/', me: true },
+      { name: 'Minhyeok Bang', url: 'https://oweixx.github.io/', me: true },
       { name: 'Colette Suhjung Koo', url: 'https://sj0414.github.io/colette-koo/' },
       { name: 'Junyong Noh', url: 'https://vml.kaist.ac.kr/main/people/person/1' },
     ],

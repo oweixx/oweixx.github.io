@@ -19,10 +19,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · MinHyeok Bang</title>
+    <title>{title} · Minhyeok Bang</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
-    <meta property="og:title" content={`${title} · MinHyeok Bang`} />
+    <meta property="og:title" content={`${title} · Minhyeok Bang`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <SiteFonts />
@@ -32,7 +32,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <div class:list={['blog-shell', { wide }]}>
       <header class="site-header">
-        <a class="site-name" href="/"><strong>MinHyeok</strong> Bang</a>
+        <a class="site-name" href="/"><strong>Minhyeok</strong> Bang</a>
         <nav aria-label="주 메뉴">
           <a href="/">Home</a>
           {import.meta.env.DEV && <a href="/write/">글쓰기</a>}
@@ -40,7 +40,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         </nav>
       </header>
       <main id="main"><slot /></main>
-      <footer class="site-footer">© {new Date().getUTCFullYear()} MinHyeok Bang <a href="/">Home ↗</a></footer>
+      <footer class="site-footer">© {new Date().getUTCFullYear()} Minhyeok Bang <a href="/">Home ↗</a></footer>
     </div>
     <script>
       import { attachCopyButtons } from '../scripts/copy-code';
