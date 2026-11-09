@@ -21,6 +21,7 @@ export default defineConfig({
     hooks: {
       'astro:config:setup': ({ command, injectRoute }) => {
         if (command === 'dev') {
+          injectRoute({ pattern: '/theme-preview', entrypoint: './src/dev/ThemePreview.astro' });
           injectRoute({ pattern: '/write', entrypoint: './src/dev/Writer.astro' });
           injectRoute({ pattern: '/write/images', entrypoint: './src/dev/images.ts' });
           injectRoute({ pattern: '/write/posts', entrypoint: './src/dev/posts.ts' });
@@ -34,6 +35,7 @@ export default defineConfig({
       name: 'existing-assets',
       configureServer(server) {
         server.middlewares.use('/assets', sirv('assets', { dev: true }));
+        server.middlewares.use('/profile-variants', sirv('output/profile-variants', { dev: true }));
       },
     }],
   },

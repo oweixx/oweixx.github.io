@@ -22,8 +22,10 @@ const posts = await getPosts();
   <SiteFonts />
   <SiteIcon />
   <style is:global>
+    :root { --blue: #16766f; --accent-hover: #105751; --accent-tint: #f1f8f7; --accent-border: #bedbd5; --profile-link-color: var(--blue); --publication-link-color: var(--blue); }
     body { font-size: 16px; color: #1a1a1a; }
-    a { color: #2779c4; }
+    a { color: var(--blue); }
+    a:hover { color: var(--accent-hover); }
     .wrap { min-height: 100vh; padding: 48px 48px 72px; }
     .container { max-width: 1240px; margin: 0 auto; }
     .name { margin: 0 0 32px; font-size: 1.65em; line-height: 1; font-weight: 300; }
@@ -42,23 +44,23 @@ const posts = await getPosts();
     .contribution-note { margin: 0 0 26px; font-size: 16px; line-height: 1.3; }
     .pubs { display: grid; gap: 24px; }
     .pub { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); gap: 32px; align-items: start; min-width: 0; padding: 18px; border: 1px solid #eee; border-radius: 10px; background: #fff; transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease, transform .2s ease; }
-    .pub:focus-within { border-color: #ccc; background: #fafafa; box-shadow: 0 6px 20px rgb(0 0 0 / 8%); }
+    .pub:focus-within { border-color: var(--accent-border); background: var(--accent-tint); box-shadow: 0 6px 20px rgb(0 0 0 / 8%); }
     .pub-info { min-width: 0; }
     .pub-media { display: block; position: relative; overflow: hidden; border-radius: 6px; box-shadow: 0 2px 8px rgb(0 0 0 / 10%); }
     .pub-media img { width: 100%; height: auto; display: block; }
     .pub-media.edgar img { max-height: 320px; object-fit: contain; background: #f8faf8; }
-    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: #2779c4; color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
+    .pub-badge { position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 3px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 400; line-height: 1.3; }
     .pub-title { margin: 0 0 6px; font-size: 17px; line-height: 1.3; font-weight: 500; }
     .pub-title a { color: inherit; }
-    .pub-title a:hover { color: #2779c4; }
+    .pub-title a:hover, .pub-title a:focus-visible { color: var(--blue); }
     .pub-authors { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-authors a { color: #000; text-decoration: none; }
-    .pub-authors a:hover, .pub-authors a:focus-visible { color: #2779c4; text-decoration: underline; }
+    .pub-authors a:hover, .pub-authors a:focus-visible { color: var(--blue); text-decoration: underline; }
     .pub-authors .me { font-weight: 700; }
     .pub-venue { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
     .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: #262626; font-size: 12px; font-weight: 400; line-height: 1.5; }
-    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: #2779c4; border-color: #2779c4; text-decoration: none; }
+    .pub-links a { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border: 1px solid currentColor; border-radius: 2px; color: var(--publication-link-color); font-size: 12px; font-weight: 400; line-height: 1.5; }
+    .pub-links a:hover, .pub-links a:focus-visible { color: #fff; background: var(--blue); border-color: var(--blue); text-decoration: none; }
     .news { display: grid; gap: 12px; }
     .news-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; font-size: 16px; line-height: 1.6; }
     .news-date { font-weight: 700; }
@@ -68,7 +70,7 @@ const posts = await getPosts();
     .all-posts { margin: 16px 0 0; font-size: 16px; }
     .footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid #ddd; color: #737373; font-size: 14px; }
     @media (hover: hover) and (pointer: fine) {
-      .pub:hover { border-color: #ccc; background: #fafafa; box-shadow: 0 6px 20px rgb(0 0 0 / 8%); transform: translateY(-2px); }
+      .pub:hover { border-color: var(--accent-border); background: var(--accent-tint); box-shadow: 0 6px 20px rgb(0 0 0 / 8%); transform: translateY(-2px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .pub { transition: none; }

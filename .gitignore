@@ -7,3 +7,4 @@ dist/
 .qa/
 .wrangler/
 .dev.vars
+output/profile-variants/

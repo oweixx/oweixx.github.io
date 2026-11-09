@@ -1,0 +1,103 @@
+---
+import SiteFonts from '../components/SiteFonts.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+import { palettes } from './theme-palettes';
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Color Preview · Minhyeok Bang</title>
+    <SiteFonts />
+    <SiteIcon />
+  </head>
+  <body>
+    <main class="studio">
+      <header class="studio-heading">
+        <div><p class="eyebrow">COLOR STUDY</p><h1>메인 페이지 컬러 비교</h1><p class="intro">색을 골라보고, 논문 카드와 링크에 커서를 올려보세요.</p></div>
+        <a class="home-link" href="/" target="_blank" rel="noopener">현재 홈페이지 ↗</a>
+      </header>
+      <div class="palette-list" role="group" aria-label="컬러 선택">
+        {palettes.map((palette) => (
+          <button class="palette" type="button" data-palette={palette.id} aria-pressed={palette.id === 'blue'} style={`--swatch: ${palette.color}`}>
+            <span class="swatch" aria-hidden="true"></span><span><strong>{palette.name}</strong><small>{palette.note}</small></span><span class="selected-mark" aria-hidden="true">✓</span>
+          </button>
+        ))}
+      </div>
+      <div class="controls">
+        <fieldset><legend>색 적용 범위</legend><div class="segmented"><button type="button" data-emphasis="subtle" aria-pressed="true">링크·배지·버튼</button><button type="button" data-emphasis="headings" aria-pressed="false">제목까지</button></div></fieldset>
+        <fieldset><legend>화면 크기</legend><div class="segmented"><button type="button" data-viewport="desktop" aria-pressed="true">PC</button><button type="button" data-viewport="mobile" aria-pressed="false">모바일</button></div></fieldset>
+        <label class="section-control">바로 보기<select id="preview-section"><option value="top">전체</option><option value="about">About Me</option><option value="news">News</option><option value="publications">Publications</option><option value="posts">Recent Posts</option></select></label>
+        <div class="selection" role="status" aria-live="polite"><span id="selected-name">Ocean Blue</span><code id="selected-color">#3563A8</code></div>
+      </div>
+      <div class="preview-stage" id="preview-stage">
+        <div class="frame-shell" id="frame-shell"><iframe id="site-preview" src="/" title="메인 페이지 컬러 미리보기"></iframe></div>
+        <p class="loading" id="preview-loading" role="status">홈페이지를 불러오는 중…</p>
+      </div>
+      <footer><span>로컬 데모 · 선택한 색상은 공개 홈페이지에 적용되지 않습니다.</span><span id="viewport-label">PC · 1360px</span></footer>
+      <noscript><p>컬러를 비교하려면 JavaScript를 켜주세요.</p></noscript>
+    </main>
+    <script>
+      import './theme-preview';
+    </script>
+  </body>
+</html>
+<style is:global>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fafafa; color: #262626; font-family: 'Roboto', 'Noto Sans KR', sans-serif; font-size: 14px; }
+  button, select { font: inherit; }
+  button, select { cursor: pointer; }
+  button:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid #3563a8; outline-offset: 4px; }
+  .studio { max-width: 1600px; margin: 0 auto; padding: 24px 28px 16px; }
+  .studio-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 22px; }
+  .eyebrow { margin: 0 0 6px; color: #888; font-size: 10px; letter-spacing: .16em; }
+  h1 { margin: 0; font-size: 23px; font-weight: 500; letter-spacing: -.6px; }
+  .intro { color: #777; margin: 8px 0 0; font-size: 13px; }
+  .home-link { color: #555; text-decoration: none; white-space: nowrap; font-size: 12px; }
+  .home-link:hover { text-decoration: underline; }
+  .palette-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .palette { display: flex; position: relative; align-items: center; gap: 12px; min-width: 0; padding: 14px 12px; border: 1px solid #e3e3e3; border-radius: 8px; background: #fff; text-align: left; color: #333; }
+  .palette:hover { border-color: #aaa; }
+  .palette[aria-pressed=true] { border-color: var(--swatch); box-shadow: inset 0 0 0 1px var(--swatch); }
+  .swatch { width: 26px; height: 26px; border-radius: 50%; background: var(--swatch); flex-shrink: 0; }
+  .palette strong { display: block; font-size: 12px; font-weight: 500; }
+  .palette small { display: block; color: #888; font-size: 10px; margin-top: 4px; }
+  .selected-mark { display: none; position: absolute; top: 3px; right: 6px; color: var(--swatch); font-size: 12px; }
+  .palette[aria-pressed=true] .selected-mark { display: block; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 18px 0; }
+  fieldset { display: flex; align-items: center; gap: 10px; border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend { float: left; padding: 0; margin-right: 10px; color: #777; font-size: 11px; }
+  .segmented { display: flex; border: 1px solid #e0e0e0; background: #f0f0f0; border-radius: 6px; padding: 3px; }
+  .segmented button { border: 0; padding: 7px 10px; border-radius: 4px; background: transparent; color: #777; font-size: 11px; }
+  .segmented button[aria-pressed=true] { background: #fff; color: #222; box-shadow: 0 1px 3px #00000012; }
+  .segmented button:disabled { opacity: .4; cursor: default; }
+  .section-control { display: flex; align-items: center; gap: 10px; color: #777; font-size: 11px; }
+  select { padding: 7px 10px; border: 1px solid #e0e0e0; border-radius: 5px; background: #fff; color: #333; font-size: 12px; }
+  .selection { display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 11px; }
+  .selection code { color: #888; font-size: 10px; }
+  .preview-stage { position: relative; height: max(520px, calc(100svh - 300px)); display: flex; align-items: flex-start; justify-content: center; padding: 20px; background: #f0f0f0; border: 1px solid #e2e2e2; border-radius: 10px; }
+  .frame-shell { position: relative; overflow: hidden; background: #fff; box-shadow: 0 4px 24px #00000008; border-radius: 5px; width: 100%; height: 100%; }
+  iframe { display: block; width: 100%; height: 100%; border: 0; transform-origin: top left; background: #fff; }
+  .loading { position: absolute; top: 45%; background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 12px 18px; font-size: 12px; color: #777; }
+  [hidden] { display: none !important; }
+  footer { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; color: #888; font-size: 10px; line-height: 1.6; }
+  @media (max-width: 1100px) {
+    .palette-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .preview-stage { height: max(520px, calc(100svh - 380px)); }
+  }
+  @media (max-width: 600px) {
+    .studio { padding: 20px 14px 14px; }
+    .studio-heading { align-items: flex-start; gap: 12px; }
+    h1 { font-size: 20px; }
+    .intro { font-size: 12px; line-height: 1.6; }
+    .home-link { font-size: 10px; padding-top: 22px; }
+    .palette-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .palette { padding: 12px; }
+    .controls { gap: 12px 16px; }
+    .selection { margin-left: 0; }
+    .preview-stage { min-height: 540px; padding: 10px; }
+    footer { flex-wrap: wrap; }
+  }
+</style>
