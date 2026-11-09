@@ -1,4 +1,4 @@
-:root { --ink: #262626; --muted: #737373; --line: #ededed; --blue: #3563a8; --accent-hover: #25497e; --accent-tint: #f3f6fc; --accent-border: #c5d3ea; }
+:root { --ink: #262626; --muted: #737373; --line: #ededed; --blue: #004191; --accent-hover: #00316d; --accent-tint: #f2f6fa; --accent-border: #bfcee4; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: #fff; color: var(--ink); font-family: 'Roboto', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
